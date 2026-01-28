@@ -1,0 +1,2281 @@
+[
+  {
+    "name": "YUNI Beauty",
+    "website": "https://www.yunibeauty.com/",
+    "amazonUs": "https://amzn.to/4a8cShL",
+    "amazonUk": "",
+    "categories": [
+      "cleansers",
+      "moisturizers",
+      "body",
+      "face oils",
+      "aroma"
+    ],
+    "badges": [
+      "Leaping Bunny",
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "טיפוח נקי וטבעוני לסגנון חיים פעיל (Leaping Bunny)",
+    "site": "https://www.yunibeauty.com/"
+  },
+  {
+    "name": "Better not younger",
+    "website": "https://www.betternotyounger.com/",
+    "amazonUs": "https://amzn.to/3LCH0sr",
+    "amazonUk": "https://www.amazon.co.uk/s?k=better+not+younger?tag=nocrueltyil-21",
+    "categories": [
+      "hair",
+      "shampoo",
+      "conditioner",
+      "styling",
+      "scalp",
+      "treatments"
+    ],
+    "badges": [
+      "Vegan",
+       "Leaping Bunny"
+    ],
+    "vegan": true,
+    "priceTier": 3,
+    "notes": "",
+    "site": "https://www.betternotyounger.com"
+  },
+  {
+    "name": "Versed",
+    "website": "https://versedskin.com/",
+    "amazonUs": "https://amzn.to/4bjCFot",
+    "amazonUk": "https://amzn.to/4qcENlL",
+    "categories": [
+      "cleansers",
+      "moisturizers",
+      "serums",
+      "eye care",
+      "masks",
+      "body",
+      "skincare",
+      "suncare",
+      "body care"
+    ],
+    "badges": [
+      "Leaping Bunny",
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 1,
+    "notes": "טיפוח גוף ופנים טבעוני וללא ניסויים – Leaping Bunny approved",
+    "site": "https://versedskin.com/"
+  },
+  {
+    "name": "Emani",
+    "website": "https://emanivegan.com/",
+    "amazonUs": "https://amzn.to/3LYCPXN",
+    "amazonUk": "https://www.amazon.co.uk/s?k=emani?tag=nocrueltyil-21",
+    "categories": [
+      "makeup",
+      "face",
+      "eyes",
+      "lips",
+      "tools"
+    ],
+    "badges": [
+      "Vegan",
+      "Peta"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://emanivegan.com"
+  },
+  {
+    "name": "Grace stella",
+    "website": "https://gracestella.com/",
+    "amazonUs": "https://amzn.to/3M0lSfD",
+    "amazonUk": "https://www.amazon.co.uk/s?k=grace+stella?tag=nocrueltyil-21",
+    "categories": [
+      "skincare",
+      "eye care",
+      "masks",
+      "serums",
+      "moisturizers",
+      "tools"
+    ],
+    "badges": [
+      "Vegan",
+      "Leaping Bunny"
+    ],
+    "vegan": true,
+    "priceTier": 1,
+    "notes": "",
+    "site": "https://gracestella.com"
+  },
+  {
+    "name": "A p chem",
+    "website": "https://apchembeauty.com/",
+    "amazonUs": "https://amzn.to/3M3h1KK",
+    "amazonUk": "https://www.amazon.co.uk/s?k=a+p+chem?tag=nocrueltyil-21",
+    "categories": [
+      "skincare",
+      "eye care",
+      "treatments"
+    ],
+    "badges": [
+      "Vegan",
+      "Leaping Bunny"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://apchembeauty.com"
+  },
+  {
+    "name": "Aromatica",
+    "website": "https://aromaticausa.com/",
+    "amazonUs": "https://amzn.to/3NGRYO5",
+    "amazonUk": "https://www.amazon.co.uk/s?k=aromatica?tag=nocrueltyil-21",
+    "categories": [
+      "hair",
+      "scalp",
+      "skincare",
+      "body care"
+    ],
+    "badges": [
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://aromaticausa.com"
+  },
+  {
+    "name": "Concrete minerals",
+    "website": "https://concreteminerals.com/",
+    "amazonUs": "https://amzn.to/3NGSSKt",
+    "amazonUk": "https://www.amazon.co.uk/s?k=concrete+minerals?tag=nocrueltyil-21",
+    "categories": [
+      "makeup",
+      "face",
+      "eyes",
+      "lips"
+    ],
+    "badges": [
+      "Vegan",
+      "Leaping Bunny",
+      "Peta"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://concreteminerals.com"
+  },
+  {
+    "name": "Averr aglow",
+    "website": "https://www.averraglow.com/",
+    "amazonUs": "https://amzn.to/3NGvoVT",
+    "amazonUk": "https://www.amazon.co.uk/s?k=averr+aglow?tag=nocrueltyil-21",
+    "categories": [
+      "skincare",
+      "cleansers",
+      "serums",
+      "moisturizers",
+      "treatments"
+    ],
+    "badges": [
+      "Vegan",
+      "Peta"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://www.averraglow.com"
+  },
+  {
+    "name": "Ceramedx",
+    "website": "https://ceramedx.com/",
+    "amazonUs": "https://amzn.to/3NGw2Tj",
+    "amazonUk": "https://www.amazon.co.uk/s?k=ceramedx?tag=nocrueltyil-21",
+    "categories": [
+      "skincare",
+      "body care",
+      "cleansers",
+      "moisturizers",
+      "treatments"
+    ],
+    "badges": [
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://ceramedx.com"
+  },
+  {
+    "name": "Cheekbone beauty",
+    "website": "https://www.cheekbonebeauty.com/",
+    "amazonUs": "https://amzn.to/3NHMeng",
+    "amazonUk": "https://www.amazon.co.uk/s?k=cheekbone+beauty?tag=nocrueltyil-21",
+    "categories": [
+      "makeup",
+      "face",
+      "eyes",
+      "lips"
+    ],
+    "badges": [
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://www.cheekbonebeauty.com"
+  },
+  {
+    "name": "Cle cosmetics",
+    "website": "https://www.clecosmetics.com/",
+    "amazonUs": "https://amzn.to/3NIMJgX",
+    "amazonUk": "https://www.amazon.co.uk/s?k=cle+cosmetics?tag=nocrueltyil-21",
+    "categories": [
+      "makeup",
+      "skincare",
+      "face"
+    ],
+    "badges": [
+      "Vegan",
+      "Leaping Bunny"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://www.clecosmetics.com"
+  },
+  {
+    "name": "Corpus",
+    "website": "https://corpusnaturals.com/",
+    "amazonUs": "https://amzn.to/3O71Z7g",
+    "amazonUk": "https://www.amazon.co.uk/s?k=corpus?tag=nocrueltyil-21",
+    "categories": [
+      "body care",
+      "deodorant",
+      "fragrance"
+    ],
+    "badges": [
+      "Vegan",
+      "Leaping Bunny",
+      "Peta"
+    ],
+    "vegan": true,
+    "priceTier": 3,
+    "notes": "",
+    "site": "https://corpusnaturals.com"
+  },
+  {
+    "name": "Earth breeze",
+    "website": "https://www.earthbreeze.com/",
+    "amazonUs": "https://amzn.to/3Z3frLP",
+    "amazonUk": "https://www.amazon.co.uk/s?k=earth+breeze?tag=nocrueltyil-21",
+    "categories": [
+      "home",
+      "laundry",
+      "cleaning"
+    ],
+    "badges": [
+      "Vegan",
+       "Leaping Bunny",
+      "Peta"
+    ],
+    "vegan": true,
+    "priceTier": 1,
+    "notes": "",
+    "site": "https://www.earthbreeze.com"
+  },
+  {
+    "name": "Ami cole",
+    "website": "https://www.amicole.com/",
+    "amazonUs": "https://amzn.to/3Z5pgsJ",
+    "amazonUk": "https://www.amazon.co.uk/s?k=ami+cole?tag=nocrueltyil-21",
+    "categories": [
+      "makeup",
+      "face",
+      "lips",
+      "eyes"
+    ],
+    "badges": [
+      "Vegan",
+      "Peta"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://www.amicole.com"
+  },
+  {
+    "name": "Eadem",
+    "website": "https://eadem.co/",
+    "amazonUs": "https://amzn.to/3Z5qWT3",
+    "amazonUk": "https://www.amazon.co.uk/s?k=eadem?tag=nocrueltyil-21",
+    "categories": [
+      "skincare",
+      "serums",
+      "moisturizers",
+      "treatments"
+    ],
+    "badges": [
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://eadem.co"
+  },
+  {
+    "name": "Crazy color",
+    "website": "https://www.crazycolor.co.uk/",
+    "amazonUs": "https://amzn.to/45A4Zza",
+    "amazonUk": "https://www.amazon.co.uk/s?k=crazy+color?tag=nocrueltyil-21",
+    "categories": [
+      "hair",
+      "hair color",
+      "treatments"
+    ],
+    "badges": [
+      "Vegan", "Peta"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://www.crazycolor.co.uk"
+  },
+  {
+    "name": "Derma e",
+    "website": "https://dermae.com/",
+    "amazonUs": "https://amzn.to/45AplZ1",
+    "amazonUk": "https://www.amazon.co.uk/s?k=derma+e?tag=nocrueltyil-21",
+    "categories": [
+      "skincare",
+      "body care",
+      "cleansers",
+      "serums",
+      "moisturizers"
+    ],
+    "badges": [
+      "Vegan",
+      "Peta"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://dermae.com"
+  },
+  {
+    "name": "Boscia",
+    "website": "https://www.boscia.com/",
+    "amazonUs": "https://amzn.to/45USheD",
+    "amazonUk": "https://www.amazon.co.uk/s?k=boscia?tag=nocrueltyil-21",
+    "categories": [
+      "skincare",
+      "cleansers",
+      "masks",
+      "moisturizers",
+      "serums"
+    ],
+    "badges": [
+      "Vegan",
+      "Peta"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://www.boscia.com"
+  },
+  {
+    "name": "Aesop",
+    "website": "https://aesop.com/",
+    "amazonUs": "https://www.amazon.com/stores/AesopUSA/page/36EA6A5F-E1B8-43B0-A3BA-1CBC62AC01F4?tag=nocrueltyil-20",
+    "amazonUk": "https://amzn.to/49Lt9I8",
+    "categories": [
+      "skincare",
+      "body",
+      "hand care",
+      "fragrance",
+      "hair",
+      "home",
+      "body care"
+    ],
+    "badges": [
+      "Leaping Bunny",
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 5,
+    "notes": "",
+    "site": "https://aesop.com"
+  },
+  {
+    "name": "Earth harbor",
+    "website": "https://earthharbor.com/",
+    "amazonUs": "https://amzn.to/4651hO4",
+    "amazonUk": "https://www.amazon.co.uk/s?k=earth+harbor?tag=nocrueltyil-21",
+    "categories": [
+      "skincare",
+      "serums",
+      "masks",
+      "moisturizers",
+      "cleansers"
+    ],
+    "badges": [
+      "Vegan",
+      "Leaping Bunny",
+      "Peta"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://earthharbor.com"
+  },
+  {
+    "name": "AspenClean",
+    "website": "https://aspenclean.com/",
+    "amazonUs": "https://www.amazon.com/stores/AspenClean/page/A45F1948-B225-426F-BCBA-37688F2E48E4?tag=nocrueltyil-20",
+    "amazonUk": "https://www.amazon.co.uk/s?k=aspenclean?tag=nocrueltyil-21",
+    "categories": [
+      "home",
+      "laundry",
+      "dish care",
+      "cleaning tools",
+      "wellness",
+      "cleaning"
+    ],
+    "badges": [
+      "Leaping Bunny",
+      "Peta",
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 3,
+    "notes": "",
+    "site": "https://aspenclean.com"
+  },
+  {
+    "name": "Biom",
+    "website": "https://getbiom.co/",
+    "amazonUs": "https://amzn.to/469O9av",
+    "amazonUk": "https://www.amazon.co.uk/s?k=biom?tag=nocrueltyil-21",
+    "categories": [
+      "home",
+      "cleaning",
+      "wipes"
+    ],
+    "badges": [
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://getbiom.co"
+  },
+  {
+    "name": "Carbon theory",
+    "website": "https://carbontheory.com/",
+    "amazonUs": "https://amzn.to/469OtWL",
+    "amazonUk": "https://www.amazon.co.uk/s?k=carbon+theory?tag=nocrueltyil-21",
+    "categories": [
+      "skincare",
+      "soap",
+      "cleansers",
+      "treatments"
+    ],
+    "badges": [
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://carbontheory.com"
+  },
+  {
+    "name": "Dame",
+    "website": "https://www.dame.com/",
+    "amazonUs": "https://amzn.to/46fgo7C",
+    "amazonUk": "https://www.amazon.co.uk/s?k=dame?tag=nocrueltyil-21",
+    "categories": [
+      "sexual wellness",
+      "body care"
+    ],
+    "badges": [
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://www.dame.com"
+  },
+  {
+    "name": "111Medco",
+    "website": "https://111medco.com/",
+    "amazonUs": "https://amzn.to/46gqd5h",
+    "amazonUk": "https://www.amazon.co.uk/s?k=111medco?tag=nocrueltyil-21",
+    "categories": [
+      "skincare",
+      "treatments",
+      "soap",
+      "body care"
+    ],
+    "badges": [
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://111medco.com"
+  },
+  {
+    "name": "Ceremonia",
+    "website": "https://ceremonia.com/",
+    "amazonUs": "https://amzn.to/49IixLs",
+    "amazonUk": "https://www.amazon.co.uk/s?k=ceremonia?tag=nocrueltyil-21",
+    "categories": [
+      "hair",
+      "scalp",
+      "shampoo",
+      "conditioner",
+      "treatments",
+      "styling"
+    ],
+    "badges": [
+      "Vegan",
+      "Leaping Bunny",
+      "Peta"
+    ],
+    "vegan": true,
+    "priceTier": 3,
+    "notes": "",
+    "site": "https://ceremonia.com"
+  },
+  {
+    "name": "Mad hippie",
+    "website": "https://madhippie.com/",
+    "amazonUs": "https://amzn.to/49KFYUv",
+    "amazonUk": "https://www.amazon.co.uk/s?k=mad+hippie?tag=nocrueltyil-21",
+    "categories": [
+      "skincare",
+      "serums",
+      "moisturizers",
+      "cleansers",
+      "suncare"
+    ],
+    "badges": [
+      "Vegan", "Peta"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://madhippie.com"
+  },
+  {
+    "name": "Dae",
+    "website": "https://daehair.com/",
+    "amazonUs": "https://amzn.to/49KllYv",
+    "amazonUk": "https://www.amazon.co.uk/s?k=dae?tag=nocrueltyil-21",
+    "categories": [
+      "hair",
+      "shampoo",
+      "conditioner",
+      "styling",
+      "treatments"
+    ],
+    "badges": [
+      "Vegan", "Leaping Bunny"
+    ],
+    "vegan": true,
+    "priceTier": 3,
+    "notes": "",
+    "site": "https://daehair.com"
+  },
+  {
+    "name": "Bioclarity",
+    "website": "https://bioclarity.com/",
+    "amazonUs": "https://amzn.to/49LmE9C",
+    "amazonUk": "https://www.amazon.co.uk/s?k=bioclarity?tag=nocrueltyil-21",
+    "categories": [
+      "skincare",
+      "cleansers",
+      "serums",
+      "moisturizers",
+      "treatments"
+    ],
+    "badges": [
+      "Vegan", "Peta"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://bioclarity.com"
+  },
+  {
+    "name": "Axiology",
+    "website": "https://axiologybeauty.com/",
+    "amazonUs": "https://amzn.to/49TpGZz",
+    "amazonUk": "https://www.amazon.co.uk/s?k=axiology?tag=nocrueltyil-21",
+    "categories": [
+      "makeup",
+      "lips",
+      "face"
+    ],
+    "badges": [
+      "Vegan", "Peta"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://axiologybeauty.com"
+  },
+  {
+    "name": "Byoma",
+    "website": "https://byoma.com/",
+    "amazonUs": "https://amzn.to/49UIo1u",
+    "amazonUk": "https://www.amazon.co.uk/s?k=byoma?tag=nocrueltyil-21",
+    "categories": [
+      "skincare",
+      "cleansers",
+      "moisturizers",
+      "serums",
+      "treatments"
+    ],
+    "badges": [
+      "Vegan", "Peta"
+    ],
+    "vegan": true,
+    "priceTier": 1,
+    "notes": "",
+    "site": "https://byoma.com"
+  },
+  {
+    "name": "Color dept",
+    "website": "https://colordept.com/",
+    "amazonUs": "https://amzn.to/49YCEE5",
+    "amazonUk": "https://www.amazon.co.uk/s?k=color+dept?tag=nocrueltyil-21",
+    "categories": [
+      "nails",
+      "tools",
+      "makeup"
+    ],
+    "badges": [
+      "Vegan", "Peta"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://colordept.com"
+  },
+  {
+    "name": "Yarok",
+    "website": "https://yarokhair.com/",
+    "amazonUs": "https://amzn.to/3NIuyI2",
+    "amazonUk": "https://amzn.to/4sTs2ij",
+    "categories": [
+      "shampoo",
+      "conditioner",
+      "hair masks",
+      "styling",
+      "scalp care",
+      "hair",
+      "treatments"
+    ],
+    "badges": [
+      "PETA",
+      "Leaping Bunny",
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 3,
+    "notes": "טיפוח שיער אורגני וצמחי באיכות מקצועית (Vegan & PETA)",
+    "site": "https://yarokhair.com/"
+  },
+  {
+    "name": "Dotted zebra",
+    "website": "https://dottedzebra.com/",
+    "amazonUs": "https://amzn.to/4a0L2CS",
+    "amazonUk": "https://www.amazon.co.uk/s?k=dotted+zebra?tag=nocrueltyil-21",
+    "categories": [
+      "skincare",
+      "body care",
+      "soap",
+      "treatments"
+    ],
+    "badges": [
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://dottedzebra.com"
+  },
+  {
+    "name": "Blume",
+    "website": "https://blume.com/",
+    "amazonUs": "https://amzn.to/4ah2wwa",
+    "amazonUk": "https://www.amazon.co.uk/s?k=blume?tag=nocrueltyil-21",
+    "categories": [
+      "skincare",
+      "body care",
+      "treatments"
+    ],
+    "badges": [
+      "Vegan", "Leaping Bunny"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://blume.com"
+  },
+  {
+    "name": "Ella mila",
+    "website": "https://www.ellamila.com/",
+    "amazonUs": "https://amzn.to/4ai51hJ",
+    "amazonUk": "https://www.amazon.co.uk/s?k=ella+mila?tag=nocrueltyil-21",
+    "categories": [
+      "nails",
+      "tools"
+    ],
+    "badges": [
+      "Vegan", "Peta", "Leaping Bunny"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://www.ellamila.com"
+  },
+  {
+    "name": "Ellovi",
+    "website": "https://ellovi.com/",
+    "amazonUs": "https://amzn.to/4ai5Xmf",
+    "amazonUk": "https://www.amazon.co.uk/s?k=ellovi?tag=nocrueltyil-21",
+    "categories": [
+      "skincare",
+      "body care",
+      "balms"
+    ],
+    "badges": [
+      "Vegan", "Peta"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://ellovi.com"
+  },
+  {
+    "name": "We Love Eyes",
+    "website": "https://www.weloveeyes.com/",
+    "amazonUs": "https://amzn.to/3YXEH6a",
+    "amazonUk": "https://www.amazon.co.uk/s?k=we+love+eyes?tag=nocrueltyil-21",
+    "categories": [
+      "cleansers",
+      "eye care",
+      "lash care",
+      "makeup removal",
+      "skincare",
+      "tools"
+    ],
+    "badges": [
+      "Leaping Bunny",
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 3,
+    "notes": "מוצרי ניקוי ייעודיים לעיניים שפותחו על ידי אופטומטריסטית (Leaping Bunny)",
+    "site": "https://www.weloveeyes.com/"
+  },
+  {
+    "name": "Buttah",
+    "website": "https://buttahskin.com/",
+    "amazonUs": "https://amzn.to/4bhk506",
+    "amazonUk": "https://www.amazon.co.uk/s?k=buttah?tag=nocrueltyil-21",
+    "categories": [
+      "skincare",
+      "body care",
+      "moisturizers",
+      "cleansers"
+    ],
+    "badges": [
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://buttahskin.com"
+  },
+  {
+    "name": "By rosie jane",
+    "website": "https://byrosiejane.com/",
+    "amazonUs": "https://amzn.to/4biRfwk",
+    "amazonUk": "https://www.amazon.co.uk/s?k=by+rosie+jane?tag=nocrueltyil-21",
+    "categories": [
+      "fragrance",
+      "body care"
+    ],
+    "badges": [
+      "Vegan", "Leaping Bunny"
+    ],
+    "vegan": true,
+    "priceTier": 3,
+    "notes": "",
+    "site": "https://byrosiejane.com"
+  },
+  {
+    "name": "Botanic tree",
+    "website": "https://www.botanictree.com/",
+    "amazonUs": "https://amzn.to/4bjx69v",
+    "amazonUk": "https://www.amazon.co.uk/s?k=botanic+tree?tag=nocrueltyil-21",
+    "categories": [
+      "skincare",
+      "body care",
+      "oils"
+    ],
+    "badges": [
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://www.botanictree.com"
+  },
+  {
+    "name": "Barry m",
+    "website": "https://barrym.com/",
+    "amazonUs": "https://amzn.to/4bmZs2x",
+    "amazonUk": "https://www.amazon.co.uk/s?k=barry+m?tag=nocrueltyil-21",
+    "categories": [
+      "makeup",
+      "face",
+      "eyes",
+      "lips",
+      "nails"
+    ],
+    "badges": [
+      "Vegan", "Peta"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://barrym.com"
+  },
+  {
+    "name": "Curology",
+    "website": "https://curology.com/",
+    "amazonUs": "https://amzn.to/4bnMMIK",
+    "amazonUk": "https://www.amazon.co.uk/s?k=curology?tag=nocrueltyil-21",
+    "categories": [
+      "skincare",
+      "treatments",
+      "cleansers",
+      "moisturizers"
+    ],
+    "badges": [
+      "Vegan", "Leaping Bunny"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://curology.com"
+  },
+  {
+    "name": "Mayraki professional",
+    "website": "https://mayraki.com/",
+    "amazonUs": "https://amzn.to/4bocHjx",
+    "amazonUk": "https://www.amazon.co.uk/s?k=mayraki+professional?tag=nocrueltyil-21",
+    "categories": [
+      "hair",
+      "treatments",
+      "styling",
+      "scalp"
+    ],
+    "badges": [
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://mayraki.com"
+  },
+  {
+    "name": "Alder new york",
+    "website": "https://aldernewyork.com/",
+    "amazonUs": "https://amzn.to/4bRi8Ys",
+    "amazonUk": "https://www.amazon.co.uk/s?k=alder+new+york?tag=nocrueltyil-21",
+    "categories": [
+      "skincare",
+      "body care",
+      "cleansers",
+      "moisturizers"
+    ],
+    "badges": [
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://aldernewyork.com"
+  },
+  {
+    "name": "Dossier",
+    "website": "https://dossier.co/",
+    "amazonUs": "https://amzn.to/4bVMF7s",
+    "amazonUk": "https://www.amazon.co.uk/s?k=dossier?tag=nocrueltyil-21",
+    "categories": [
+      "fragrance"
+    ],
+    "badges": [
+      "Vegan", "Peta"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://dossier.co"
+  },
+  {
+    "name": "Lime crime",
+    "website": "https://limecrime.com/",
+    "amazonUs": "https://amzn.to/4bWv7YR",
+    "amazonUk": "https://www.amazon.co.uk/s?k=lime+crime?tag=nocrueltyil-21",
+    "categories": [
+      "makeup",
+      "face",
+      "eyes",
+      "lips"
+    ],
+    "badges": [
+      "Vegan", "Peta", "Leaping Bunny"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://limecrime.com"
+  },
+  {
+    "name": "Bubble skincare",
+    "website": "https://bubbleskincare.com/",
+    "amazonUs": "https://amzn.to/4jZ2snW",
+    "amazonUk": "https://www.amazon.co.uk/s?k=bubble+skincare?tag=nocrueltyil-21",
+    "categories": [
+      "skincare",
+      "cleansers",
+      "moisturizers",
+      "treatments"
+    ],
+    "badges": [
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://bubbleskincare.com"
+  },
+  {
+    "name": "Zao organic",
+    "website": "https://zaomakeup.com/en",
+    "amazonUs": "https://amzn.to/4jZhhad",
+    "amazonUk": "https://www.amazon.co.uk/s?k=zao+organic?tag=nocrueltyil-21",
+    "categories": [
+      "makeup",
+      "face",
+      "eyes",
+      "lips"
+    ],
+    "badges": [
+      "Vegan", "Peta"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://zaomakeup.com/en"
+  },
+  {
+    "name": "Defineme fragrance",
+    "website": "https://definemecreativestudio.com/",
+    "amazonUs": "https://amzn.to/4k2ECYH",
+    "amazonUk": "https://www.amazon.co.uk/s?k=defineme+fragrance?tag=nocrueltyil-21",
+    "categories": [
+      "fragrance"
+    ],
+    "badges": [
+      "Vegan", "Peta"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://definemecreativestudio.com"
+  },
+  {
+    "name": "Good dye young",
+    "website": "https://gooddyeyoung.com/",
+    "amazonUs": "https://amzn.to/4k9hw2G",
+    "amazonUk": "https://www.amazon.co.uk/s?k=good+dye+young?tag=nocrueltyil-21",
+    "categories": [
+      "hair",
+      "hair color",
+      "treatments"
+    ],
+    "badges": [
+      "Vegan", "Peta"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://gooddyeyoung.com"
+  },
+  {
+    "name": "Dime",
+    "website": "https://dimebeautyco.com/",
+    "amazonUs": "https://amzn.to/4k9szZK",
+    "amazonUk": "https://www.amazon.co.uk/s?k=dime?tag=nocrueltyil-21",
+    "categories": [
+      "fragrance",
+      "skincare",
+      "body care"
+    ],
+    "badges": [
+      "Vegan", "Leaping Bunny"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://dimebeautyco.com"
+  },
+  {
+    "name": "Elf",
+    "website": "https://www.elfcosmetics.com/",
+    "amazonUs": "https://amzn.to/4kdwdSb",
+    "amazonUk": "https://www.amazon.co.uk/s?k=elf?tag=nocrueltyil-21",
+    "categories": [
+      "makeup",
+      "skincare",
+      "tools"
+    ],
+    "badges": [
+      "Vegan", "Peta", "Leaping Bunny"
+    ],
+    "vegan": true,
+    "priceTier": 1,
+    "notes": "",
+    "site": "https://www.elfcosmetics.com"
+  },
+  {
+    "name": "Maria nila",
+    "website": "https://marianila.com/",
+    "amazonUs": "https://amzn.to/4pYIoU3",
+    "amazonUk": "https://www.amazon.co.uk/s?k=maria+nila?tag=nocrueltyil-21",
+    "categories": [
+      "hair",
+      "shampoo",
+      "conditioner",
+      "styling",
+      "treatments"
+    ],
+    "badges": [
+      "Vegan", "Peta", "Leaping Bunny"
+    ],
+    "vegan": true,
+    "priceTier": 3,
+    "notes": "",
+    "site": "https://marianila.com"
+  },
+  {
+    "name": "Dermorganic",
+    "website": "https://dermorganic.com/",
+    "amazonUs": "https://amzn.to/4q1iYFu",
+    "amazonUk": "https://www.amazon.co.uk/s?k=dermorganic?tag=nocrueltyil-21",
+    "categories": [
+      "hair",
+      "shampoo",
+      "conditioner",
+      "treatments"
+    ],
+    "badges": [
+      "Vegan", "Peta"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://dermorganic.com"
+  },
+  {
+    "name": "Below 60",
+    "website": "https://below60.com/",
+    "amazonUs": "https://amzn.to/4q3wKYe",
+    "amazonUk": "https://www.amazon.co.uk/s?k=below+60?tag=nocrueltyil-21",
+    "categories": [
+      "home",
+      "fragrance",
+      "candles",
+      "diffusers"
+    ],
+    "badges": [
+      "Vegan", "Leaping Bunny"
+    ],
+    "vegan": true,
+    "priceTier": 3,
+    "notes": "",
+    "site": "https://below60.com"
+  },
+  {
+    "name": "Anomaly haircare",
+    "website": "https://www.anomalyhaircare.com/",
+    "amazonUs": "https://amzn.to/4q4WZxt",
+    "amazonUk": "https://www.amazon.co.uk/s?k=anomaly+haircare?tag=nocrueltyil-21",
+    "categories": [
+      "hair",
+      "shampoo",
+      "conditioner",
+      "treatments",
+      "styling"
+    ],
+    "badges": [
+      "Vegan", "Peta"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://www.anomalyhaircare.com"
+  },
+  {
+    "name": "Earth friendly products ecos",
+    "website": "https://www.ecos.com/",
+    "amazonUs": "https://amzn.to/4q5pmM6",
+    "amazonUk": "https://www.amazon.co.uk/s?k=earth+friendly+products+ecos?tag=nocrueltyil-21",
+    "categories": [
+      "home",
+      "cleaning",
+      "laundry"
+    ],
+    "badges": [
+      "Vegan", "Peta"
+    ],
+    "vegan": true,
+    "priceTier": 1,
+    "notes": "",
+    "site": "https://www.ecos.com"
+  },
+  {
+    "name": "Ecotools",
+    "website": "https://ecotools.com/",
+    "amazonUs": "https://amzn.to/4q8VcaF",
+    "amazonUk": "https://www.amazon.co.uk/s?k=ecotools?tag=nocrueltyil-21",
+    "categories": [
+      "tools",
+      "makeup",
+      "skincare"
+    ],
+    "badges": [
+      "Vegan", "Peta"
+    ],
+    "vegan": true,
+    "priceTier": 1,
+    "notes": "",
+    "site": "https://ecotools.com"
+  },
+  {
+    "name": "Edible beauty",
+    "website": "https://ediblebeautyaustralia.com/",
+    "amazonUs": "https://amzn.to/4q8XlmJ",
+    "amazonUk": "https://www.amazon.co.uk/s?k=edible+beauty?tag=nocrueltyil-21",
+    "categories": [
+      "skincare",
+      "serums",
+      "moisturizers",
+      "cleansers",
+      "masks"
+    ],
+    "badges": [
+      "Vegan", "Peta"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://ediblebeautyaustralia.com"
+  },
+  {
+    "name": "Botanics",
+    "website": "https://www.boots.com/botanics/",
+    "amazonUs": "https://amzn.to/4qdZYE0",
+    "amazonUk": "https://www.amazon.co.uk/s?k=botanics?tag=nocrueltyil-21",
+    "categories": [
+      "skincare",
+      "cleansers",
+      "moisturizers",
+      "serums"
+    ],
+    "badges": [
+      "Vegan", "Leaping Bunny"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://www.botanicsonline.com"
+  },
+  {
+    "name": "Delicate daisys botanical beauty",
+    "website": "https://delicatedaisys.com/",
+    "amazonUs": "https://amzn.to/4qJxoer",
+    "amazonUk": "https://www.amazon.co.uk/s?k=delicate+daisys+botanical+beauty?tag=nocrueltyil-21",
+    "categories": [
+      "skincare",
+      "body care",
+      "soap",
+      "oils"
+    ],
+    "badges": [
+      "Vegan", "Leaping Bunny", "Peta"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://delicatedaisys.com"
+  },
+  {
+    "name": "Ecover",
+    "website": "https://www.ecover.com/",
+    "amazonUs": "https://amzn.to/4qKhn8f",
+    "amazonUk": "https://www.amazon.co.uk/s?k=ecover?tag=nocrueltyil-21",
+    "categories": [
+      "home",
+      "cleaning",
+      "laundry"
+    ],
+    "badges": [
+      "Vegan", "Leaping Bunny", "Peta"
+    ],
+    "vegan": true,
+    "priceTier": 1,
+    "notes": "",
+    "site": "https://www.ecover.com"
+  },
+  {
+    "name": "Viori",
+    "website": "https://viori.com/",
+    "amazonUs": "https://amzn.to/4r7Ih9O",
+    "amazonUk": "https://www.amazon.co.uk/s?k=viori?tag=nocrueltyil-21",
+    "categories": [
+      "hair",
+      "shampoo",
+      "conditioner",
+      "treatments"
+    ],
+    "badges": [
+      "Vegan", "Leaping Bunny"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://viori.com"
+  },
+  {
+    "name": "Vitruvi",
+    "website": "https://vitruvi.com/",
+    "amazonUs": "https://amzn.to/4r839xz",
+    "amazonUk": "https://www.amazon.co.uk/s?k=vitruvi?tag=nocrueltyil-21",
+    "categories": [
+      "home",
+      "fragrance",
+      "diffusers",
+      "essential oils"
+    ],
+    "badges": [
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 3,
+    "notes": "",
+    "site": "https://vitruvi.com"
+  },
+  {
+    "name": "Dome beauty",
+    "website": "https://domebeauty.com/",
+    "amazonUs": "https://amzn.to/4rCx29R",
+    "amazonUk": "https://www.amazon.co.uk/s?k=dome+beauty?tag=nocrueltyil-21",
+    "categories": [
+      "makeup",
+      "face",
+      "tools"
+    ],
+    "badges": [
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://domebeauty.com"
+  },
+  {
+    "name": "Ethique",
+    "website": "https://ethique.com/",
+    "amazonUs": "https://amzn.to/4rhEVkv",
+    "amazonUk": "https://www.amazon.co.uk/s?k=ethique?tag=nocrueltyil-21",
+    "categories": [
+      "hair",
+      "body care",
+      "skincare",
+      "shampoo",
+      "conditioner",
+      "soap"
+    ],
+    "badges": [
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://ethique.com"
+  },
+  {
+    "name": "Better better",
+    "website": "https://betterbetter.com/",
+    "amazonUs": "https://amzn.to/4rhwW7e",
+    "amazonUk": "https://www.amazon.co.uk/s?k=better+better?tag=nocrueltyil-21",
+    "categories": [
+      "oral care"
+    ],
+    "badges": [
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://betterbetter.com"
+  },
+  {
+    "name": "Crazy rumors",
+    "website": "https://crazyrumors.com/",
+    "amazonUs": "https://amzn.to/4rli3AX",
+    "amazonUk": "https://www.amazon.co.uk/s?k=crazy+rumors?tag=nocrueltyil-21",
+    "categories": [
+      "lips",
+      "skincare",
+      "balms"
+    ],
+    "badges": [
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://crazyrumors.com"
+  },
+  {
+    "name": "Arctic Fox",
+    "website": "https://arcticfoxhaircolor.com/",
+    "amazonUs": "https://www.amazon.com/stores/ArcticFoxHairColor/page/07DDC53E-DC70-45BE-A38C-0C6515675034?tag=nocrueltyil-20",
+    "amazonUk": "https://amzn.to/4bSPUMO",
+    "categories": [
+      "hair color",
+      "shampoo",
+      "conditioner",
+      "hair masks",
+      "dry shampoo",
+      "tools",
+      "nails",
+      "hair",
+      "treatments"
+    ],
+    "badges": [
+      "PETA",
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 1,
+    "notes": "",
+    "site": "https://arcticfoxhaircolor.com"
+  },
+  {
+    "name": "We Are Paradoxx",
+    "website": "https://weareparadoxx.com/",
+    "amazonUs": "https://www.amazon.com/stores/WEAREPARADOXX/page/507851C8-C9F3-43FC-8334-03A2E73B9E10?tag=nocrueltyil-20",
+    "amazonUk": "https://www.amazon.co.uk/stores/WEAREPARADOXX/page/A43A3A95-E35F-4E90-B77B-49BA188B6CD1?tag=nocrueltyil-21",
+    "categories": [
+      "shampoo",
+      "hair masks",
+      "scalp care",
+      "hair styling",
+      "body",
+      "hair",
+      "conditioner",
+      "styling",
+      "treatments"
+    ],
+    "badges": [
+      "PETA",
+      "Leaping Bunny",
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 3,
+    "notes": "טיפוח שיער נקי וטבעוני עם דגש על איכות הסביבה (PETA & Leaping Bunny)",
+    "site": "https://weareparadoxx.com/"
+  },
+  {
+    "name": "Elate",
+    "website": "https://elatebeauty.com/",
+    "amazonUs": "https://amzn.to/4sZeX7j",
+    "amazonUk": "https://www.amazon.co.uk/s?k=elate?tag=nocrueltyil-21",
+    "categories": [
+      "makeup",
+      "face",
+      "eyes",
+      "lips",
+      "tools"
+    ],
+    "badges": [
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://elatebeauty.com"
+  },
+  {
+    "name": "Dr pawpaw",
+    "website": "https://drpawpaw.com/",
+    "amazonUs": "https://amzn.to/4t50Mxl",
+    "amazonUk": "https://www.amazon.co.uk/s?k=dr+pawpaw?tag=nocrueltyil-21",
+    "categories": [
+      "skincare",
+      "lips",
+      "balms"
+    ],
+    "badges": [
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://drpawpaw.com"
+  },
+  {
+    "name": "Dphue",
+    "website": "https://dphue.com/",
+    "amazonUs": "https://amzn.to/4t8xPAQ",
+    "amazonUk": "https://www.amazon.co.uk/s?k=dphue?tag=nocrueltyil-21",
+    "categories": [
+      "hair",
+      "hair color",
+      "shampoo",
+      "conditioner",
+      "treatments"
+    ],
+    "badges": [
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://dphue.com"
+  },
+  {
+    "name": "Deco miami",
+    "website": "https://decomiami.com/",
+    "amazonUs": "https://amzn.to/4t8xs9q",
+    "amazonUk": "https://www.amazon.co.uk/s?k=deco+miami?tag=nocrueltyil-21",
+    "categories": [
+      "nails",
+      "tools"
+    ],
+    "badges": [
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://decomiami.com"
+  },
+  {
+    "name": "Dedcool",
+    "website": "https://dedcool.com/",
+    "amazonUs": "https://amzn.to/4t8xuy4",
+    "amazonUk": "https://www.amazon.co.uk/s?k=dedcool?tag=nocrueltyil-21",
+    "categories": [
+      "fragrance",
+      "body care"
+    ],
+    "badges": [
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 3,
+    "notes": "",
+    "site": "https://dedcool.com"
+  },
+  {
+    "name": "Youth To The People",
+    "website": "https://www.youthtothepeople.com/",
+    "amazonUs": "",
+    "amazonUk": "",
+    "categories": [
+      "cleansers",
+      "moisturizers",
+      "serums",
+      "eye care",
+      "masks",
+      "sunscreen",
+      "body"
+    ],
+    "badges": [
+      "PETA",
+      "Leaping Bunny",
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 3,
+    "notes": "מותג Clean Beauty מוביל המבוסס על סופר-פודס (Vegan & PETA)",
+    "site": "https://www.youthtothepeople.com/"
+  },
+  {
+    "name": "Wyn Beauty",
+    "website": "https://www.wynbeauty.com/",
+    "amazonUs": "",
+    "amazonUk": "",
+    "categories": [
+      "makeup",
+      "skin tint",
+      "concealer",
+      "lipstick",
+      "mascara"
+    ],
+    "badges": [
+      "Leaping Bunny",
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "איפור נקי ועמיד מבית סרינה ויליאמס (Vegan & Leaping Bunny)",
+    "site": "https://www.wynbeauty.com/"
+  },
+  {
+    "name": "Wyld Skincare",
+    "website": "https://www.wyldskincare.com/",
+    "amazonUs": "",
+    "amazonUk": "",
+    "categories": [
+      "cleansers",
+      "face oils",
+      "body",
+      "accessories"
+    ],
+    "badges": [
+      "PETA",
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "ספוגי קונג'אק וטיפוח פנים מינימליסטי וטבעוני (PETA)",
+    "site": "https://www.wyldskincare.com/"
+  },
+  {
+    "name": "Wit & West Perfumes",
+    "website": "https://witandwest.com/",
+    "amazonUs": "",
+    "amazonUk": "",
+    "categories": [
+      "fragrance",
+      "botanical perfume",
+      "cologne",
+      "samples"
+    ],
+    "badges": [
+      "Leaping Bunny",
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 4,
+    "notes": "בישום בוטני בעבודת יד מרכיבים טבעיים בלבד (Leaping Bunny)",
+    "site": "https://witandwest.com/"
+  },
+  {
+    "name": "Wabi-Sabi",
+    "website": "https://wabisabibotanicals.co.uk/",
+    "amazonUs": "",
+    "amazonUk": "",
+    "categories": [
+      "face oils",
+      "cleansing balms",
+      "serums",
+      "elixirs",
+      "masks"
+    ],
+    "badges": [
+      "PETA",
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 4,
+    "notes": "טיפוח בוטני יוקרתי המבוסס על חומרי גלם טבעיים (Vegan & PETA)",
+    "site": "https://wabisabibotanicals.co.uk/"
+  },
+  {
+    "name": "R+Co",
+    "website": "https://www.randco.com/",
+    "amazonUs": "https://amzn.to/4qIzOKE",
+    "amazonUk": "",
+    "categories": [
+      "shampoo",
+      "conditioner",
+      "hair styling",
+      "hair masks",
+      "dry shampoo",
+      "scalp care"
+    ],
+    "badges": [
+      "Leaping Bunny",
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 4,
+    "notes": "מותג לשיער טבעוני וללא ניסויים – Leaping Bunny approved",
+    "site": "https://www.randco.com/"
+  },
+  {
+    "name": "Pacifica",
+    "website": "https://www.pacificabeauty.com/",
+    "amazonUs": "https://amzn.to/3YTICky",
+    "amazonUk": "",
+    "categories": [
+      "makeup",
+      "skincare",
+      "hair",
+      "body",
+      "sun",
+      "fragrance"
+    ],
+    "badges": [
+      "Vegan",
+      "PETA"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "מותג טבעוני לחלוטין עם דגש על רכיבים נקיים",
+    "site": "https://www.pacificabeauty.com"
+  },
+  {
+    "name": "Supersmile",
+    "website": "https://www.supersmile.com/",
+    "amazonUs": "https://amzn.to/3NwC2hq",
+    "amazonUk": "https://amzn.to/49xVK4U",
+    "categories": [
+      "Oral Care",
+      "Teeth Whitening",
+      "toothpaste"
+    ],
+    "badges": [
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 3,
+    "notes": "מוצרי הלבנת שיניים מקצועיים",
+    "site": "https://www.supersmile.com"
+  },
+  {
+    "name": "Naked Sundays",
+    "website": "https://nakedsundays.com/",
+    "amazonUs": "https://amzn.to/4pS0vuQ",
+    "amazonUk": "",
+    "categories": [
+      "sun",
+      "spf",
+      "makeup",
+      "skincare",
+      "body"
+    ],
+    "badges": [
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 3,
+    "notes": "מוצרי הגנה מהשמש שמשתלבים עם איפור",
+    "site": "https://nakedsundays.com"
+  },
+  {
+    "name": "IGK",
+    "website": "https://www.igkhair.com/",
+    "amazonUs": "https://amzn.to/3YTq8R6",
+    "amazonUk": "",
+    "categories": [
+      "shampoo",
+      "conditioner",
+      "hair styling",
+      "hair masks",
+      "dry shampoo",
+      "scalp care",
+      "hair color"
+    ],
+    "badges": [
+      "Vegan",
+      "Leaping Bunny"
+    ],
+    "vegan": true,
+    "priceTier": 3,
+    "notes": "מוצרי שיער מקצועיים ואיכותיים",
+    "site": "https://www.igkhair.com"
+  },
+  {
+    "name": "Made by Dentists",
+    "website": "https://www.madebydentists.com/",
+    "amazonUs": "https://amzn.to/4jNdtZu",
+    "amazonUk": "",
+    "categories": [
+      "toothpaste",
+      "oral care",
+      "whitening",
+      "teeth",
+      "accessories"
+    ],
+    "badges": [
+      "PETA",
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "מאושר ע\"י PETA (ללא ניסויים) וטבעוני.",
+    "site": "https://www.madebydentists.com/"
+  },
+  {
+    "name": "About-face",
+    "website": "https://aboutface.com/",
+    "amazonUs": "https://amzn.to/49RwPZ1",
+    "amazonUk": "",
+    "categories": [
+      "makeup",
+      "eye makeup",
+      "lipstick",
+      "face oils",
+      "skincare"
+    ],
+    "badges": [
+      "PETA",
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "מאושר ע\"י PETA (ללא ניסויים) וטבעוני.",
+    "site": "https://aboutface.com/"
+  },
+  {
+    "name": "OVertone",
+    "website": "https://overtone.co/",
+    "amazonUs": "https://amzn.to/4pU61xh",
+    "amazonUk": "",
+    "categories": [
+      "hair color",
+      "hair masks",
+      "conditioner",
+      "shampoo",
+      "scalp care"
+    ],
+    "badges": [
+      "PETA",
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "מאושר ע\"י PETA (ללא ניסויים) וטבעוני.",
+    "site": "https://overtone.co"
+  },
+  {
+    "name": "Ace Beauté",
+    "website": "https://acebeaute.com/",
+    "amazonUs": "https://www.amazon.com/stores/AceBeaut%C3%A9/page/0251E27D-946B-4213-B256-5FAC7DFFB262?tag=nocrueltyil-20",
+    "amazonUk": "",
+    "categories": [
+      "makeup",
+      "eye makeup",
+      "lipstick",
+      "false lashes",
+      "brushes"
+    ],
+    "badges": [
+      "PETA",
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://acebeaute.com"
+  },
+  {
+    "name": "Act+Acre",
+    "website": "https://actandacre.com/",
+    "amazonUs": "https://www.amazon.com/stores/ActAcre/page/393B4FE9-A13F-4AE8-BD55-82EAA27E6274?tag=nocrueltyil-20",
+    "amazonUk": "",
+    "categories": [
+      "scalp care",
+      "shampoo",
+      "conditioner",
+      "hair masks",
+      "hair styling",
+      "wellness"
+    ],
+    "badges": [
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 4,
+    "notes": "",
+    "site": "https://actandacre.com"
+  },
+  {
+    "name": "Acure",
+    "website": "https://acure.com/",
+    "amazonUs": "https://www.amazon.com/stores/ACURE/page/9B87B130-01CF-4991-8A55-6D69377A8380?tag=nocrueltyil-20",
+    "amazonUk": "https://amzn.to/3LwYuX8",
+    "categories": [
+      "skincare",
+      "hair",
+      "body",
+      "cleansers",
+      "moisturizers",
+      "serums"
+    ],
+    "badges": [
+      "PETA",
+      "Leaping Bunny",
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 1,
+    "notes": "",
+    "site": "https://acure.com"
+  },
+  {
+    "name": "ALLEYOOP",
+    "website": "https://meetalleyoop.com/",
+    "amazonUs": "https://amzn.to/4b8oN03",
+    "amazonUk": "",
+    "categories": [
+      "makeup",
+      "skincare",
+      "sun",
+      "body",
+      "tools",
+      "accessories"
+    ],
+    "badges": [
+      "PETA",
+      "Leaping Bunny",
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 3,
+    "notes": "",
+    "site": "https://meetalleyoop.com/"
+  },
+  {
+    "name": "Alpyn Beauty",
+    "website": "https://alpynbeauty.com/",
+    "amazonUs": "https://www.amazon.com/stores/Alpyn%7CClinicalSkincare/page/2065E3FD-4D1D-406B-8576-936DDB161C99?tag=nocrueltyil-20",
+    "amazonUk": "",
+    "categories": [
+      "skincare",
+      "cleansers",
+      "moisturizers",
+      "serums",
+      "eye care",
+      "masks",
+      "lip care"
+    ],
+    "badges": [
+      "Leaping Bunny",
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 4,
+    "notes": "",
+    "site": "https://alpynbeauty.com"
+  },
+  {
+    "name": "Astonish",
+    "website": "https://astonish.co.uk/",
+    "amazonUs": "https://www.amazon.com/stores/Astonish/page/772B7F6F-52F6-46A8-A137-EF97B3DE48BA?tag=nocrueltyil-20",
+    "amazonUk": "",
+    "categories": [
+      "home",
+      "laundry",
+      "personal care",
+      "hand wash",
+      "cleaning tools",
+      "wellness"
+    ],
+    "badges": [
+      "PETA",
+      "Leaping Bunny",
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 1,
+    "notes": "",
+    "site": "https://astonish.co.uk"
+  },
+  {
+    "name": "ATTITUDE",
+    "website": "https://attitudeliving.com/",
+    "amazonUs": "https://amzn.to/3Lq6kSl",
+    "amazonUk": "https://amzn.to/3YIVrxZ",
+    "categories": [
+      "home",
+      "laundry",
+      "baby",
+      "skincare",
+      "hair",
+      "sun",
+      "makeup",
+      "body"
+    ],
+    "badges": [
+      "PETA",
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "100% טבעוני וללא ניסויים (PETA)",
+    "site": "https://attitudeliving.com/"
+  },
+  {
+    "name": "Ravie Beauty",
+    "website": "https://ravie.com/",
+    "amazonUs": "https://amzn.to/4b4Tgfu",
+    "amazonUk": "",
+    "categories": [
+      "makeup",
+      "skincare",
+      "lip care",
+      "eyebrows",
+      "eye makeup",
+      "accessories"
+    ],
+    "badges": [
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 3,
+    "notes": "טבעוני וללא ניסויים בבעלי חיים (לפי המותג)",
+    "site": "https://ravie.com/"
+  },
+  {
+    "name": "LilyAna Naturals",
+    "website": "https://lilyananaturals.com/",
+    "amazonUs": "https://amzn.to/4qvR8SH",
+    "amazonUk": "",
+    "categories": [
+      "skincare",
+      "eye care",
+      "moisturizers",
+      "serums",
+      "cleansers",
+      "masks"
+    ],
+    "badges": [
+      "Leaping Bunny",
+      "Vegan"
+    ],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "",
+    "site": "https://lilyananaturals.com"
+  },
+  {
+    "name": "Suntegrity",
+    "website": "https://www.suntegrityskincare.com/",
+    "amazonUs": "https://amzn.to/3LYREtp",
+    "amazonUk": "https://www.amazon.co.uk/s?k=Suntegrity&tag=nocrueltyil-21",
+    "categories": ["sunscreen", "face", "body", "makeup", "skincare"],
+    "badges": ["Vegan"],
+    "vegan": true,
+    "priceTier": 4,
+    "notes": "מוצרי SPF מינרליים לפנים/גוף וגם מייקאפ עם SPF. רמת מחיר משוערת: 4/5.",
+    "site": "https://www.suntegrityskincare.com/"
+  },
+  {
+    "name": "Tanologist",
+    "website": "https://www.tanologist.com/",
+    "amazonUs": "https://amzn.to/3MbrUKz",
+    "amazonUk": "https://www.amazon.co.uk/s?k=Tanologist&tag=nocrueltyil-21",
+    "categories": ["self tan", "tanning drops", "tanning mousse", "body", "face"],
+    "badges": ["Vegan"],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "שיזוף עצמי (טיפות/מוס/ספריי) לפנים ולגוף. רמת מחיר משוערת: 2/5.",
+    "site": "https://www.tanologist.com/"
+  },
+  {
+    "name": "Ravie Beauty",
+    "website": "https://ravie.com/",
+    "amazonUs": "https://amzn.to/3McaFc1",
+    "amazonUk": "https://www.amazon.co.uk/s?k=Ravie+Beauty&tag=nocrueltyil-21",
+    "categories": ["makeup", "lips", "face", "brows", "skincare"],
+    "badges": ["Vegan"],
+    "vegan": true,
+    "priceTier": 4,
+    "notes": "מייקאפ וטיפוח (דגש על שפתיים/גבות/פנים). רמת מחיר משוערת: 4/5.",
+    "site": "https://ravie.com/"
+  },
+  {
+    "name": "The Humble Co",
+    "website": "https://www.thehumble.co/",
+    "amazonUs": "https://amzn.to/3NB83Fb",
+    "amazonUk": "https://www.amazon.co.uk/s?k=The+Humble+Co&tag=nocrueltyil-21",
+    "categories": ["oral care", "toothpaste", "toothbrushes", "travel"],
+    "badges": ["Vegan"],
+    "vegan": true,
+    "priceTier": 1,
+    "notes": "טיפוח פה ושיניים ידידותי לסביבה. רמת מחיר משוערת: 1/5.",
+    "site": "https://www.thehumble.co/"
+  },
+  {
+    "name": "Three Ships Beauty",
+    "website": "https://www.threeshipsbeauty.ca/",
+    "amazonUs": "https://amzn.to/3NB8rn7",
+    "amazonUk": "https://www.amazon.co.uk/s?k=Three+Ships+Beauty&tag=nocrueltyil-21",
+    "categories": ["skincare", "face", "cleansers", "serums", "moisturizers", "masks"],
+    "badges": ["Vegan"],
+    "vegan": true,
+    "priceTier": 4,
+    "notes": "סקין-קייר טבעי לפנים (סרומים/קרמים/מסכות). רמת מחיר משוערת: 4/5.",
+    "site": "https://www.threeshipsbeauty.ca/"
+  },
+  {
+    "name": "Skylar",
+    "website": "https://skylar.com/",
+    "amazonUs": "https://amzn.to/3NEP4JP",
+    "amazonUk": "https://www.amazon.co.uk/s?k=Skylar+Perfume&tag=nocrueltyil-21",
+    "categories": ["fragrance", "aroma", "body"],
+    "badges": ["Vegan"],
+    "vegan": true,
+    "priceTier": 4,
+    "notes": "בשמים/בישום נקי (Clean Fragrance). רמת מחיר משוערת: 4/5.",
+    "site": "https://skylar.com/"
+  },
+  {
+    "name": "Rinna Beauty",
+    "website": "https://rinnabeauty.com/",
+    "amazonUs": "https://amzn.to/3Z3ZiFV",
+    "amazonUk": "https://www.amazon.co.uk/s?k=Rinna+Beauty&tag=nocrueltyil-21",
+    "categories": ["makeup", "lips", "face", "eyes"],
+    "badges": ["Vegan"],
+    "vegan": true,
+    "priceTier": 4,
+    "notes": "מותג מייקאפ (דגש על שפתיים). רמת מחיר משוערת: 4/5.",
+    "site": "https://rinnabeauty.com/"
+  },
+  {
+    "name": "Tek",
+    "website": "https://www.tek-italy.it/en/",
+    "amazonUs": "https://amzn.to/3ZBgx1v",
+    "amazonUk": "https://www.amazon.co.uk/s?k=Tek+hair+brush&tag=nocrueltyil-21",
+    "categories": ["hair", "brushes", "combs", "accessories"],
+    "badges": ["Vegan"],
+    "vegan": true,
+    "priceTier": 3,
+    "notes": "מברשות ומסרקים מעץ (אביזרי שיער). רמת מחיר משוערת: 3/5.",
+    "site": "https://www.tek-italy.it/en/"
+  },
+  {
+    "name": "SpaRitual",
+    "website": "https://sparitual.com/",
+    "amazonUs": "https://amzn.to/45BKySq",
+    "amazonUk": "https://www.amazon.co.uk/s?k=SpaRitual&tag=nocrueltyil-21",
+    "categories": ["nails", "body", "hand care", "foot care"],
+    "badges": ["Vegan"],
+    "vegan": true,
+    "priceTier": 3,
+    "notes": "טיפוח גוף/ידיים/רגליים ומוצרים לאיפור ציפורניים. רמת מחיר משוערת: 3/5.",
+    "site": "https://sparitual.com/"
+  },
+  {
+    "name": "Undefined Beauty",
+    "website": "https://undefinedco.com/",
+    "amazonUs": "https://amzn.to/49ZEZ1A",
+    "amazonUk": "https://www.amazon.co.uk/s?k=Undefined+Beauty&tag=nocrueltyil-21",
+    "categories": ["skincare", "face", "serums", "oils", "lip care"],
+    "badges": ["Vegan"],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "סקין-קייר מולטי-טאסק לפנים (סרומים/שמנים וכו׳). רמת מחיר משוערת: 2/5.",
+    "site": "https://undefinedco.com/"
+  },
+  {
+    "name": "Summer Fridays",
+    "website": "https://summerfridays.com/",
+    "amazonUs": "https://amzn.to/49ZsPWa",
+    "amazonUk": "https://www.amazon.co.uk/s?k=Summer+Fridays&tag=nocrueltyil-21",
+    "categories": ["skincare", "face", "lip care", "masks", "serums", "moisturizers", "body"],
+    "badges": ["Vegan"],
+    "vegan": true,
+    "priceTier": 4,
+    "notes": "סקין-קייר + מוצרי שפתיים/הייבריד מייקאפ. רמת מחיר משוערת: 4/5.",
+    "site": "https://summerfridays.com/"
+  },
+  {
+    "name": "Rovectin",
+    "website": "https://rovectin.com/",
+    "amazonUs": "https://amzn.to/4bGk8D1",
+    "amazonUk": "https://www.amazon.co.uk/s?k=Rovectin&tag=nocrueltyil-21",
+    "categories": ["skincare", "face", "cleansers", "toners", "serums", "moisturizers"],
+    "badges": ["Vegan"],
+    "vegan": true,
+    "priceTier": 3,
+    "notes": "K-Beauty לטיפוח הפנים (מחזק מחסום העור/לחות). רמת מחיר משוערת: 3/5.",
+    "site": "https://rovectin.com/"
+  },
+  {
+    "name": "The Quick Flick",
+    "website": "https://au.quickflick.com/",
+    "amazonUs": "https://amzn.to/4k0b0uK",
+    "amazonUk": "https://www.amazon.co.uk/s?k=Quick+Flick&tag=nocrueltyil-21",
+    "categories": ["makeup", "eyes", "brows", "lips", "tanning", "sunscreen", "face", "body"],
+    "badges": ["Vegan"],
+    "vegan": true,
+    "priceTier": 3,
+    "notes": "מותג ביוטי אוסטרלי (אייליינר/שיזוף/SPF). רמת מחיר משוערת: 3/5.",
+    "site": "https://au.quickflick.com/"
+  },
+  {
+    "name": "SKIN1004",
+    "website": "https://www.skin1004.com/",
+    "amazonUs": "https://amzn.to/4k728Uv",
+    "amazonUk": "https://www.amazon.co.uk/s?k=SKIN1004&tag=nocrueltyil-21",
+    "categories": ["skincare", "face", "cleansers", "toners", "serums", "moisturizers"],
+    "badges": ["Vegan"],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "K-Beauty (סנטלה/הרגעה) לטיפוח פנים. רמת מחיר משוערת: 2/5.",
+    "site": "https://www.skin1004.com/"
+  },
+  {
+    "name": "Tree To Tub",
+    "website": "https://treetotub.com/",
+    "amazonUs": "https://amzn.to/4k9vlOC",
+    "amazonUk": "https://www.amazon.co.uk/s?k=Tree+To+Tub&tag=nocrueltyil-21",
+    "categories": ["skincare", "face", "body", "hair", "shampoo", "conditioner", "body wash"],
+    "badges": ["Vegan"],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "טיפוח לעור רגיש + מוצרי גוף ושיער. רמת מחיר משוערת: 2/5.",
+    "site": "https://treetotub.com/"
+  },
+  {
+    "name": "Revive7 Science",
+    "website": "https://revive7science.com/",
+    "amazonUs": "https://amzn.to/4q671hT",
+    "amazonUk": "https://www.amazon.co.uk/s?k=Revive7+Science&tag=nocrueltyil-21",
+    "categories": ["lash", "brows", "hair", "lip care", "serums"],
+    "badges": ["Vegan"],
+    "vegan": true,
+    "priceTier": 4,
+    "notes": "סרומים לריסים/גבות + טיפוח לשפתיים/שיער. רמת מחיר משוערת: 4/5.",
+    "site": "https://revive7science.com/"
+  },
+  {
+    "name": "The Outset",
+    "website": "https://theoutset.com/",
+    "amazonUs": "https://amzn.to/4qEMNNf",
+    "amazonUk": "https://www.amazon.co.uk/s?k=The+Outset+skincare&tag=nocrueltyil-21",
+    "categories": ["skincare", "face", "cleansers", "serums", "moisturizers", "masks", "face oils"],
+    "badges": ["Vegan"],
+    "vegan": true,
+    "priceTier": 4,
+    "notes": "טיפוח עדין לעור רגיש (שגרת בסיס). רמת מחיר משוערת: 4/5.",
+    "site": "https://theoutset.com/"
+  },
+  {
+    "name": "Starface",
+    "website": "https://starface.world/",
+    "amazonUs": "https://amzn.to/4qEOc6t",
+    "amazonUk": "https://www.amazon.co.uk/s?k=Starface+pimple+patches&tag=nocrueltyil-21",
+    "categories": ["acne care", "face", "pimple patches", "skincare", "lip care"],
+    "badges": ["Vegan"],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "מדבקות פצעונים (Hydrocolloid) + טיפוח משלים. רמת מחיר משוערת: 2/5.",
+    "site": "https://starface.world/"
+  },
+  {
+    "name": "Purlisse",
+    "website": "https://purlisse.com/",
+    "amazonUs": "https://amzn.to/4qEOPgl",
+    "amazonUk": "https://www.amazon.co.uk/s?k=Purlisse&tag=nocrueltyil-21",
+    "categories": ["skincare", "face", "cleansers", "moisturizers", "masks", "makeup"],
+    "badges": ["Vegan"],
+    "vegan": true,
+    "priceTier": 3,
+    "notes": "טיפוח + מייקאפ בסגנון Asian Beauty. רמת מחיר משוערת: 3/5.",
+    "site": "https://purlisse.com/"
+  },
+  {
+    "name": "Trust Fund Beauty",
+    "website": "https://trustfundbeauty.com/",
+    "amazonUs": "https://amzn.to/4qLZF4g",
+    "amazonUk": "https://www.amazon.co.uk/s?k=Trust+Fund+Beauty&tag=nocrueltyil-21",
+    "categories": ["nails", "makeup", "lip care", "accessories"],
+    "badges": ["Leaping Bunny", "PETA", "Vegan"],
+    "vegan": true,
+    "priceTier": 3,
+    "notes": "מוצרים נקיים למייקאפ/ציפורניים (לפי האתר גם LB+PETA). רמת מחיר משוערת: 3/5.",
+    "site": "https://trustfundbeauty.com/"
+  },
+  {
+    "name": "Thrive Causemetics",
+    "website": "https://thrivecausemetics.com/",
+    "amazonUs": "https://amzn.to/4qNvDNA",
+    "amazonUk": "https://www.amazon.co.uk/s?k=Thrive+Causemetics&tag=nocrueltyil-21",
+    "categories": ["makeup", "eyes", "lips", "face", "skincare"],
+    "badges": ["Vegan"],
+    "vegan": true,
+    "priceTier": 4,
+    "notes": "מייקאפ פרימיום + טיפוח (מותג עם תרומה חברתית). רמת מחיר משוערת: 4/5.",
+    "site": "https://thrivecausemetics.com/"
+  },
+  {
+    "name": "True Moringa",
+    "website": "https://truemoringa.com/",
+    "amazonUs": "https://amzn.to/4rCM3bJ",
+    "amazonUk": "https://www.amazon.co.uk/s?k=True+Moringa&tag=nocrueltyil-21",
+    "categories": ["skincare", "face", "cleansers", "body", "oils", "supplements"],
+    "badges": ["Vegan"],
+    "vegan": true,
+    "priceTier": 3,
+    "notes": "טיפוח ורווחה מבוסס מורינגה (שמנים/סבונים/תוספים). רמת מחיר משוערת: 3/5.",
+    "site": "https://truemoringa.com/"
+  },
+  {
+    "name": "Sunday II Sunday",
+    "website": "https://mysunday2sunday.com/",
+    "amazonUs": "https://amzn.to/4rjD5zP",
+    "amazonUk": "https://www.amazon.co.uk/s?k=Sunday+II+Sunday&tag=nocrueltyil-21",
+    "categories": ["hair", "scalp", "shampoo", "dry shampoo", "sprays"],
+    "badges": ["Vegan"],
+    "vegan": true,
+    "priceTier": 3,
+    "notes": "טיפוח שיער וקרקפת (בין חפיפות/פעילות). רמת מחיר משוערת: 3/5.",
+    "site": "https://mysunday2sunday.com/"
+  },
+  {
+    "name": "Tower 28",
+    "website": "https://www.tower28beauty.com/",
+    "amazonUs": "https://amzn.to/4sUQlwi",
+    "amazonUk": "https://www.amazon.co.uk/s?k=Tower+28+Beauty&tag=nocrueltyil-21",
+    "categories": ["makeup", "skincare", "face", "lips", "eyes", "sunscreen"],
+    "badges": ["Vegan"],
+    "vegan": true,
+    "priceTier": 3,
+    "notes": "מייקאפ+טיפוח לעור רגיש (כולל SPF). רמת מחיר משוערת: 3/5.",
+    "site": "https://www.tower28beauty.com/"
+  },
+  {
+    "name": "Sweet Chef",
+    "website": "https://sweetchefskincare.com/",
+    "amazonUs": "https://amzn.to/4t4AV8M",
+    "amazonUk": "https://www.amazon.co.uk/s?k=Sweet+Chef&tag=nocrueltyil-21",
+    "categories": ["skincare", "face", "cleansers", "serums", "moisturizers", "masks"],
+    "badges": ["Leaping Bunny", "Vegan"],
+    "vegan": true,
+    "priceTier": 2,
+    "notes": "סקין-קייר ויטמינים/ירקות (לפי האתר גם Leaping Bunny). רמת מחיר משוערת: 2/5.",
+    "site": "https://sweetchefskincare.com/"
+  }
+]
