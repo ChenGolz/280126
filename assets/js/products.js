@@ -43,6 +43,7 @@ const typeSelect = qs("#typeSelect"); // ✅ סוג מוצר (קבוצות + ת�
   const onlyVegan = null;
 const onlyIsrael = qs("#onlyIsrael");
   const onlyMen = qs("#onlyMen");
+  const onlyKids = qs("#onlyKids");
   const onlyFreeShip = qs("#onlyFreeShip");
 
   const chips = Array.from(document.querySelectorAll(".chip"));
@@ -257,11 +258,21 @@ const onlyIsrael = qs("#onlyIsrael");
       /עור\s*שמן|לעור\s*שמן|שמן\s*ומעורב|שומנ(?:י|ית|יות)/i.test(text) ||
       /oily\s*skin/i.test(lower);
 
+    // Soap bars often include oils in the name/ingredients (e.g. "olive oil soap"),
+    // but we still want to label them as "סבון" not "שמן".
+    const soapLike =
+      /\bsoap\b/i.test(lower) ||
+      /(cleansing\s*bar|bar\s*soap|soap\s*bar)/i.test(lower) ||
+      /סבון/i.test(text);
+
+    const hasGenericOilWord =
+      /\boil\b/i.test(lower) ||
+      /שמן\s+\S+/i.test(text);
+
     const isOilProduct =
       hasOilCategory ||
       hasExplicitOilPhrase ||
-      /\boil\b/i.test(lower) ||
-      /שמן\s+\S+/i.test(text);
+      (hasGenericOilWord && !soapLike);
 
     // If it's only mentioning oily skin (and not an actual oil product), don't label as oil.
     if (isOilProduct && !(oilySkinPhrase && !hasExplicitOilPhrase && !hasOilCategory)) {
@@ -358,6 +369,24 @@ function normalizeProduct(p) {
     const offers = Array.isArray(p?.offers) ? p.offers : [];
     const storeRegion = String(p?.storeRegion ?? "").toLowerCase();
 
+    // Kids / babies: allow marking explicitly, or infer from name
+    const nameText = String(p?.name ?? "");
+    const nameLower = nameText.toLowerCase();
+    const kidsByName =
+      /ילד|ילדים|תינוק|תינוקות|בייבי|פעוט/i.test(nameText) ||
+      /(kid|kids|child|children|baby|babies|toddler)/i.test(nameLower);
+
+    const isKids = Boolean(
+      p?.isKids ?? p?.kids ?? p?.isChildren ?? p?.children
+    ) || kidsByName;
+
+    // Ensure "kids" category exists when relevant (used for filtering + tags)
+    const rawCats = Array.isArray(p?.categories) ? p.categories : [];
+    const catsLower = rawCats.map((c) => String(c).toLowerCase());
+    const categories = rawCats.slice();
+    if (isKids && !catsLower.includes("kids")) categories.push("kids");
+
+
     return {
       ...p,
       // דגלים לוגיים אחידים
@@ -365,6 +394,8 @@ function normalizeProduct(p) {
       isPeta: Boolean(p?.isPeta ?? p?.peta),
       isVegan: Boolean(p?.isVegan ?? p?.vegan),
       isIsrael: Boolean(p?.isIsrael ?? p?.israel ?? (storeRegion === "il")),
+      isKids,
+      categories,
       // offers אחיד (meta, region, freeShipOver)
       offers: offers.map((o) => {
         const rawUrl = String(o?.url || "");
@@ -1077,6 +1108,12 @@ function normalizeProduct(p) {
         return isMenTargetedProduct(p);
       },
 
+// מוצרים לילדים / תינוקות
+      () => {
+        if (!onlyKids?.checked) return true;
+        return !!p.isKids;
+      },
+
       // Only products with "free shipping over"
       () => {
         if (!onlyFreeShip?.checked) return true;
@@ -1294,6 +1331,7 @@ function normalizeProduct(p) {
       if (p.isPeta) tags.appendChild(tag("PETA"));
       if (p.isVegan) tags.appendChild(tag("טבעוני"));
       if (p.isIsrael) tags.appendChild(tag("אתר ישראלי"));
+      if (p.isKids) tags.appendChild(tag("ילדים"));
 
       const offerList = document.createElement("div");
       offerList.className = "offerList";
@@ -1367,7 +1405,7 @@ function bind() {
     if (
       e.target &&
       e.target.matches(
-        "#q, #brandSelect, #storeSelect, #typeSelect, #sort, #onlyLB, #onlyPeta, #onlyIsrael, #onlyFreeShip, #onlyMen"
+        "#q, #brandSelect, #storeSelect, #typeSelect, #sort, #onlyLB, #onlyPeta, #onlyIsrael, #onlyFreeShip, #onlyMen, #onlyKids"
       )
     ) {
       scheduleRender();
@@ -1378,7 +1416,7 @@ function bind() {
     if (
       e.target &&
       e.target.matches(
-        "#q, #brandSelect, #storeSelect, #typeSelect, #sort, #onlyLB, #onlyPeta, #onlyIsrael, #onlyFreeShip, #onlyMen"
+        "#q, #brandSelect, #storeSelect, #typeSelect, #sort, #onlyLB, #onlyPeta, #onlyIsrael, #onlyFreeShip, #onlyMen, #onlyKids"
       )
     ) {
       scheduleRender();
