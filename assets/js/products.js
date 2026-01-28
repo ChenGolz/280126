@@ -222,19 +222,59 @@ const onlyIsrael = qs("#onlyIsrael");
     if (/whitening/i.test(lower) || /הלבנת\s*שיניים/i.test(text)) return "הלבנת שיניים";
 
     // Hair
-    if (/שמפו|shampoo/i.test(lower) || /שמפו/i.test(text)) return "שמפו";
-    if (/מרכך|conditioner/i.test(lower) || /מרכך/i.test(text)) return "מרכך";
+    // Avoid misclassifying "Bubble Bath & Shampoo" (or similar) as shampoo.
+    if (/(bubble\s*bath|bath\s*soak|bath\s*wash|body\s*wash|shower\s*gel)/i.test(lower) || /קצף\s*אמבט|אמבט|ג'?ל\s*רחצה|סבון\s*רחצה/i.test(text)) {
+      return "סבון רחצה";
+    }
+
+    // Only treat as hair products when the context is באמת שיער/קרקפת
+    const hairContext =
+      areaKey === "hair" ||
+      areaKey === "scalp" ||
+      hasCat("hair") ||
+      hasCat("scalp");
+
+    if ((/שמפו|shampoo/i.test(lower) || /שמפו/i.test(text)) && hairContext) return "שמפו";
+    if ((/מרכך|conditioner/i.test(lower) || /מרכך/i.test(text)) && hairContext) return "מרכך";
+
     if (/מסכה/i.test(text) || /mask/i.test(lower)) {
       if (areaKey === "hair") return "מסכה לשיער";
       return "מסכה";
     }
-    if (/שמן/i.test(text) || /\boil\b/i.test(lower)) {
+
+    // Oil — avoid false positives from "עור שמן / oily skin"
+    const hasOilCategory =
+      hasCat("oil") ||
+      hasCat("face oils") ||
+      hasCat("hair-oil") ||
+      hasCat("lip-oil") ||
+      hasCat("body-oil");
+
+    const hasExplicitOilPhrase =
+      /\b(lip\s*oil|hair\s*oil|face\s*oil|body\s*oil)\b/i.test(lower) ||
+      /שמן\s*(?:פנים|לפנים|לשיער|לגוף|שפתיים|לזקן|טיפולי|מזין)/i.test(text);
+
+    const oilySkinPhrase =
+      /עור\s*שמן|לעור\s*שמן|שמן\s*ומעורב|שומנ(?:י|ית|יות)/i.test(text) ||
+      /oily\s*skin/i.test(lower);
+
+    const isOilProduct =
+      hasOilCategory ||
+      hasExplicitOilPhrase ||
+      /\boil\b/i.test(lower) ||
+      /שמן\s+\S+/i.test(text);
+
+    // If it's only mentioning oily skin (and not an actual oil product), don't label as oil.
+    if (isOilProduct && !(oilySkinPhrase && !hasExplicitOilPhrase && !hasOilCategory)) {
       if (areaKey === "hair") return "שמן לשיער";
       if (areaKey === "lips") return "שמן לשפתיים";
+      if (areaKey === "face") return "שמן לפנים";
+      if (areaKey === "body") return "שמן לגוף";
       return "שמן";
     }
 
     // Serum
+
     if (/\bserum\b/i.test(lower) || /סרום/i.test(text) || /אמפול/i.test(text)) {
       if (areaKey === "hair") return "סרום לשיער";
       if (areaKey === "scalp") return "סרום לקרקפת";
