@@ -1,4 +1,4 @@
-// Build: 2026-01-28-v5
+// Build: 2026-01-28-v6
 // Renders "Today's Top Deals" from data/products.json by selecting products where isDiscounted === true.
 // Enriches badge flags from data/intl-brands.json when available.
 // Matches the "Products" page UI badges (tags + meta pills) but does NOT show the price-range/tier UI.
@@ -261,26 +261,60 @@
   }
 
   function resolveLabels(p, brand) {
-    // Product-level overrides win (including explicit false)
-    function getFlag(key, brandDefault) {
-      if (hasOwn(p, key)) return !!p[key];
-      return !!brandDefault;
+    // Match Products page behavior, but also support legacy keys and array badges.
+    // Rules:
+    // - If product explicitly sets a flag (true/false) via isVegan/isLB/isPeta or legacy keys, that wins.
+    // - Else, inherit from intl-brands.json (brand.badges + brand.vegan).
+    // - If brand not found and no product flags, default is no badges.
+
+    function isSet(obj, key) {
+      return hasOwn(obj, key) && obj[key] !== null && obj[key] !== undefined;
     }
 
-    var badges = (brand && Array.isArray(brand.badges)) ? brand.badges : [];
+    function arrayHas(arr, needleLower) {
+      if (!Array.isArray(arr)) return false;
+      for (var i = 0; i < arr.length; i++) {
+        if (safeText(arr[i]).toLowerCase() === needleLower) return true;
+      }
+      return false;
+    }
+
+    function getBoolFromProduct(keys, badgeNeedles) {
+      // keys: explicit boolean keys (support explicit false)
+      for (var i = 0; i < keys.length; i++) {
+        var k = keys[i];
+        if (isSet(p, k)) return !!p[k];
+      }
+      // badges array on product (infer)
+      if (badgeNeedles && badgeNeedles.length) {
+        for (var j = 0; j < badgeNeedles.length; j++) {
+          if (arrayHas(p && p.badges, badgeNeedles[j])) return true;
+        }
+      }
+      return undefined; // not set
+    }
+
+    // Brand defaults
+    var brandBadges = (brand && Array.isArray(brand.badges)) ? brand.badges : [];
     var badgeSet = {};
-    for (var i = 0; i < badges.length; i++) badgeSet[safeText(badges[i]).toLowerCase()] = true;
+    for (var b = 0; b < brandBadges.length; b++) badgeSet[safeText(brandBadges[b]).toLowerCase()] = true;
 
     var brandIsVegan = !!(brand && (brand.vegan === true || badgeSet['vegan']));
     var brandIsLB = !!(brand && (badgeSet['leaping bunny'] || badgeSet['leapingbunny']));
     var brandIsPeta = !!(brand && badgeSet['peta']);
 
+    // Product overrides (support legacy keys + product.badges)
+    var prodVegan = getBoolFromProduct(['isVegan', 'vegan'], ['vegan']);
+    var prodLB = getBoolFromProduct(['isLB', 'lb', 'isLeapingBunny'], ['leaping bunny', 'leapingbunny']);
+    var prodPeta = getBoolFromProduct(['isPeta', 'peta'], ['peta']);
+
     return {
-      isVegan: getFlag('isVegan', brandIsVegan),
-      isLB: getFlag('isLB', brandIsLB),
-      isPeta: getFlag('isPeta', brandIsPeta)
+      isVegan: (prodVegan !== undefined) ? prodVegan : brandIsVegan,
+      isLB: (prodLB !== undefined) ? prodLB : brandIsLB,
+      isPeta: (prodPeta !== undefined) ? prodPeta : brandIsPeta
     };
   }
+
 
   // --- Meta pills (match products page) ---
   function getOfferWithMinFreeShip(p) {
@@ -324,10 +358,10 @@
 
   function buildTags(p, labels) {
     var out = [];
-    // Match Products page labels (do not translate cert names)
-    if (labels.isPeta) out.push('<span class="tag wg-notranslate" data-wg-notranslate="true">PETA</span>');
-    if (labels.isVegan) out.push('<span class="tag wg-notranslate" data-wg-notranslate="true">Vegan</span>');
+    // Match Products page tag labels + Weglot behavior
     if (labels.isLB) out.push('<span class="tag wg-notranslate" data-wg-notranslate="true">Leaping Bunny</span>');
+    if (labels.isPeta) out.push('<span class="tag wg-notranslate" data-wg-notranslate="true">PETA</span>');
+    if (labels.isVegan) out.push('<span class="tag">טבעוני</span>');
     if (p && p.isIsrael) out.push('<span class="tag">אתר ישראלי</span>');
     return out.join('');
   }
