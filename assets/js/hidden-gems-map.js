@@ -65,6 +65,10 @@
 
   function toLower(s) { return safeText(s).toLowerCase(); }
 
+  function isFiniteNumber(v) {
+    return (typeof v === 'number') && isFinite(v);
+  }
+
   // --- Data (fallback / example pins) ---
   // Tip: Prefer adding your real pins in data/hidden-gems.json (the code will try to load it).
   var DEFAULT_GEMS = [
@@ -79,6 +83,7 @@
 
   var KIND_LABEL = {
     boutique: 'בוטיק טבעוני',
+    restaurant: 'מסעדה טבעונית',
     salon: 'סלון (PETA‑approved)',
     sanctuary: 'חווה/מקלט',
     suggestion: 'המלצה מהקהילה'
@@ -106,10 +111,151 @@
   var suggestions = [];      // community suggestions
   var el = {};
 
+  // --- Optional geocoding (for pins missing coordinates) ---
+  // We keep it OFF by default to avoid hammering geocoders.
+  // When you click “טעני מיקומים”, we geocode missing items gradually and cache results locally.
+  var GEO_LS_KEY = 'kb_hidden_gems_geocode_cache_v1';
+  var geoCache = {};
+  var geoRunning = false;
+  var geoQueue = [];
+  var geoDone = 0;
+  var geoTimer = null;
+
+  function loadGeoCache() {
+    try {
+      var raw = localStorage.getItem(GEO_LS_KEY);
+      if (!raw) return {};
+      var obj = JSON.parse(raw);
+      return (obj && typeof obj === 'object') ? obj : {};
+    } catch (e) { return {}; }
+  }
+  function saveGeoCache() {
+    try { localStorage.setItem(GEO_LS_KEY, JSON.stringify(geoCache || {})); } catch (e) {}
+  }
+  function geoKeyForGem(g) {
+    // Prefer stable id; fallback to name+address
+    var a = safeText(g.address || '');
+    var c = safeText(g.city || '');
+    var co = safeText(g.country || '');
+    return safeText(g.id || '') || (toLower(g.name) + '|' + toLower(a) + '|' + toLower(c) + '|' + toLower(co));
+  }
+  function applyGeoCacheTo(list) {
+    for (var i = 0; i < list.length; i++) {
+      var g = list[i];
+      if (isFiniteNumber(g.lat) && isFiniteNumber(g.lng)) continue;
+      var k = geoKeyForGem(g);
+      var hit = geoCache[k];
+      if (hit && isFinite(parseFloat(hit.lat)) && isFinite(parseFloat(hit.lng))) {
+        g.lat = parseFloat(hit.lat);
+        g.lng = parseFloat(hit.lng);
+      }
+    }
+  }
+  function geoQueryFor(g) {
+    // Most reliable: address. Otherwise name + city/country.
+    var q = safeText(g.address || '').trim();
+    if (!q) q = [g.name, g.city, g.country].filter(Boolean).join(', ');
+    return q.trim();
+  }
+  function countMissingCoords(list) {
+    var n = 0;
+    for (var i = 0; i < list.length; i++) {
+      if (!isFiniteNumber(list[i].lat) || !isFiniteNumber(list[i].lng)) n++;
+    }
+    return n;
+  }
+  function updateGeocodeButton() {
+    var b = document.getElementById('btnGeocode');
+    if (!b) return;
+    var missing = countMissingCoords(dataAll || []);
+    if (!missing) { b.style.display = 'none'; return; }
+    b.style.display = '';
+    if (geoRunning) {
+      b.textContent = '⏳ טוען מיקומים… (' + geoDone + '/' + (geoDone + geoQueue.length) + ')';
+      b.disabled = true;
+    } else {
+      b.textContent = '📌 טעני מיקומים (' + missing + ')';
+      b.disabled = false;
+    }
+  }
+
+  function geocodeNext() {
+    if (!geoQueue.length) {
+      geoRunning = false;
+      try { if (geoTimer) clearTimeout(geoTimer); } catch (e) {}
+      geoTimer = null;
+      saveGeoCache();
+      updateGeocodeButton();
+      render();
+      return;
+    }
+
+    var g = geoQueue.shift();
+    var q = geoQueryFor(g);
+    if (!q) {
+      geoDone++;
+      updateGeocodeButton();
+      geoTimer = setTimeout(geocodeNext, 450);
+      return;
+    }
+
+    var url = 'https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(q);
+
+    fetch(url, { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (arr) {
+        if (Array.isArray(arr) && arr[0] && arr[0].lat && arr[0].lon) {
+          var lat = parseFloat(arr[0].lat);
+          var lng = parseFloat(arr[0].lon);
+          if (isFinite(lat) && isFinite(lng)) {
+            g.lat = lat;
+            g.lng = lng;
+            var k = geoKeyForGem(g);
+            geoCache[k] = { lat: lat, lng: lng };
+          }
+        }
+      })
+      .catch(function () { /* ignore */ })
+      .finally(function () {
+        geoDone++;
+        // Save every ~10 results to persist progress
+        if (geoDone % 10 === 0) saveGeoCache();
+        updateGeocodeButton();
+        // Render occasionally so pins appear progressively without too much jank
+        if (geoDone % 5 === 0) render();
+        geoTimer = setTimeout(geocodeNext, 1250); // polite throttle
+      });
+  }
+
+  function startGeocodeMissing() {
+    if (geoRunning) return;
+    geoCache = loadGeoCache() || {};
+    applyGeoCacheTo(dataAll || []);
+    geoQueue = [];
+    geoDone = 0;
+
+    for (var i = 0; i < dataAll.length; i++) {
+      var g = dataAll[i];
+      // Only geocode real pins (not suggestions unless they have address)
+      if (!isFiniteNumber(g.lat) || !isFiniteNumber(g.lng)) {
+        geoQueue.push(g);
+      }
+    }
+    if (!geoQueue.length) {
+      updateGeocodeButton();
+      render();
+      return;
+    }
+    geoRunning = true;
+    updateGeocodeButton();
+    geocodeNext();
+  }
+
   function makePin(kind) {
     var cls = 'kbPin';
     var emoji = '📍';
     if (kind === 'boutique') { cls += ' kbPinBoutique'; emoji = '🛍️'; }
+    else if (kind === 'restaurant') { cls += ' kbPinRestaurant'; emoji = '🍽️'; }
     else if (kind === 'salon') { cls += ' kbPinSalon'; emoji = '💇‍♀️'; }
     else if (kind === 'sanctuary') { cls += ' kbPinSanctuary'; emoji = '🐮'; }
     else { cls += ' kbPinSuggest'; emoji = '⭐'; }
@@ -133,6 +279,7 @@
   function cardHTML(g) {
     var typeCls = 'gemType';
     if (g.kind === 'boutique') typeCls += ' typeBoutique';
+    else if (g.kind === 'restaurant') typeCls += ' typeRestaurant';
     else if (g.kind === 'salon') typeCls += ' typeSalon';
     else if (g.kind === 'sanctuary') typeCls += ' typeSanctuary';
     else typeCls += ' typeSuggest';
@@ -142,6 +289,7 @@
     if (g.country) place.push(g.country);
 
     var link = g.url ? ('<a class="gemLink" href="' + esc(g.url) + '" target="_blank" rel="noopener">פתיחה באתר ↗</a>') : '';
+    var addr = g.address ? ('<div class="gemMeta" style="margin-top:4px">' + esc(g.address) + '</div>') : '';
     var note = g.note ? ('<div class="gemMeta" style="margin-top:8px">' + esc(g.note) + '</div>') : '';
 
     return (
@@ -151,6 +299,7 @@
           '<div class="' + typeCls + '">' + esc(KIND_LABEL[g.kind] || KIND_LABEL.suggestion) + '</div>' +
         '</div>' +
         '<div class="gemMeta">' + esc(place.join(' · ')) + '</div>' +
+        addr +
         link +
         note +
       '</article>'
@@ -163,6 +312,7 @@
     if (g.country) place.push(g.country);
 
     var link = g.url ? ('<div style="margin-top:8px"><a href="' + esc(g.url) + '" target="_blank" rel="noopener">פתיחה באתר ↗</a></div>') : '';
+    var addr = g.address ? ('<div style="margin-top:6px;color:rgba(15,23,42,.78)">' + esc(g.address) + '</div>') : '';
     var note = g.note ? ('<div style="margin-top:8px;color:rgba(15,23,42,.78)">' + esc(g.note) + '</div>') : '';
 
     return (
@@ -170,6 +320,7 @@
         '<div style="font-weight:900; margin-bottom:4px">' + esc(g.name) + '</div>' +
         '<div style="font-weight:800; font-size:12.5px; opacity:.85">' + esc(KIND_LABEL[g.kind] || '') + '</div>' +
         '<div style="margin-top:6px; font-size:13px; opacity:.85">' + esc(place.join(' · ')) + '</div>' +
+        addr +
         link +
         note +
       '</div>'
@@ -186,7 +337,7 @@
   function addMarkers(list) {
     for (var i = 0; i < list.length; i++) {
       var g = list[i];
-      if (typeof g.lat !== 'number' || typeof g.lng !== 'number') continue;
+      if (!isFiniteNumber(g.lat) || !isFiniteNumber(g.lng)) continue;
       var mk = L.marker([g.lat, g.lng], { icon: makePin(g.kind) });
       mk.bindPopup(popupHTML(g), { maxWidth: 280 });
       mk.addTo(map);
@@ -213,6 +364,7 @@
     // kind toggles
     var kindOk = false;
     if (g.kind === 'boutique' && getChecked('fBoutique')) kindOk = true;
+    if (g.kind === 'restaurant' && getChecked('fRestaurant')) kindOk = true;
     if (g.kind === 'salon' && getChecked('fSalon')) kindOk = true;
     if (g.kind === 'sanctuary' && getChecked('fSanctuary')) kindOk = true;
     if (g.kind === 'suggestion' && getChecked('fSuggest')) kindOk = true;
@@ -254,6 +406,7 @@
     }
 
     setCountText(filtered.length);
+    updateGeocodeButton();
 
     // Let Weglot refresh (optional)
     try { window.dispatchEvent(new Event('kbwg:content-rendered')); } catch (e) {}
@@ -321,6 +474,7 @@
 
   function resetFilters() {
     try { document.getElementById('fBoutique').checked = true; } catch (e) {}
+    try { document.getElementById('fRestaurant').checked = true; } catch (e) {}
     try { document.getElementById('fSalon').checked = true; } catch (e) {}
     try { document.getElementById('fSanctuary').checked = true; } catch (e) {}
     try { document.getElementById('fSuggest').checked = true; } catch (e) {}
@@ -507,10 +661,12 @@
       var kind = safeText(g.kind).trim();
       if (!kind) kind = safeText(g.type).trim(); // alias
       kind = kind || 'boutique';
-      if (kind !== 'boutique' && kind !== 'salon' && kind !== 'sanctuary' && kind !== 'suggestion') kind = 'boutique';
+      if (kind !== 'boutique' && kind !== 'restaurant' && kind !== 'salon' && kind !== 'sanctuary' && kind !== 'suggestion') kind = 'boutique';
 
       var lat = (typeof g.lat === 'number') ? g.lat : parseFloat(g.lat);
       var lng = (typeof g.lng === 'number') ? g.lng : parseFloat(g.lng);
+      if (!isFinite(lat)) lat = null;
+      if (!isFinite(lng)) lng = null;
 
       out.push({
         id: safeText(g.id || uniqId()),
@@ -519,6 +675,7 @@
         city: safeText(g.city || ''),
         country: safeText(g.country || ''),
         region: safeText(g.region || ''),
+        address: safeText(g.address || ''),
         lat: lat,
         lng: lng,
         url: safeText(g.url || ''),
@@ -536,7 +693,9 @@
     var jsonUrl = resolveFromBase('data/hidden-gems.json');
     var onReady = function (mainPins) {
       window.__kbHiddenGemsData = normalizeGems(mainPins || []);
+      geoCache = loadGeoCache() || {};
       rebuildDataAll();
+      applyGeoCacheTo(dataAll || []);
       initUI();
       initMap();
       render();
@@ -567,7 +726,7 @@
     el.mapCount = document.getElementById('mapCount');
     el.gemsList = document.getElementById('gemsList');
 
-    var watchIds = ['mapSearch', 'mapRegion', 'fBoutique', 'fSalon', 'fSanctuary', 'fSuggest'];
+    var watchIds = ['mapSearch', 'mapRegion', 'fBoutique', 'fRestaurant', 'fSalon', 'fSanctuary', 'fSuggest'];
     for (var i = 0; i < watchIds.length; i++) {
       var n = document.getElementById(watchIds[i]);
       if (!n) continue;
@@ -580,6 +739,9 @@
 
     var bReset = document.getElementById('btnReset');
     if (bReset) bReset.addEventListener('click', resetFilters);
+
+    var bGeo = document.getElementById('btnGeocode');
+    if (bGeo) bGeo.addEventListener('click', startGeocodeMissing);
 
     var bSuggest = document.getElementById('btnSuggest');
     if (bSuggest) bSuggest.addEventListener('click', function () {

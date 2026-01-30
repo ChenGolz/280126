@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
   <style>
+
     /* Page-only styles (do not affect site-wide) */
     .pageMap .contentCard{ padding: 16px; }
     .mapLayout{ display:grid; grid-template-columns: 1fr 340px; gap: 16px; align-items:start; }
@@ -58,6 +59,7 @@
     .gemName{ font-weight: 900; }
     .gemType{ font-size: 12px; font-weight: 900; padding: 4px 10px; border-radius: 999px; border:1px solid rgba(15,23,42,.10); background: rgba(15,23,42,.04); }
     .typeBoutique{ border-color: rgba(79,70,229,.25); background: rgba(79,70,229,.10); }
+    .typeRestaurant{ border-color: rgba(14,165,233,.25); background: rgba(14,165,233,.10); }
     .typeSalon{ border-color: rgba(236,72,153,.25); background: rgba(236,72,153,.10); }
     .typeSanctuary{ border-color: rgba(16,185,129,.25); background: rgba(16,185,129,.10); }
     .typeSuggest{ border-color: rgba(245,158,11,.28); background: rgba(245,158,11,.12); }
@@ -69,6 +71,7 @@
     .kbPin{ width: 34px; height: 34px; border-radius: 999px; display:flex; align-items:center; justify-content:center;
       border: 2px solid rgba(255,255,255,.95); box-shadow: 0 8px 18px rgba(15,23,42,.20); font-size: 16px; }
     .kbPinBoutique{ background: rgba(79,70,229,.92); }
+    .kbPinRestaurant{ background: rgba(14,165,233,.92); }
     .kbPinSalon{ background: rgba(236,72,153,.92); }
     .kbPinSanctuary{ background: rgba(16,185,129,.92); }
     .kbPinSuggest{ background: rgba(245,158,11,.92); }
@@ -82,7 +85,8 @@
     @media (max-width: 560px){ .kbDialogGrid{ grid-template-columns: 1fr; } }
     .kbDialogFooter{ display:flex; flex-wrap:wrap; gap: 10px; margin-top: 12px; align-items:center; justify-content:space-between; }
     .kbSmall{ font-size: 12.5px; color: rgba(15,23,42,.72); line-height:1.55; }
-  </style>
+  
+</style>
 </head>
 
 <body class="pageMap">
@@ -95,9 +99,9 @@
     <div class="wrap heroInner">
       <div class="heroCopy center-text">
         <h1>Hidden Gems · מפת פנינים ללא אכזריות בעולם</h1>
-        <p>מפה אינטראקטיבית של מקומות <strong>100% טבעוניים</strong> בעולם — בוטיקים, מסעדות ושירותים נבחרים, כדי לתכנן טיול עם לב שקט.</p>
+        <p>מפה אינטראקטיבית של מקומות <strong>100% טבעוניים</strong> בעולם — בוטיקים, מסעדות ושירותים נבחרים, כדי לתכנן טיול עם לב שקט. אם זו הפעם הראשונה בדפדפן הזה, לחצי על <strong>„טעני מיקומים”</strong> כדי שהסיכות יופיעו על המפה.</p>
         <div class="badgeRow center-badges">
-          <div class="trust-badge"><span class="icon">🗺️</span> Map</div>
+          <div class="trust-badge"><span class="icon">🗺️</span> מפה</div>
           <div class="trust-badge"><span class="icon">🌿</span> טבעוני</div>
           <div class="trust-badge"><span class="icon">🐰</span> PETA</div>
         </div>
@@ -144,6 +148,7 @@
 
             <div class="kbChecks" role="group" aria-label="קטגוריות">
               <label><input checked id="fBoutique" type="checkbox"/> 🛍️ בוטיקים טבעוניים</label>
+              <label><input checked id="fRestaurant" type="checkbox"/> 🍽️ מסעדות טבעוניות</label>
               <label><input checked id="fSalon" type="checkbox"/> 💇‍♀️ סלונים (PETA‑approved)</label>
               <label><input checked id="fSanctuary" type="checkbox"/> 🐮 חוות/מקלטים</label>
               <label><input checked id="fSuggest" type="checkbox"/> ⭐ המלצות מהקהילה</label>
@@ -152,6 +157,7 @@
             <div class="kbBtns">
               <button class="kbBtn kbBtnPrimary" id="btnLocate" type="button">📍 מצאי סביבי</button>
               <button class="kbBtn kbBtnGhost" id="btnReset" type="button">↩︎ איפוס</button>
+              <button class="kbBtn kbBtnGhost" id="btnGeocode" type="button" style="display:none">📌 טעני מיקומים</button>
               <button class="kbBtn" id="btnSuggest" type="button">➕ להציע מקום</button>
             </div>
 
@@ -178,7 +184,7 @@
 <script defer src="assets/js/site.js?v=2026-01-30-v3"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script defer src="assets/js/hidden-gems-map.js?v=2026-01-30-v1"></script>
+<script defer src="assets/js/hidden-gems-map.js?v=2026-01-30-v2"></script>
 <!-- Weglot helper: refresh translations after dynamic content renders -->
 <script>
 (function(){
