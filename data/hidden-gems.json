@@ -1,0 +1,38 @@
+[
+  {
+    "id": "freedom-farm",
+    "name": "Freedom Farm Sanctuary (example - replace)",
+    "kind": "sanctuary",
+    "city": "",
+    "country": "Israel",
+    "region": "middle-east",
+    "lat": 31.76,
+    "lng": 35.21,
+    "url": "",
+    "note": "Example entry. Replace with real places."
+  },
+  {
+    "id": "vegan-boutique-barcelona",
+    "name": "Vegan Boutique (example - replace)",
+    "kind": "boutique",
+    "city": "Barcelona",
+    "country": "Spain",
+    "region": "europe",
+    "lat": 41.3851,
+    "lng": 2.1734,
+    "url": "",
+    "note": ""
+  },
+  {
+    "id": "peta-salon-london",
+    "name": "PETA-approved Salon (example - replace)",
+    "kind": "salon",
+    "city": "London",
+    "country": "UK",
+    "region": "europe",
+    "lat": 51.5072,
+    "lng": -0.1276,
+    "url": "",
+    "note": ""
+  }
+]
