@@ -198,7 +198,6 @@
       }
     ],
     "isKids": false,
-    "isDiscounted": true,
     "image": "assets/img/products/B0DWFZC283.jpg"
   },
   {
@@ -3349,6 +3348,7 @@
       }
     ],
     "isKids": false,
+    "isDiscounted": true,
     "image": "assets/img/products/B086W38SXX.jpg"
   },
   {
@@ -5104,7 +5104,9 @@
       }
     ],
     "image": "assets/img/products/B08L463DZ6.jpg",
-    "isKids": false
+    "isKids": false,
+        "isDiscounted": true,
+        "isDiscounted": true
   },
   {
     "id": "lilyana-b09h9hw2jr",
@@ -5839,6 +5841,7 @@
       }
     ],
     "isKids": false,
+    "isDiscounted": true,
     "image": "assets/img/products/B0CQKGQFPF.jpg"
   },
   {
@@ -5897,6 +5900,7 @@
       }
     ],
     "isKids": false,
+    "isDiscounted": true,
     "image": "assets/img/products/B0CRF9V9PM.jpg"
   },
   {
@@ -5953,7 +5957,8 @@
       }
     ],
     "isKids": false,
-    "image": "assets/img/products/B0CX67MN53.jpg"
+    "image": "assets/img/products/B0CX67MN53.jpg",
+        "isDiscounted": true
   },
   {
     "id": "naked-sundays-b0d6wgfkvj",
@@ -6010,6 +6015,7 @@
       }
     ],
     "isKids": false,
+    "isDiscounted": true,
     "image": "assets/img/products/B0DTWPKFJH.jpg"
   },
   {
@@ -6549,8 +6555,7 @@
         "url": "https://www.amazon.com/dp/B00BBFOVO4?ref=t_ac_view_request_product_image&campaignId=amzn1.campaign.2AZL9SB3LVH97&linkCode=tr1&tag=nocrueltyil-20&linkId=amzn1.campaign.2AZL9SB3LVH97_1769200673794",
         "asin": "B00BBFOVO4",
         "currency": "USD",
-        "priceUSD": 12.41,
-                "freeShipOver": 49
+        "priceUSD": 12.41
       }
     ],
     "isKids": false,
@@ -7696,7 +7701,7 @@
   {
     "id": "pacifica-b0dj94jxs3",
     "brand": "pacifica",
-    "name": "סרום לפנים – גלו בייבי – ויטמין סי, חומצה גליקולית",
+    "name": "סרום לפנים – גלו– ויטמין סי, חומצה גליקולית",
     "size": "5 אונקיות",
     "categories": [
       "face",
