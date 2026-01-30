@@ -354,7 +354,7 @@
     reader.readAsDataURL(file);
   }
 
-  function postToEndpoint(p) {
+  function postToשרת (API)(p) {
     if (!SUBMISSION_ENDPOINT) return;
     try {
       if (typeof fetch !== 'function') return;
@@ -403,7 +403,7 @@
       savePosts();
 
       // optional backend submit
-      postToEndpoint(post);
+      postToשרת (API)(post);
 
       // reset UI
       try { el.wallForm.reset(); } catch (e) {}

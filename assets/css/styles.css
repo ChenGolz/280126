@@ -4270,3 +4270,33 @@ body.menuOpen .navOverlay{
 /* === /KBWG PATCH v20 === */
 
 input,button,select,textarea{ font-family: inherit; }
+
+
+/* -------------------------------------------------------
+   Cross‑site responsive polish (mobile + iPad)
+-------------------------------------------------------- */
+@media (max-width: 600px){
+  .wrap{ width: min(1120px, 100% - 24px); }
+  .toolbar-container, .contentCard{ padding: 16px; border-radius: 14px; }
+  .contentCard{ margin-bottom: 18px; }
+  .cardsGrid{ gap: 12px; margin: 12px 0; }
+  .homeGrid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .miniCard{ padding: 14px; }
+  .miniCardIcon{ font-size: 24px; margin-bottom: 8px; }
+  .miniCardText{ font-size: .92rem; }
+  .lead{ font-size: 1rem; }
+  .heroCopy p{ font-size: 1.02rem; }
+  .btn{ padding: 10px 14px; }
+}
+
+@media (max-width: 420px){
+  .homeGrid{ grid-template-columns: 1fr; }
+}
+
+/* iPad / tablets: more breathing room and stacked hero */
+@media (min-width: 768px) and (max-width: 1024px){
+  .wrap{ width: min(1120px, 100% - 32px); }
+  .heroInner{ grid-template-columns: 1fr; }
+  .heroMedia{ max-height: 320px; }
+  .siteHeader .nav a{ padding: 8px 10px; }
+}

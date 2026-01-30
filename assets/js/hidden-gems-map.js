@@ -71,7 +71,7 @@
     { id: 'ex-boutique-1', name: 'Vegan Boutique (דוגמה)', kind: 'boutique', city: 'Barcelona', country: 'Spain', region: 'europe', lat: 41.3851, lng: 2.1734, url: '', note: 'החליפי/הוסף נקודות אמיתיות בקובץ data/hidden-gems.json' },
     { id: 'ex-salon-1', name: 'PETA-approved Salon (דוגמה)', kind: 'salon', city: 'London', country: 'UK', region: 'europe', lat: 51.5072, lng: -0.1276, url: '', note: '' },
     { id: 'ex-sanct-1', name: 'Freedom Farm Sanctuary (דוגמה)', kind: 'sanctuary', city: '—', country: 'Israel', region: 'middle-east', lat: 31.76, lng: 35.21, url: '', note: 'דוגמה בלבד — עדכני לפי המידע הנכון' },
-    { id: 'ex-boutique-2', name: 'Cruelty‑Free Shop (דוגמה)', kind: 'boutique', city: 'New York', country: 'USA', region: 'north-america', lat: 40.7128, lng: -74.0060, url: '', note: '' },
+    { id: 'ex-boutique-2', name: 'חנות טבעונית (דוגמה)', kind: 'boutique', city: 'New York', country: 'USA', region: 'north-america', lat: 40.7128, lng: -74.0060, url: '', note: '' },
     { id: 'ex-salon-2', name: 'Vegan Hair Studio (דוגמה)', kind: 'salon', city: 'Tokyo', country: 'Japan', region: 'asia', lat: 35.6762, lng: 139.6503, url: '', note: '' },
     { id: 'ex-sanct-2', name: 'Animal Sanctuary (דוגמה)', kind: 'sanctuary', city: 'Cape Town', country: 'South Africa', region: 'africa', lat: -33.9249, lng: 18.4241, url: '', note: '' },
     { id: 'ex-boutique-3', name: 'Vegan Boutique (דוגמה)', kind: 'boutique', city: 'Sydney', country: 'Australia', region: 'oceania', lat: -33.8688, lng: 151.2093, url: '', note: '' }

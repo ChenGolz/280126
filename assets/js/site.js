@@ -578,7 +578,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if (hero && !hero.querySelector('.heroVeganLine')) {
       const p = document.createElement('p');
       p.className = 'heroVeganLine';
-      p.innerHTML = 'כל המותגים והמוצרים באתר הם <b>100% טבעוניים</b> ו<b>ללא ניסויים בבעלי חיים</b> (Cruelty‑Free).';
+      p.innerHTML = 'כל המותגים והמוצרים באתר הם <b>100% טבעוניים</b> ו<b>שלא נוסו על בעלי חיים</b> .';
 
       // Insert near the top of the hero copy, after the main description if present.
       const firstP = hero.querySelector('p');
@@ -595,8 +595,8 @@ window.addEventListener('DOMContentLoaded', () => {
     const heroP = document.querySelector('.page-home .hero .heroCopy p');
     if (heroP) {
       const t = (heroP.textContent || '').trim();
-      if (t === 'הבית שלך לקניות לקנות ללא אכזריות בבעלי חיים — חיפוש מוצרים, בודק רכיבים ולוח מבצעים') {
-        heroP.textContent = 'המדריך לקניות 100% טבעוניות וללא ניסויים בבעלי חיים — מוצרים, מותגים, בודק רכיבים ולוח מבצעים.';
+      if (t === 'הבית שלך לקניות אשר לא נוסו על בעלי חיים — חיפוש מוצרים, בודק רכיבים ולוח מבצעים') {
+        heroP.textContent = 'המדריך לקניות 100% טבעוניות ושלא נוסו על בעלי חיים — מוצרים, מותגים, בודק רכיבים ולוח מבצעים.';
       }
     }
   } catch(e) {}

@@ -969,7 +969,7 @@ function __kbwgResolveFromSiteBase(relPath, scriptName) {
       state.q = searchInput ? norm(searchInput.value) : '';
       state.cat = categorySelect ? String(categorySelect.value || '').trim() : '';
       state.priceTier = priceSelect ? Number(priceSelect.value || '') : 0;
-      // Vegan-only filter removed (all brands on the site are Vegan + Cruelty‑Free)
+      // Vegan-only filter removed (all brands on the site are 100% vegan + no animal testing)
     }
 
     function bind(state) {
