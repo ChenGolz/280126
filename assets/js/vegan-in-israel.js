@@ -3,7 +3,7 @@
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-  const DATA_URL = 'data/vegan-in-israel.json?v=2026-01-30-v5';
+  const DATA_URL = 'data/vegan-in-israel.json?v=2026-01-30-v6';
   const STATE = {
     places: [],
     filter: {
@@ -118,7 +118,7 @@
     for (const p of missing) {
       await geocodePlace(p);
       // Re-render progressively so pins appear quickly
-      renderMap();
+      renderMap({ fit: false });
       renderList();
       await sleep(350);
     }
@@ -238,7 +238,7 @@
     STATE.markers = [];
   }
 
-  function renderMap() {
+  function renderMap(opts = {}) {
     const mapEl = $('#veganMap');
     if (!mapEl) return;
 
@@ -271,22 +271,33 @@
       STATE.markers.push(marker);
     });
 
-    // Fit bounds if we have markers
+    // Fit bounds only when filters change (or first render). Avoid overriding a focused view.
+    const key = JSON.stringify([STATE.filter.q, STATE.filter.region, STATE.filter.type, items.length]);
+    const wantFit = (opts.fit === true) || (opts.fit !== false && key !== STATE.fitKey);
+
     if (STATE.markers.length) {
-      const group = new L.featureGroup(STATE.markers);
-      STATE.map.fitBounds(group.getBounds().pad(0.2));
+      if (wantFit) {
+        const group = new L.featureGroup(STATE.markers);
+        STATE.map.fitBounds(group.getBounds().pad(0.2));
+        STATE.fitKey = key;
+      }
     } else {
-      STATE.map.setView([31.7, 34.8], 7);
+      if (wantFit) {
+        STATE.map.setView([31.7, 34.8], 7);
+        STATE.fitKey = key;
+      }
     }
   }
 
   async function focusOn(placeId) {
     const p = STATE.places.find(x => x.id === placeId);
-    if (!p || !STATE.map) return;
+    if (!p) return;
+    if (!STATE.map) { renderMap({ fit: true }); }
+    if (!STATE.map) return;
     if (!Number.isFinite(p.lat) || !Number.isFinite(p.lng)) {
       // Try to geocode on-demand if coordinates are missing
       await geocodePlace(p);
-      renderMap();
+      renderMap({ fit: false });
     }
     if (!p || !STATE.map || !Number.isFinite(p.lat) || !Number.isFinite(p.lng)) return;
     STATE.map.setView([p.lat, p.lng], 15, { animate: true });
@@ -301,33 +312,49 @@
     const region = $('#regionSelect');
     const type = $('#typeSelect');
     const reset = $('#resetFilters');
+    const loadCoords = $('#btnLoadCoords');
 
-    q.addEventListener('input', () => {
+    if (q) q.addEventListener('input', () => {
       STATE.filter.q = q.value || '';
-      renderMap();
+      renderMap(); // auto-fit when filter changes
       renderList();
     });
 
-    region.addEventListener('change', () => {
+    if (region) region.addEventListener('change', () => {
       STATE.filter.region = region.value;
       renderMap();
       renderList();
     });
 
-    type.addEventListener('change', () => {
+    if (type) type.addEventListener('change', () => {
       STATE.filter.type = type.value;
       renderMap();
       renderList();
     });
 
-    reset.addEventListener('click', () => {
+    if (reset) reset.addEventListener('click', () => {
       STATE.filter = { q: '', region: 'all', type: 'all' };
-      q.value = '';
-      region.value = 'all';
-      type.value = 'all';
-      renderMap();
+      if (q) q.value = '';
+      if (region) region.value = 'all';
+      if (type) type.value = 'all';
+      renderMap({ fit: true });
       renderList();
     });
+
+    if (loadCoords) {
+      loadCoords.addEventListener('click', async () => {
+        if (GEO.running) return;
+        const prev = loadCoords.textContent;
+        loadCoords.disabled = true;
+        loadCoords.textContent = 'טוען…';
+        try {
+          await geocodeMissing(); // progressive render inside
+        } finally {
+          loadCoords.textContent = prev;
+          loadCoords.disabled = false;
+        }
+      });
+    }
   }
 
   async function load() {
@@ -361,9 +388,6 @@
     renderMap();
     renderList();
     wireFilters();
-  
-    // If some places are missing coordinates, add pins automatically by address
-    geocodeMissing();
   }
 
   function escapeHtml(str) {
