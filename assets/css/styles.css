@@ -54,26 +54,23 @@ h3{ font-size: 18px; margin:0 0 8px; }
   padding: 12px 0;
 }
 
-/* Header nav: keep one line; if there is not enough space, scroll horizontally */
+/* Header nav: show ALL items on desktop (wrap) */
 .siteHeader .nav{ flex: 1 1 auto; }
 .siteHeader .logo{ flex: 0 0 auto; }
 
-.siteHeader .nav{
-  flex-wrap: nowrap;
-  white-space: nowrap;
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
+/* Desktop: wrap so every item is visible */
+@media (min-width: 901px){
+  .siteHeader .nav{
+    flex-wrap: wrap;
+    white-space: normal;
+    overflow: visible;
+  }
+  .siteHeader .nav a{
+    flex: 0 0 auto;
+    font-size: 13px;
+    padding: 6px 9px;
+  }
 }
-.siteHeader .nav a{
-  flex: 0 0 auto;
-}
-
-@media (max-width: 780px){
-  /* On small screens we still keep it one row; users can swipe the menu */
-  .siteHeader .nav a{ padding: 10px 12px; }
-}
-
 .logo{
   display:flex; align-items:center; gap:10px; min-width: 220px;
 }
