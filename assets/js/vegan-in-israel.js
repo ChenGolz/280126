@@ -3,7 +3,7 @@
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-  const DATA_URL = 'data/vegan-in-israel.json';
+  const DATA_URL = 'data/vegan-in-israel.json?v=2026-01-30-v5';
   const STATE = {
     places: [],
     filter: {
@@ -332,7 +332,7 @@
 
   async function load() {
     try {
-      const res = await fetch(DATA_URL, { cache: 'no-store' });
+      const res = await fetch(DATA_URL, { cache: 'force-cache' });
       if (!res.ok) throw new Error('Bad response');
       const json = await res.json();
       STATE.places = (json.places || []).map(p => ({

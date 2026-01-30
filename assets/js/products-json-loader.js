@@ -65,8 +65,8 @@ try { window.KBWG_PRODUCTS_BUILD = '2026-01-28-v1'; console.info('[KBWG] KBWG_PR
     } catch (e) { return rel; }
   }
 
-  var productsPath = resolveFromBase('data/products.json');
-  var intlBrandsPath = resolveFromBase('data/intl-brands.json');
+  var productsPath = resolveFromBase('data/products.json?v=2026-01-30-v5');
+  var intlBrandsPath = resolveFromBase('data/intl-brands.json?v=2026-01-30-v5');
 
   function isFileProtocol() {
     try { return location && location.protocol === 'file:'; } catch (e) { return false; }
@@ -89,7 +89,7 @@ try { window.KBWG_PRODUCTS_BUILD = '2026-01-28-v1'; console.info('[KBWG] KBWG_PR
   }
 
   function fetchJson(path) {
-    return fetch(path, { cache: 'no-store' }).then(function (res) {
+    return fetch(path, { cache: 'force-cache' }).then(function (res) {
       if (!res.ok) throw new Error('HTTP ' + res.status);
       return res.json();
     });

@@ -441,15 +441,15 @@
     setLoading(true);
     showEmpty(false);
 
-    var productsPath = resolveFromBase('data/products.json');
-    var brandsPath = resolveFromBase('data/intl-brands.json');
+    var productsPath = resolveFromBase('data/products.json?v=2026-01-30-v5');
+    var brandsPath = resolveFromBase('data/intl-brands.json?v=2026-01-30-v5');
 
-    var productsReq = fetch(productsPath, { cache: 'no-store' }).then(function (r) {
+    var productsReq = fetch(productsPath, { cache: 'force-cache' }).then(function (r) {
       if (!r.ok) throw new Error('HTTP ' + r.status);
       return r.json();
     });
 
-    var brandsReq = fetch(brandsPath, { cache: 'no-store' }).then(function (r) {
+    var brandsReq = fetch(brandsPath, { cache: 'force-cache' }).then(function (r) {
       if (!r.ok) throw new Error('HTTP ' + r.status);
       return r.json();
     }).catch(function () {
