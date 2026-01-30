@@ -22,6 +22,110 @@
       .trim();
   }
 
+
+  // Client-side geocoding for places missing coordinates (cached in localStorage)
+  // This lets you add new places by address only, and the map will pin them automatically.
+  const GEO_CACHE_KEY = 'vii_geocode_cache_v1';
+  const GEO = {
+    cache: loadGeoCache(),
+    pending: new Set(),
+    running: false
+  };
+
+  function loadGeoCache() {
+    try {
+      const raw = localStorage.getItem(GEO_CACHE_KEY);
+      const parsed = raw ? JSON.parse(raw) : {};
+      return (parsed && typeof parsed === 'object') ? parsed : {};
+    } catch {
+      return {};
+    }
+  }
+
+  function saveGeoCache() {
+    try {
+      localStorage.setItem(GEO_CACHE_KEY, JSON.stringify(GEO.cache || {}));
+    } catch {
+      // ignore (private mode / storage disabled)
+    }
+  }
+
+  function sleep(ms) {
+    return new Promise(r => setTimeout(r, ms));
+  }
+
+  function hasCoords(p) {
+    return Number.isFinite(p.lat) && Number.isFinite(p.lng);
+  }
+
+  function applyCachedCoords(p) {
+    if (hasCoords(p)) return;
+    const cached = GEO.cache?.[p.id];
+    if (cached && Number.isFinite(cached.lat) && Number.isFinite(cached.lng)) {
+      p.lat = Number(cached.lat);
+      p.lng = Number(cached.lng);
+    }
+  }
+
+  function buildGeocodeQuery(p) {
+    const addr = (p.address_he || p.address || '').trim();
+    const city = (p.city_he || p.city || '').trim();
+    // Keep it simple and robust for Hebrew/English inputs
+    return [addr, city, 'ישראל'].filter(Boolean).join(', ');
+  }
+
+  async function geocodePlace(p) {
+    if (!p || hasCoords(p)) return;
+    if (GEO.pending.has(p.id)) return;
+    GEO.pending.add(p.id);
+
+    const q = buildGeocodeQuery(p);
+    const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=il&accept-language=he&q=${encodeURIComponent(q)}`;
+
+    try {
+      const res = await fetch(url, {
+        headers: { 'Accept': 'application/json' }
+      });
+      if (!res.ok) throw new Error('Geocode failed');
+      const data = await res.json();
+      const hit = Array.isArray(data) ? data[0] : null;
+      const lat = hit ? Number(hit.lat) : NaN;
+      const lng = hit ? Number(hit.lon) : NaN;
+
+      if (Number.isFinite(lat) && Number.isFinite(lng)) {
+        p.lat = lat;
+        p.lng = lng;
+        GEO.cache[p.id] = { lat, lng, ts: Date.now() };
+        saveGeoCache();
+      }
+    } catch (e) {
+      // silent fail — the list still works even without a pin
+      console.warn('Geocode failed for', p?.id, q);
+    } finally {
+      GEO.pending.delete(p.id);
+    }
+  }
+
+  async function geocodeMissing() {
+    if (GEO.running) return;
+    GEO.running = true;
+
+    // First, apply cache to everything
+    STATE.places.forEach(applyCachedCoords);
+
+    // Then, geocode missing items slowly (polite to the free service)
+    const missing = STATE.places.filter(p => !hasCoords(p));
+    for (const p of missing) {
+      await geocodePlace(p);
+      // Re-render progressively so pins appear quickly
+      renderMap();
+      renderList();
+      await sleep(350);
+    }
+
+    GEO.running = false;
+  }
+
   function formatAddress(p) {
     return (document.documentElement.lang === 'he' || document.documentElement.dir === 'rtl')
       ? (p.address_he || p.address || '')
@@ -160,7 +264,7 @@
         <div style="min-width:180px;">
           <strong>${escapeHtml(formatName(p))}</strong><br/>
           <small>${escapeHtml(formatAddress(p))}</small><br/>
-          <a href="${mapQueryLink(p)}" target="_blank" rel="noopener">Open in Maps</a>
+          <a href="${mapQueryLink(p)}" target="_blank" rel="noopener">פתח במפות</a>
         </div>
       `);
       marker.__placeId = p.id;
@@ -176,8 +280,14 @@
     }
   }
 
-  function focusOn(placeId) {
+  async function focusOn(placeId) {
     const p = STATE.places.find(x => x.id === placeId);
+    if (!p || !STATE.map) return;
+    if (!Number.isFinite(p.lat) || !Number.isFinite(p.lng)) {
+      // Try to geocode on-demand if coordinates are missing
+      await geocodePlace(p);
+      renderMap();
+    }
     if (!p || !STATE.map || !Number.isFinite(p.lat) || !Number.isFinite(p.lng)) return;
     STATE.map.setView([p.lat, p.lng], 15, { animate: true });
     const m = STATE.markers.find(mm => mm.__placeId === placeId);
@@ -230,6 +340,8 @@
         lat: (p.lat === null || p.lat === undefined) ? null : Number(p.lat),
         lng: (p.lng === null || p.lng === undefined) ? null : Number(p.lng),
       }));
+      // Apply cached coordinates (if any)
+      STATE.places.forEach(applyCachedCoords);
       const stamp = $('#dataStamp');
       if (stamp && json.updatedAt) stamp.textContent = json.updatedAt;
     } catch (e) {
@@ -249,6 +361,9 @@
     renderMap();
     renderList();
     wireFilters();
+  
+    // If some places are missing coordinates, add pins automatically by address
+    geocodeMissing();
   }
 
   function escapeHtml(str) {
