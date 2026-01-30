@@ -3,15 +3,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>באנדלים למשלוח חינם | לקנות ללא אכזריות</title>
-    <meta
-      name="description"
-      content="באנדלים מומלצים של מוצרים טבעוניים ולקנות ללא אכזריות בבעלי חיים כדי להגיע למשלוח חינם באמזון (מעל $49). החליפי מוצרים בכל באנ..."
-    />
+    <title>באנדלים למשלוח חינם · 100% טבעוני · לא נוסה על בע״ח</title>
+    <meta name="description" content="באנדלים חכמים של מוצרים 100% טבעוניים שלא נוסו על בע״ח כדי להגיע למשלוח חינם באמזון.">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.apis.com/css2?family=Assistant:wght@300;400;500;600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="assets/css/styles.css?v=2026-01-23-v19" />
+    <link rel="stylesheet" href="assets/css/styles.css?v=2026-01-30-v1" />
     <link rel="icon" type="image/png" href="assets/img/logo.png" />
 
     <style>
@@ -42,23 +39,70 @@
       .bundleBtn { display:inline-flex; align-items:center; gap:8px; border:0; border-radius: 999px; padding: 10px 14px; font-weight: 700; cursor:pointer; background: #111; color:#fff; }
       .bundleBtn:focus { outline: 3px solid rgba(0,0,0,.25); outline-offset: 2px; }
 
-      /* Modal */
+            /* Modal */
       .modalOverlay { position: fixed; inset: 0; background: rgba(0,0,0,.55); display:none; z-index: 9999; }
       .modalOverlay.isOpen { display:block; }
+
       .bundleModal { position: fixed; inset: 0; display:none; z-index: 10000; }
       .bundleModal.isOpen { display:flex; align-items:center; justify-content:center; padding: 16px; }
-      .bundleModalPanel { width: min(1100px, 100%); max-height: min(86vh, 920px); background:#fff; border-radius: 18px; overflow:hidden; box-shadow: 0 24px 80px rgba(0,0,0,.35); display:flex; flex-direction:column; }
-      @media (max-width: 900px) {
-        .bundleModal.isOpen { align-items:flex-end; padding: 0; }        .bundleModalPanel { border-radius: 18px 18px 0 0; max-height: 92vh; }
+
+      .bundleModalPanel{
+        width: min(1100px, 100%);
+        max-height: min(86vh, 920px);
+        background:#fff;
+        border-radius: 18px;
+        overflow:hidden;
+        box-shadow: 0 24px 80px rgba(0,0,0,.35);
+        display:flex;
+        flex-direction:column;
       }
+
+      /* Desktop layout */
       .modalHeader { display:flex; align-items:center; justify-content:space-between; gap: 10px; padding: 14px 16px; border-bottom: 1px solid rgba(0,0,0,.08); }
       .modalHeader h2 { margin:0; font-size: 1.05rem; }
-      .modalClose { border:0; background: rgba(0,0,0,.06); border-radius: 12px; padding: 8px 10px; cursor:pointer; }
-      .modalBody { display:grid; grid-template-columns: inherit; min-height: 0; }
+      .modalClose { border:0; background: rgba(0,0,0,.06); border-radius: 14px; padding: 10px 12px; cursor:pointer; }
+      .modalBody{ flex: 1 1 auto; min-height:0; display:grid; grid-template-columns: 380px 1fr; }
       .modalLeft, .modalRight { min-height:0; overflow:auto; }
       .modalLeft { padding: 12px 14px; border-left: 1px solid rgba(0,0,0,.08); }
-      @media (max-width: 900px) { .modalLeft { border-left:0; border-top: 1px solid rgba(0,0,0,.08); } }
       .modalRight { padding: 12px 14px; }
+
+      /* Mobile: bottom-sheet */
+      @media (max-width: 900px) {
+        .bundleModal.isOpen { align-items:flex-end; padding: 0; }
+        .bundleModalPanel{
+          width: 100%;
+          max-height: 92vh;
+          border-radius: 18px 18px 0 0;
+          padding-bottom: env(safe-area-inset-bottom);
+        }
+        .bundleModalPanel::before{
+          content:"";
+          width: 44px;
+          height: 5px;
+          border-radius: 999px;
+          background: rgba(0,0,0,.18);
+          display:block;
+          margin: 8px auto 0;
+        }
+        .modalHeader{
+          position: sticky;
+          top: 0;
+          background: #fff;
+          z-index: 5;
+          padding-top: 10px;
+        }
+        .modalBody{
+          display:flex;
+          flex-direction:column;
+        }
+        .modalRight{ order: 1; }
+        .modalLeft{
+          order: 2;
+          border-left: 0;
+          border-top: 1px solid rgba(0,0,0,.08);
+          max-height: 42vh;
+        }
+      }
 
       .bundleItems { display:flex; flex-direction:column; gap: 10px; }
       .bundleItem { display:grid; grid-template-columns: 62px 1fr; gap: 10px; padding: 10px; border-radius: 14px; background: rgba(0,0,0,.035); }
@@ -145,9 +189,7 @@
         <div class="wrap heroInner">
           <div class="heroCopy center-text">
             <h1>באנדלים למשלוח חינם באמזון 🇺🇸</h1>
-            <p>
-              משלוח חינם לישראל באמזון ארה״ב לרוב מתחיל ב־<strong>$49+</strong>. כאן תמצאי באנדלים מומלצים של מוצרים טבעוניים בלבד — ובכל באנדל תוכלי להחליף כל פריט בעזרת פילטרים חכמים כדי לבנות סל שמתאים לך.
-            </p>
+            <p>באנדלים של מוצרים שהם רק מותגים ומוצרים 100% טבעוניים שלא נוסו על בע״ח. — כדי להגיע למשלוח חינם באמזון בצורה חכמה.</p>
             <div class="badgeRow center-badges">
               <div class="trust-badge" ><span class="icon" aria-hidden="true">🌿</span> Vegan Only</div>
               <div class="trust-badge" ><span class="icon" aria-hidden="true">🛒</span> Amazon US</div>
@@ -172,7 +214,7 @@
     <div id="siteFooterMount"></div>
 
 <script defer="True" src="assets/js/products-json-loader.js?v=2026-01-12-v6"></script><script defer src="assets/js/layout-inject.js?v=1" data-base="./"></script>
-<script defer="" src="assets/js/site.js?v=2026-01-14-v12"></script>
+<script defer="" src="assets/js/site.js?v=2026-01-30-v1"></script>
 
 <!-- Weglot helper: refresh translations after dynamic content renders -->
 <script>

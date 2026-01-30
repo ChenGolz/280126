@@ -19,7 +19,7 @@
 html,body{ height:100%; }
 body{
   margin:0;
-  font-family: "Heebo","Assistant","Rubik", system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+  font-family: var(--he-font);
   color: var(--ink);
   background:
     radial-gradient(900px 500px at 80% 10%, rgba(42,91,154,.12), transparent 60%),
@@ -1063,7 +1063,7 @@ body::after{
   --card-hover:0 12px 28px rgba(0,0,0,.12);
   --radius:12px;
 }
-body{font-family:"Heebo","Assistant",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;}
+body{font-family: var(--he-font);}
 .logoTag{font-size:12px;color:rgba(255,255,255,.9);margin-inline-start:10px;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.14);}
 .siteHeader{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.85);backdrop-filter:saturate(180%) blur(10px);}
 .siteHeader .logoTag{color:#1f2a37;background:rgba(42,91,154,.12);}
@@ -3534,7 +3534,7 @@ html, body{ overflow-x: hidden; }
 
 
 /* --- Hebrew RTL enhancements --- */
-:root { --he-font: 'Heebo', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif; }
+:root { --he-font: 'Assistant', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif; }
 html[dir="rtl"] body { direction: rtl; text-align: right; font-family: var(--he-font); }
 html[dir="rtl"] input, html[dir="rtl"] textarea, html[dir="rtl"] select { font-family: var(--he-font); }
 html[dir="rtl"] .nav, html[dir="rtl"] nav ul { flex-direction: row; }
@@ -4268,3 +4268,5 @@ body.menuOpen .navOverlay{
 }
 
 /* === /KBWG PATCH v20 === */
+
+input,button,select,textarea{ font-family: inherit; }
