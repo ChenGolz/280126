@@ -240,7 +240,21 @@ function __kbwgResolveFromSiteBase(relPath, scriptName) {
     return b.amazonUk || b.amazonUs || null;
   }
 
-  function stopLinkPropagation(el) {
+  
+  function formatLastUpdated(d){
+    if(!d) return '';
+    try{
+      var dt = (d instanceof Date) ? d : new Date(String(d));
+      if(!isFinite(dt.getTime())) return '';
+      // he-IL date
+      return dt.toLocaleDateString('he-IL', { year:'numeric', month:'2-digit', day:'2-digit' });
+    }catch(e){ return ''; }
+  }
+  function pickLastUpdated(brand){
+    return brand.lastUpdated || brand.last_updated || brand.updatedAt || brand.updated_at || brand.modifiedAt || brand.modified_at || '';
+  }
+
+function stopLinkPropagation(el) {
     el.addEventListener('click', function (e) {
       e.stopPropagation();
     });
@@ -860,6 +874,8 @@ function __kbwgResolveFromSiteBase(relPath, scriptName) {
       addBadge(progLabel, 'brandBadge--approved');
     }
     if (vegan) addBadge('טבעוני', 'brandBadge--vegan');
+    var lu = formatLastUpdated(pickLastUpdated(brand));
+    if (lu) addBadge('עודכן: ' + lu, 'brandBadge--muted');
 
     // Links row
     var links = document.createElement('div');

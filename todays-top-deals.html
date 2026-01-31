@@ -4,21 +4,20 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>דילים היום · 100% טבעוני · לא נוסו על בעלי חיים</title>
-<meta name="description" content="דילים יומיים באמזון של מוצרים 100% טבעוניים שלא נוסו על בעלי חיים.">
+<title>דילים טבעוניים · מבצעים ללא ניסויים | לקנות ללא אכזריות</title>
+<meta content="דילים ומבצעים על מוצרים 100% טבעוניים ואשר לא נוסו על בעלי חיים. חיפוש, סינון וטעינה מהירה." name="description"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <!-- Page-only typography (does not change header/site-wide typography) -->
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
-<link href="assets/css/styles.css?v=2026-01-31-v10" rel="stylesheet"/>
+<link href="assets/css/styles.css?v=2026-01-31-v13" rel="stylesheet"/>
 <link href="assets/img/logo.png" rel="icon" type="image/png"/>
 </head>
 <body class="page-products page-deals">
 <div id="siteHeaderMount"></div>
-
 <main id="main">
 <section class="hero product-hero heroSmall">
-<img loading="eager" decoding="async" alt="" aria-hidden="true" class="decorPhoto decorCL" src="assets/img/photos/hero-top.png"/>
+<img alt="" aria-hidden="true" class="decorPhoto decorCL" decoding="async" loading="eager" src="assets/img/photos/hero-top.png"/>
 <div class="wrap heroInner">
 <div class="heroCopy center-text">
 <h1>המומלצים שלנו - מוצרים בהנחה מאמאזון ארה"ב</h1>
@@ -32,8 +31,8 @@
 </section>
 <section class="wrap">
 <div class="dealsGrid" id="dealsGrid"></div>
-<div id="dealsLoading" class="muted" style="margin-top:14px">טוען מבצעים…</div>
-<div id="dealsEmpty" class="muted" style="margin-top:14px; display:none">
+<div class="muted" id="dealsLoading" style="margin-top:14px">טוען מבצעים…</div>
+<div class="muted" id="dealsEmpty" style="margin-top:14px; display:none">
   אין כרגע מוצרים מסומנים בהנחה.
   <br/>
   כדי להציג כאן מוצר, הוסיפי למוצר ב־<code>data/products.json</code> את השדה:
@@ -42,9 +41,8 @@
 </section>
 </main>
 <div id="siteFooterMount"></div>
-
-<script defer src="assets/js/layout-inject.js?v=1" data-base="./"></script>
-<script defer="" src="assets/js/site.js?v=2026-01-30-v6"></script>
+<script data-base="./" defer="" src="assets/js/layout-inject.js?v=2026-01-31-v13"></script>
+<script defer="" src="assets/js/site.js?v=2026-01-31-v13"></script>
 <script defer="" src="assets/js/todays-deals.js?v=2026-01-31-v10"></script>
 <!-- Weglot helper: refresh translations after dynamic content renders -->
 <script>

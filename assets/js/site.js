@@ -2,7 +2,7 @@
 
 (function () {
   // Build marker: use this to verify you loaded the latest JS
-  window.KBWG_BUILD = '2026-01-12-v6';
+  window.KBWG_BUILD = '2026-01-31-v13';
   try { console.info('[KBWG] build', window.KBWG_BUILD); } catch(e) {}
     function kbwgSetActiveNav() {
     // Auto-highlight active nav (fallback if aria-current isn't set)

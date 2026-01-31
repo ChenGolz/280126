@@ -82,10 +82,8 @@
     });
   }
 
-  function showDetails(item) {
-    sugs.innerHTML = '';
-    renderHint('');
-    out.innerHTML = `
+  function cardHTML(item) {
+    return `
       <article class="resultCard">
         <h3>${displayName(item)}</h3>
         <p><strong>סטטוס:</strong> ${item.status || ''}</p>
@@ -94,6 +92,12 @@
       </article>
     `;
   }
+
+  function showDetails(item) {
+    sugs.innerHTML = '';
+    renderHint('');
+    out.innerHTML = cardHTML(item);
+}
 
   function findMatches(q) {
     const nq = norm(q);
@@ -157,4 +161,97 @@
   // Initial
   clearUI();
   renderHint('הזינו שתי אותיות לפחות להתחיל');
+})();
+
+
+  // Paste list helper (v13)
+  const togglePaste = document.getElementById('togglePaste');
+  const pasteBlock = document.getElementById('pasteBlock');
+  const pasteIng = document.getElementById('pasteIng');
+  const runPaste = document.getElementById('runPaste');
+
+  function normalizeToken(s){
+    return String(s||'').trim().toLowerCase();
+  }
+
+  function findIngredient(token){
+    const t = normalizeToken(token);
+    if (!t) return null;
+    // exact match on keys
+    for (const item of DB){
+      const keys = item.keys || [];
+      for (const k of keys){
+        if (normalizeToken(k) === t) return item;
+      }
+    }
+    return null;
+  }
+
+  function renderPasteResults(text){
+    const raw = String(text||'');
+    const parts = raw
+      .split(/[\n,;，]+/)
+      .map(s => s.trim())
+      .filter(Boolean);
+
+    if (!parts.length){
+      out.innerHTML = '';
+      return;
+    }
+
+    const seen = new Set();
+    const found = [];
+    const unknown = [];
+
+    for (const p of parts){
+      const norm = normalizeToken(p);
+      if (!norm || seen.has(norm)) continue;
+      seen.add(norm);
+      const match = findIngredient(norm);
+      if (match) found.push(match);
+      else unknown.push(p);
+    }
+
+    // Render: show found cards first, then unknown hint
+    const frag = document.createDocumentFragment();
+    if (found.length){
+      for (const item of found){
+        var wrap = document.createElement('div');
+        wrap.innerHTML = cardHTML(item);
+        frag.appendChild(wrap.firstElementChild);
+
+      }
+    } else {
+      const div = document.createElement('div');
+      div.className = 'resultCard';
+      div.innerHTML = '<h3>לא מצאנו התאמות ברשימה</h3><p class="muted">נסי לחפש רכיב ספציפי בשדה למעלה.</p>';
+      frag.appendChild(div);
+    }
+
+    if (unknown.length){
+      const div = document.createElement('div');
+      div.className = 'resultCard';
+      div.innerHTML = '<h3>רכיבים שלא זוהו</h3><p class="muted">זה לא אומר שהם לא טבעוניים — פשוט לא קיימים עדיין במאגר הבודק. אפשר לשלוח לנו להוספה.</p>' +
+        '<p class="muted" style="margin-top:8px; white-space:pre-wrap;">' + unknown.slice(0,30).join(', ') + (unknown.length>30 ? '…' : '') + '</p>';
+      frag.appendChild(div);
+    }
+
+    out.innerHTML = '';
+    out.appendChild(frag);
+  }
+
+  if (togglePaste && pasteBlock){
+    togglePaste.addEventListener('click', function(){
+      const open = pasteBlock.style.display !== 'none';
+      pasteBlock.style.display = open ? 'none' : 'block';
+      togglePaste.textContent = open ? 'הדביקי רשימת רכיבים (אופציונלי)' : 'סגירה';
+      if (!open && pasteIng) pasteIng.focus();
+    });
+  }
+  if (runPaste && pasteIng){
+    runPaste.addEventListener('click', function(){
+      renderPasteResults(pasteIng.value);
+    });
+  }
+
 })();

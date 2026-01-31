@@ -1,18 +1,16 @@
 <!DOCTYPE html>
+
 <html dir="rtl" lang="he">
 <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1" name="viewport"/>
-  <title>מפת Hidden Gems · מקומות טבעוניים בעולם</title>
-  <meta name="description" content="מפה אינטראקטיבית של מקומות 100% טבעוניים בעולם לטיולים ותכנון יום בחוץ.">
-  <link href="https://fonts.googleapis.com" rel="preconnect"/>
-  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800&amp;display=swap" rel="stylesheet"/>
-  <link href="assets/css/styles.css?v=2026-01-31-v10" rel="stylesheet"/>
-  <link href="assets/img/logo.png" rel="icon" type="image/png"/>
-
-  
-
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Hidden Gems · טבעוני בעולם | לקנות ללא אכזריות</title>
+<meta content="רשימת Hidden Gems של מקומות טבעוניים בעולם: מסעדות ועסקים 100% טבעוניים — מסודר ונוח לחיפוש." name="description"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="assets/css/styles.css?v=2026-01-31-v13" rel="stylesheet"/>
+<link href="assets/img/logo.png" rel="icon" type="image/png"/>
 <style>
   /* Hidden Gems – list view */
   .hgTopRow{
@@ -97,71 +95,58 @@
   }
 </style>
 </head>
-
 <body class="pageMap">
 <div id="siteHeaderMount"></div>
-
-
 <main id="main">
 <section class="hero product-hero heroSmall">
-<img loading="eager" decoding="async" alt="" aria-hidden="true" class="decorPhoto decorCL" src="assets/img/photos/hero-intl.png"/>
+<img alt="" aria-hidden="true" class="decorPhoto decorCL" decoding="async" loading="eager" src="assets/img/photos/hero-intl.png"/>
 <div class="wrap heroInner">
-  <div class="heroCopy center-text">
-    <h1>Hidden Gems בעולם</h1>
-    <p>רשימה מסודרת של מסעדות טבעוניות מומלצות בעולם — לחיפוש, סינון ושמירה לטיולים.</p>
-  </div>
+<div class="heroCopy center-text">
+<h1>Hidden Gems בעולם</h1>
+<p>רשימה מסודרת של מסעדות טבעוניות מומלצות בעולם — לחיפוש, סינון ושמירה לטיולים.</p>
+</div>
 </div>
 </section>
-
-  <section class="panel">
-    <div class="wrap">
-      <div class="contentCard">
-        <h2 class="sectionTitle">חיפוש וסינון</h2>
-
-        <div class="hgTopRow">
-          <div class="field">
-            <label for="hgSearch">חיפוש</label>
-            <input id="hgSearch" type="search" placeholder="לדוגמה: London, Athens, Pizza..." />
-          </div>
-
-          <div class="field" style="min-width: 220px;">
-            <label for="hgCountry">מדינה</label>
-            <select id="hgCountry">
-              <option value="all">כל המדינות</option>
-            </select>
-          </div>
-
-          <div class="field" style="min-width: 220px;">
-            <label for="hgSort">מיון</label>
-            <select id="hgSort">
-              <option value="country">מדינה → עיר → שם</option>
-              <option value="name">שם (א״ב)</option>
-              <option value="city">עיר (א״ב)</option>
-            </select>
-          </div>
-
-          <div class="field" style="align-self:flex-end;">
-            <button class="btnSmall" id="hgReset" type="button">איפוס</button>
-          </div>
-        </div>
-
-        <div class="hgMetaRow">
-          <div class="muted" style="margin:0;">טיפ: לחצי על “פתח במפות” כדי לנווט או לשמור.</div>
-          <div class="hgCount"><span id="hgCount">0</span> מקומות</div>
-        </div>
-      </div>
-
-      <div class="hgGroups" id="hgGroups"></div>
-    </div>
-  </section>
+<section class="panel">
+<div class="wrap">
+<div class="contentCard">
+<h2 class="sectionTitle">חיפוש וסינון</h2>
+<div class="hgTopRow">
+<div class="field">
+<label for="hgSearch">חיפוש</label>
+<input id="hgSearch" placeholder="לדוגמה: London, Athens, Pizza..." type="search"/>
+</div>
+<div class="field" style="min-width: 220px;">
+<label for="hgCountry">מדינה</label>
+<select id="hgCountry">
+<option value="all">כל המדינות</option>
+</select>
+</div>
+<div class="field" style="min-width: 220px;">
+<label for="hgSort">מיון</label>
+<select id="hgSort">
+<option value="country">מדינה → עיר → שם</option>
+<option value="name">שם (א״ב)</option>
+<option value="city">עיר (א״ב)</option>
+</select>
+</div>
+<div class="field" style="align-self:flex-end;">
+<button class="btnSmall" id="hgReset" type="button">איפוס</button>
+</div>
+</div>
+<div class="hgMetaRow">
+<div class="muted" style="margin:0;">טיפ: לחצי על “פתח במפות” כדי לנווט או לשמור.</div>
+<div class="hgCount"><span id="hgCount">0</span> מקומות</div>
+</div>
+</div>
+<div class="hgGroups" id="hgGroups"></div>
+</div>
+</section>
 </main>
-
 <div id="siteFooterMount"></div>
-
-
-<script defer src="assets/js/layout-inject.js?v=1" data-base="./"></script>
-<script defer src="assets/js/site.js?v=2026-01-30-v6"></script>
-<script defer src="assets/js/hidden-gems-map.js?v=2026-01-31-v10"></script>
+<script data-base="./" defer="" src="assets/js/layout-inject.js?v=2026-01-31-v13"></script>
+<script defer="" src="assets/js/site.js?v=2026-01-31-v13"></script>
+<script defer="" src="assets/js/hidden-gems-map.js?v=2026-01-31-v10"></script>
 <!-- Weglot helper: refresh translations after dynamic content renders -->
 <script>
 (function(){

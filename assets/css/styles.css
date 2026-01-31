@@ -4441,3 +4441,69 @@ input,button,select,textarea{ font-family: inherit; }
   background: rgba(42,91,154,.20);
 }
 .pagerEllipsis{ padding: 0 6px; font-weight: 900; color: var(--muted); }
+
+
+/* Sticky header (v13) */
+.siteHeader{
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+  background: rgba(255,255,255,.78);
+  border-bottom: 1px solid rgba(31,41,55,.08);
+}
+@supports not (backdrop-filter: blur(10px)){
+  .siteHeader{ background: rgba(255,255,255,.92); }
+}
+
+/* Home quick cards: show grid on mobile, highlight Products */
+@media (max-width: 520px){
+  .homeGrid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .miniCard{ padding: 14px; }
+  .miniCardIcon{ font-size: 24px; }
+  .miniCardText{ font-size: .92rem; }
+}
+
+.miniCard.isPrimary{
+  border-color: rgba(42,91,154,.22);
+  background: linear-gradient(180deg, rgba(157,195,230,.20), rgba(255,255,255,.92));
+}
+.miniCard.isPrimary .miniCardTitle{ color: #0f172a; }
+
+
+/* Ingredient checker mobile (v13) */
+.pasteBlock textarea{
+  width:100%;
+  min-height: 140px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(31,41,55,.14);
+  font-size: 1rem;
+  line-height: 1.4;
+  resize: vertical;
+}
+@media (max-width: 520px){
+  #qIng{
+    padding: 14px 14px;
+    font-size: 1.05rem;
+    border-radius: 14px;
+  }
+  .suggestions .sugItem{
+    padding: 12px 12px;
+    border-radius: 14px;
+  }
+}
+
+.brandBadge--muted{
+  background: rgba(148,163,184,.18);
+  border-color: rgba(148,163,184,.26);
+  color: rgba(30,41,59,.82);
+}
+
+
+/* Notice banner (v13) — less intrusive */
+.siteNotice{ padding: 8px 0; }
+.siteNotice p{ margin:0; font-weight: 800; font-size: .95rem; }
+@media (max-width: 520px){
+  .siteNotice p{ font-size: .92rem; }
+}
