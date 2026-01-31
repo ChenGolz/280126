@@ -1144,6 +1144,41 @@ body{font-family: var(--he-font);}
 /* ✅ FIX: was global .heroInner{display:flex...} and broke other pages */
 .hero.product-hero .heroInner{position:relative; z-index:2;}
 
+
+/* Contrast fixes (v17) — ensure hero/header text is always readable */
+.hero.product-hero .heroCopy,
+.hero.product-hero .heroCopy h1,
+.hero.product-hero .heroCopy p{
+  color: rgba(255,255,255,.95);
+}
+.hero.product-hero .muted{
+  color: rgba(255,255,255,.86) !important;
+}
+
+/* Buttons on dark hero: avoid white-on-white / black-on-blue */
+.hero.product-hero .btn{
+  background: rgba(255,255,255,.92);
+  color: #0f172a;
+  border-color: rgba(255,255,255,.24);
+}
+.hero.product-hero .btn.primary{
+  background: rgba(255,255,255,.16);
+  color: rgba(255,255,255,.95);
+  border-color: rgba(255,255,255,.26);
+}
+.hero.product-hero .btn.ghost{
+  background: rgba(255,255,255,.92);
+  color: #0f172a;
+}
+.hero.product-hero .btn:hover{
+  filter: brightness(1.02);
+}
+.hero.product-hero .btn:focus{
+  outline: 2px solid rgba(255,255,255,.55);
+  outline-offset: 2px;
+}
+
+
 .center-text{text-align:center;}
 .center-text h1{margin:0 0 6px;font-size:1.55rem;line-height:1.06;}
 .center-text p{margin:0 auto 12px;max-width:720px;font-size:1.02rem;line-height:1.25;opacity:.92;}
