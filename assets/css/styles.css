@@ -61,13 +61,74 @@ h3{ font-size: 18px; margin:0 0 8px; }
 .siteHeader .nav{
   flex-wrap: nowrap;
   white-space: nowrap;
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
+  overflow: visible;
 }
 .siteHeader .nav a{
   flex: 0 0 auto;
 }
+
+
+/* Grouped nav (shared header) */
+.siteHeader .nav{ align-items:center; gap: 6px; }
+.siteHeader .navGroup{ position: relative; }
+.siteHeader .navGroup > summary{
+  list-style: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  font-weight: 900;
+  color: var(--ink);
+  user-select: none;
+  border: 1px solid transparent;
+}
+.siteHeader .navGroup > summary::-webkit-details-marker{ display:none; }
+.siteHeader .navGroup[open] > summary{
+  background: rgba(157,195,230,.18);
+  border-color: rgba(42,91,154,.18);
+}
+.siteHeader .navDrop{
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 210px;
+  padding: 8px;
+  border-radius: 16px;
+  border: 1px solid rgba(31,41,55,.12);
+  background: rgba(255,255,255,.96);
+  box-shadow: 0 18px 40px rgba(0,0,0,.10);
+  display: grid;
+  gap: 4px;
+  z-index: 2000;
+}
+.siteHeader .navDrop a{
+  display: block;
+  padding: 10px 10px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 900;
+  color: var(--ink);
+}
+.siteHeader .navDrop a:hover{ background: rgba(157,195,230,.18); }
+
+/* Mobile: dropdowns become inline sections (no clipping) */
+@media (max-width: 820px){
+  .siteHeader .navDrop{
+    position: static;
+    min-width: unset;
+    margin-top: 6px;
+    box-shadow: none;
+    background: rgba(255,255,255,.86);
+  }
+  .siteHeader .navGroup{ width: 100%; }
+  .siteHeader .navGroup > summary{
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
 
 @media (max-width: 780px){
   /* On small screens we still keep it one row; users can swipe the menu */
@@ -4273,88 +4334,10 @@ body.menuOpen .navOverlay{
 /* === /KBWG PATCH v20 === */
 
 
-/* === Grouped dropdown nav (v18) === */
-.siteHeader .nav{
-  overflow: visible !important;
-  overflow-x: visible !important;
-  overflow-y: visible !important;
-  white-space: normal !important;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-/* Use details+summary as top-level menu items */
-.navGroup{
-  position: relative;
-  display: inline-block;
-}
-.navGroup > summary{
-  list-style: none;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 9px;
-  border-radius: 14px;
-  font-weight: 900;
-  color: var(--ink);
-  user-select: none;
-  border: 1px solid transparent;
-}
-.navGroup > summary::-webkit-details-marker{ display:none; }
-
-.navGroup[open] > summary{
-  background: rgba(157,195,230,.18);
-  border-color: rgba(42,91,154,.18);
-}
-
-.navDrop{
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  min-width: 210px;
-  padding: 8px;
-  border-radius: 16px;
-  border: 1px solid rgba(31,41,55,.12);
-  background: rgba(255,255,255,.96);
-  box-shadow: 0 18px 40px rgba(0,0,0,.10);
-  display: grid;
-  gap: 4px;
-  z-index: 2000;
-}
-.navDrop a{
-  display: block;
-  padding: 10px 10px;
-  border-radius: 12px;
-  text-decoration: none;
-  font-weight: 900;
-  color: var(--ink);
-}
-.navDrop a:hover{
-  background: rgba(157,195,230,.18);
-}
-
-/* Mobile/iPad: dropdown becomes an inline list to prevent clipping */
-@media (max-width: 820px){
-  .navGroup{
-    width: 100%;
-  }
-  .navGroup > summary{
-    width: 100%;
-    justify-content: space-between;
-  }
-  .navDrop{
-    position: static;
-    min-width: unset;
-    margin-top: 6px;
-    box-shadow: none;
-    background: transparent;
-    border: none;
-    padding: 0;
-  }
-  .navDrop a{
-    padding: 10px 12px;
-    background: rgba(255,255,255,.72);
-    border: 1px solid rgba(31,41,55,.08);
-  }
-}
+/* בית-only notice banner */
+/* בית-only notice banner */
+  .siteNotice{ background: rgba(16,185,129,.10); border-bottom:1px solid rgba(16,185,129,.22); }
+  .siteNotice .wrap{ padding: 10px 16px; }
+  .siteNotice p{ margin:0; font-size:14px; font-weight:600; color: rgba(15,23,42,.85); display:flex; gap:6px; flex-wrap:wrap; align-items:center; justify-content:center; }
+  .siteNotice a{ color: rgba(42,91,154,.96); text-decoration: underline; text-underline-offset: 2px; }
+  @media (max-width:420px){ .siteNotice p{ font-size:13.5px; } }
