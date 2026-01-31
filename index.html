@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="he" dir="rtl">
+<html dir="rtl" lang="he">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
@@ -9,11 +9,19 @@
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="assets/css/styles.css?v=2026-01-14-v12" rel="stylesheet"/>
+<link href="assets/css/styles.css?v=2026-01-31-v21" rel="stylesheet"/>
 <link href="assets/img/logo.png" rel="icon" type="image/png"/>
+<style>
+  /* בית-only notice banner */
+  .siteNotice{ background: rgba(16,185,129,.10); border-bottom:1px solid rgba(16,185,129,.22); }
+  .siteNotice .wrap{ padding: 10px 16px; }
+  .siteNotice p{ margin:0; font-size:14px; font-weight:600; color: rgba(15,23,42,.85); display:flex; gap:6px; flex-wrap:wrap; align-items:center; justify-content:center; }
+  .siteNotice a{ color: rgba(42,91,154,.96); text-decoration: underline; text-underline-offset: 2px; }
+  @media (max-width:420px){ .siteNotice p{ font-size:13.5px; } }
+</style>
 </head>
-<body>
-<div id="siteHeaderMount"></div>
+<body><div id="siteHeaderMount"></div>
+
 <main id="main">
 <section aria-label="הודעה" class="siteNotice">
 <div class="wrap">
@@ -74,9 +82,7 @@
 </div>
 </section>
 </main>
-<div id="siteFooterMount"></div>
-<script defer src="assets/js/layout-inject.js?v=2026-01-31-v20"></script>
-<script defer="" src="assets/js/site.js?v=2026-01-31-v20"></script>
+
 
 <!-- Weglot helper: refresh translations after dynamic content renders -->
 <script>
@@ -101,6 +107,5 @@
   mo.observe(document.documentElement, { childList:true, subtree:true });
 })();
 </script>
-
-</body>
+<div id="siteFooterMount"></div><script data-base="" defer="" src="assets/js/layout-inject.js?v=2026-01-31-v21"></script><script defer="" src="assets/js/site.js?v=2026-01-31-v21"></script></body>
 </html>

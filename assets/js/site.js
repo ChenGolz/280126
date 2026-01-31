@@ -2,115 +2,31 @@
 
 (function () {
   // Build marker: use this to verify you loaded the latest JS
-  window.KBWG_BUILD = '2026-01-31-v20';
+  window.KBWG_BUILD = '2026-01-31-v21';
   try { console.info('[KBWG] build', window.KBWG_BUILD); } catch(e) {}
-  function kbwgHighlightActiveNav(){
-    const pathname = window.location.pathname || '';
-    document.querySelectorAll('.nav a').forEach(a => {
-      const href = a.getAttribute('href') || '';
-      if (!href) return;
-      const cleanHref = href.replace('./','');
-      if (pathname.endsWith(cleanHref) || (cleanHref === 'index.html' && (pathname === '/' || pathname.endsWith('/index.html')))) {
-        a.classList.add('active');
-        try { a.setAttribute('aria-current','page'); } catch(e) {}
-      }
-    });
-  }
+  // Auto-highlight active nav (fallback if aria-current isn't set)
+  const pathname = window.location.pathname || '';
+  document.querySelectorAll('.nav a').forEach(a => {
+    const href = a.getAttribute('href');
+    if (!href) return;
 
-  function kbwgSetupMobileNav(){
-    const header = document.getElementById('siteHeader');
-    const headerRow = header ? header.querySelector('.headerRow') : null;
-    const nav = header ? header.querySelector('.nav') : null;
+    const isHomeLink = (href === 'index.html' || href.endsWith('/index.html'));
+    const onHome = (
+      pathname === '/' ||
+      pathname === '' ||
+      /\/index\.html?$/.test(pathname) ||
+      /\/$/.test(pathname)
+    );
 
-    if (!(header && headerRow && nav)) return;
-
-    if (!nav.id) nav.id = 'primaryNav';
-
-    if (!header.querySelector('.navToggle')) {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'navToggle';
-      btn.setAttribute('aria-label', 'פתיחת תפריט');
-      btn.setAttribute('aria-controls', nav.id);
-      btn.setAttribute('aria-expanded', 'false');
-      btn.innerHTML = '<span class="navToggleIcon" aria-hidden="true">☰</span><span class="navToggleText">תפריט</span>';
-
-      headerRow.insertBefore(btn, nav);
-
-      let overlay = document.querySelector('.navOverlay');
-      if (!overlay) {
-        overlay = document.createElement('div');
-        overlay.className = 'navOverlay';
-        document.body.appendChild(overlay);
-      }
-
-      const close = () => {
-        header.classList.remove('navOpen'); header.classList.remove('navopen');
-        document.body.classList.remove('menuOpen'); document.body.classList.remove('menuopen');
-        btn.setAttribute('aria-expanded', 'false');
-      };
-      const open = () => {
-        header.classList.add('navOpen'); header.classList.add('navopen');
-        document.body.classList.add('menuOpen'); document.body.classList.add('menuopen');
-        btn.setAttribute('aria-expanded', 'true');
-      };
-
-      if (!nav.querySelector('.navDrawerHeader')) {
-        const drawerHeader = document.createElement('div');
-        drawerHeader.className = 'navDrawerHeader';
-        drawerHeader.innerHTML = `
-          <a class="navDrawerLogo" href="index.html" aria-label="דף הבית">
-            <img class="navDrawerLogoImg" src="assets/img/logo.png" alt="ללא ניסויים" width="34" height="34" />
-            <span class="navDrawerLogoText">ללא ניסויים</span>
-          </a>
-          <button type="button" class="navDrawerClose" aria-label="סגירה">×</button>
-        `;
-        nav.insertBefore(drawerHeader, nav.firstChild);
-
-        const closeBtn = drawerHeader.querySelector('.navDrawerClose');
-        const homeLogo = drawerHeader.querySelector('.navDrawerLogo');
-        if (closeBtn) closeBtn.addEventListener('click', close);
-        if (homeLogo) homeLogo.addEventListener('click', close);
-      }
-
-      btn.addEventListener('click', () => {
-        const isOpen = header.classList.contains('navOpen');
-        isOpen ? close() : open();
-      });
-      overlay.addEventListener('click', close);
-
-      nav.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
-
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') close();
-      });
-
-      const mq = window.matchMedia('(min-width: 901px)');
-      const onMq = () => { if (mq.matches) close(); };
-      mq.addEventListener ? mq.addEventListener('change', onMq) : mq.addListener(onMq);
-      onMq();
+    if (
+      (isHomeLink && onHome) ||
+      pathname.endsWith('/' + href) ||
+      pathname.endsWith(href)
+    ) {
+      a.classList.add('active');
+      a.setAttribute('aria-current', 'page');
     }
-  }
-
-  function kbwgInitHeaderNav(){
-    // Close other dropdowns when one opens (desktop)
-    try{
-      const groups = Array.from(document.querySelectorAll('.navGroup'));
-      groups.forEach(g => {
-        g.addEventListener('toggle', () => {
-          if (!g.open) return;
-          groups.forEach(other => { if (other !== g) other.open = false; });
-        });
-      });
-      document.addEventListener('click', (e) => {
-        const inside = e.target && (e.target.closest && e.target.closest('.navGroup'));
-        if (!inside) groups.forEach(g => g.open = false);
-      });
-    } catch(e) {}
-    kbwgHighlightActiveNav();
-    kbwgSetupMobileNav();
-  }
-
+  });
 
   // Hero quote rotator (rotates through the 5 quotes)
   const QUOTES = [
@@ -147,11 +63,111 @@
     });
   }
 
+  // Mobile nav: inject a hamburger button and collapse nav on small screens
+  const header = document.getElementById('siteHeader');
+  const headerRow = header ? header.querySelector('.headerRow') : null;
+  const nav = header ? header.querySelector('.nav') : null;
 
+  if (header && headerRow && nav) {
+    // Ensure nav has an id for aria-controls
+    if (!nav.id) nav.id = 'primaryNav';
+
+    // Inject only once
+    if (!header.querySelector('.navToggle')) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'navToggle';
+      btn.setAttribute('aria-label', 'פתיחת תפריט');
+      btn.setAttribute('aria-controls', nav.id);
+      btn.setAttribute('aria-expanded', 'false');
+      btn.innerHTML = '<span class="navToggleIcon" aria-hidden="true">☰</span><span class="navToggleText">תפריט</span>';
+
+      // Place next to logo (before nav)
+      headerRow.insertBefore(btn, nav);
+
+      // Backdrop overlay for mobile drawer
+      let overlay = document.querySelector('.navOverlay');
+      if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.className = 'navOverlay';
+        document.body.appendChild(overlay);
+      }
+
+
+      const close = () => {
+        header.classList.remove('navOpen'); header.classList.remove('navopen');
+        document.body.classList.remove('menuOpen'); document.body.classList.remove('menuopen');
+        btn.setAttribute('aria-expanded', 'false');
+      };
+      const open = () => {
+        header.classList.add('navOpen'); header.classList.add('navopen');
+        document.body.classList.add('menuOpen'); document.body.classList.add('menuopen');
+        btn.setAttribute('aria-expanded', 'true');
+      };
+
+
+      // Insert a branded header inside the drawer (mobile only)
+      if (!nav.querySelector('.navDrawerHeader')) {
+        const drawerHeader = document.createElement('div');
+        drawerHeader.className = 'navDrawerHeader';
+        drawerHeader.innerHTML = `
+          <a class="navDrawerLogo" href="index.html" aria-label="דף הבית">
+            <img class="navDrawerLogoImg" src="assets/img/logo.png" alt="ללא ניסויים" width="34" height="34" />
+            <span class="navDrawerLogoText">ללא ניסויים</span>
+          </a>
+          <button type="button" class="navDrawerClose" aria-label="סגירה">×</button>
+        `;
+        nav.insertBefore(drawerHeader, nav.firstChild);
+
+        const closeBtn = drawerHeader.querySelector('.navDrawerClose');
+        const homeLogo = drawerHeader.querySelector('.navDrawerLogo');
+        if (closeBtn) closeBtn.addEventListener('click', close);
+        if (homeLogo) homeLogo.addEventListener('click', close);
+      }
+
+
+      btn.addEventListener('click', () => {
+        const isOpen = header.classList.contains('navOpen');
+        isOpen ? close() : open();
+      });
+      overlay.addEventListener('click', close);
+
+
+      // Close when a link is clicked
+      nav.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+
+      // Close on Escape
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') close();
+      });
+
+      // Close when switching to desktop width
+      const mq = window.matchMedia('(min-width: 901px)');
+      const onMq = () => { if (mq.matches) close(); };
+      mq.addEventListener ? mq.addEventListener('change', onMq) : mq.addListener(onMq);
+      onMq();
+    }
+  }
 
     // מוצרים page: collapsible Amazon US/UK info box
     // Makes the heading "איך זה עובד עם אמזון ארה"ב ואנגליה?" clickable and toggles the extra details.
-    document.addEventListener('DOMContentLoaded', function () {
+    
+function kbwgInitAll(){
+  try { kbwgSetActiveNav && kbwgSetActiveNav(); } catch(e) {}
+  try { kbwgSetupMobileNav && kbwgSetupMobileNav(); } catch(e) {}
+  try {
+    // Optional: fix an older awkward homepage hero sentence (safe, exact-match only)
+    const heroP = document.querySelector('.page-home .hero .heroCopy p');
+    if (heroP) {
+      const t = (heroP.textContent || '').trim();
+      if (t === 'הבית שלך לקניות לקנות ללא אכזריות בבעלי חיים — חיפוש מוצרים, בודק רכיבים ולוח מבצעים') {
+        heroP.textContent = 'המדריך לקניות 100% טבעוניות ואשר לא נוסו על בעלי חיים — מוצרים, מותגים, מפענח רכיבים ודילים.';
+      }
+    }
+  } catch(e) {}
+}
+
+document.addEventListener('DOMContentLoaded', function () {
       var btn = document.querySelector('.amazon-toggle');
       var details = document.getElementById('amazonInfoDetails');
       if (!btn || !details) return;
@@ -384,12 +400,6 @@
   });
 
 
-
-  // Init header/nav after shared layout is injected
-  document.addEventListener('kbwg:layoutReady', function(){ try{ kbwgInitHeaderNav(); } catch(e) {} });
-  // Fallback: if header already exists, init on DOMContentLoaded
-  document.addEventListener('DOMContentLoaded', function(){ try{ kbwgInitHeaderNav(); } catch(e) {} });
-
 })();
 
 
@@ -594,4 +604,9 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     }
   } catch(e) {}
+});
+
+
+document.addEventListener('kbwg:layout-ready', function(){
+  kbwgInitAll();
 });

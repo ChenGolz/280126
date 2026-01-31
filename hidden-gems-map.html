@@ -1,20 +1,19 @@
 <!DOCTYPE html>
+
 <html dir="rtl" lang="he">
 <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1" name="viewport"/>
-  <title>Hidden Gems · מפת פנינים ללא אכזריות</title>
-  <meta content="מפה אינטראקטיבית של פנינים טבעוניות וללא ניסויים בעולם — בוטיקים, סלונים ומקלטים." name="description"/>
-  <link href="https://fonts.googleapis.com" rel="preconnect"/>
-  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800&amp;display=swap" rel="stylesheet"/>
-  <link href="assets/css/styles.css?v=2026-01-14-v12" rel="stylesheet"/>
-  <link href="assets/img/logo.png" rel="icon" type="image/png"/>
-
-  <!-- Leaflet (map) -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Hidden Gems: המקומות שחובה להכיר | לקנות ללא אכזריות</title>
+<meta content="אוצרות טבעוניים בעולם — מקומות מיוחדים ששווה לשמור." name="description"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="assets/css/styles.css?v=2026-01-31-v21" rel="stylesheet"/>
+<link href="assets/img/logo.png" rel="icon" type="image/png"/>
+<!-- Leaflet (map) -->
+<link crossorigin="" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" rel="stylesheet"/>
+<style>
     /* Page-only styles (do not affect site-wide) */
     .pageMap .contentCard{ padding: 16px; }
     .mapLayout{ display:grid; grid-template-columns: 1fr 340px; gap: 16px; align-items:start; }
@@ -84,99 +83,84 @@
     .kbSmall{ font-size: 12.5px; color: rgba(15,23,42,.72); line-height:1.55; }
   </style>
 </head>
-
-<body class="pageMap">
-<div id="siteHeaderMount"></div>
+<body class="pageMap"><div id="siteHeaderMount"></div>
 
 <main id="main">
-  <section class="hero product-hero heroSmall">
-    <img alt="" aria-hidden="true" class="decorPhoto decorCL" src="assets/img/photos/hero-top.png"/>
-    <div class="wrap heroInner">
-      <div class="heroCopy center-text">
-        <h1>Hidden Gems · מפת פנינים ללא אכזריות בעולם</h1>
-        <p>בוטיקים טבעוניים, סלונים עם מוצרים מאושרי PETA, וחוות/מקלטים — כדי שתוכלי לתכנן טיול (או יום חופשי) עם לב שקט.</p>
-        <div class="badgeRow center-badges">
-          <div class="trust-badge"><span class="icon">🗺️</span> Map</div>
-          <div class="trust-badge"><span class="icon">🌿</span> Vegan</div>
-          <div class="trust-badge"><span class="icon">🐰</span> PETA</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="panel filter-panel">
-    <div class="wrap">
-      <div class="toolbar-container contentCard">
-        <div class="mapLayout">
-          <div class="mapPane">
-            <div id="gemsMap" aria-label="מפת פנינים"></div>
-            <div class="mapLegend" aria-label="מקרא">
-              <div class="legendRow"><span class="legendDot dotBoutique"></span>בוטיקים טבעוניים</div>
-              <div class="legendRow"><span class="legendDot dotSalon"></span>סלונים (PETA‑approved)</div>
-              <div class="legendRow"><span class="legendDot dotSanctuary"></span>חוות/מקלטים</div>
-              <div class="legendRow"><span class="legendDot dotSuggest"></span>המלצות מהקהילה</div>
-            </div>
-          </div>
-
-          <aside class="mapControls" aria-label="סינון וחיפוש">
-            <p class="mapTitle">סינון מהיר</p>
-            <p class="mapHint">טיפ: שמרי את הדף במועדפים לפני טיול ✨</p>
-
-            <div class="kbField">
-              <label for="mapSearch">חיפוש (עיר / מדינה / שם)</label>
-              <input class="kbInput" id="mapSearch" placeholder="למשל: Barcelona, Tokyo, Tel Aviv" type="search"/>
-            </div>
-
-            <div class="kbField">
-              <label for="mapRegion">אזור</label>
-              <select class="kbSelect" id="mapRegion">
-                <option value="all">כל העולם</option>
-                <option value="europe">אירופה</option>
-                <option value="middle-east">מזרח התיכון</option>
-                <option value="north-america">צפון אמריקה</option>
-                <option value="south-america">דרום אמריקה</option>
-                <option value="asia">אסיה</option>
-                <option value="africa">אפריקה</option>
-                <option value="oceania">אוקיאניה</option>
-              </select>
-            </div>
-
-            <div class="kbChecks" role="group" aria-label="קטגוריות">
-              <label><input checked id="fBoutique" type="checkbox"/> 🛍️ בוטיקים טבעוניים</label>
-              <label><input checked id="fSalon" type="checkbox"/> 💇‍♀️ סלונים (PETA‑approved)</label>
-              <label><input checked id="fSanctuary" type="checkbox"/> 🐮 חוות/מקלטים</label>
-              <label><input checked id="fSuggest" type="checkbox"/> ⭐ המלצות מהקהילה</label>
-            </div>
-
-            <div class="kbBtns">
-              <button class="kbBtn kbBtnPrimary" id="btnLocate" type="button">📍 מצאי סביבי</button>
-              <button class="kbBtn kbBtnGhost" id="btnReset" type="button">↩︎ איפוס</button>
-              <button class="kbBtn" id="btnSuggest" type="button">➕ להציע מקום</button>
-            </div>
-
-            <div class="kbCount" id="mapCount">טוען…</div>
-
-            <div class="pinsNote">
-              <strong>עריכת נקודות:</strong> ניתן להוסיף נקודות ב־<code>data/hidden-gems.json</code> (מומלץ),
+<section class="hero product-hero heroSmall">
+<img alt="" aria-hidden="true" class="decorPhoto decorCL" src="assets/img/photos/hero-top.png"/>
+<div class="wrap heroInner">
+<div class="heroCopy center-text">
+<h1>Hidden Gems: המקומות שחובה להכיר</h1>
+<p>אוצרות טבעוניים בעולם — מקומות מיוחדים ששווה לשמור.</p>
+<div class="badgeRow center-badges">
+<div class="trust-badge"><span class="icon">🗺️</span> Map</div>
+<div class="trust-badge"><span class="icon">🌿</span> Vegan</div>
+<div class="trust-badge"><span class="icon">🐰</span> PETA</div>
+</div>
+</div>
+</div>
+</section>
+<section class="panel filter-panel">
+<div class="wrap">
+<div class="toolbar-container contentCard">
+<div class="mapLayout">
+<div class="mapPane">
+<div aria-label="מפת פנינים" id="gemsMap"></div>
+<div aria-label="מקרא" class="mapLegend">
+<div class="legendRow"><span class="legendDot dotBoutique"></span>בוטיקים טבעוניים</div>
+<div class="legendRow"><span class="legendDot dotSalon"></span>סלונים (PETA‑approved)</div>
+<div class="legendRow"><span class="legendDot dotSanctuary"></span>חוות/מקלטים</div>
+<div class="legendRow"><span class="legendDot dotSuggest"></span>המלצות מהקהילה</div>
+</div>
+</div>
+<aside aria-label="סינון וחיפוש" class="mapControls">
+<p class="mapTitle">סינון מהיר</p>
+<p class="mapHint">טיפ: שמרי את הדף במועדפים לפני טיול ✨</p>
+<div class="kbField">
+<label for="mapSearch">חיפוש (עיר / מדינה / שם)</label>
+<input class="kbInput" id="mapSearch" placeholder="למשל: Barcelona, Tokyo, Tel Aviv" type="search"/>
+</div>
+<div class="kbField">
+<label for="mapRegion">אזור</label>
+<select class="kbSelect" id="mapRegion">
+<option value="all">כל העולם</option>
+<option value="europe">אירופה</option>
+<option value="middle-east">מזרח התיכון</option>
+<option value="north-america">צפון אמריקה</option>
+<option value="south-america">דרום אמריקה</option>
+<option value="asia">אסיה</option>
+<option value="africa">אפריקה</option>
+<option value="oceania">אוקיאניה</option>
+</select>
+</div>
+<div aria-label="קטגוריות" class="kbChecks" role="group">
+<label><input checked="" id="fBoutique" type="checkbox"/> 🛍️ בוטיקים טבעוניים</label>
+<label><input checked="" id="fSalon" type="checkbox"/> 💇‍♀️ סלונים (PETA‑approved)</label>
+<label><input checked="" id="fSanctuary" type="checkbox"/> 🐮 חוות/מקלטים</label>
+<label><input checked="" id="fSuggest" type="checkbox"/> ⭐ המלצות מהקהילה</label>
+</div>
+<div class="kbBtns">
+<button class="kbBtn kbBtnPrimary" id="btnLocate" type="button">📍 מצאי סביבי</button>
+<button class="kbBtn kbBtnGhost" id="btnReset" type="button">↩︎ איפוס</button>
+<button class="kbBtn" id="btnSuggest" type="button">➕ להציע מקום</button>
+</div>
+<div class="kbCount" id="mapCount">טוען…</div>
+<div class="pinsNote">
+<strong>עריכת נקודות:</strong> ניתן להוסיף נקודות ב־<code>data/hidden-gems.json</code> (מומלץ),
               או ישירות בקובץ <code>assets/js/hidden-gems-map.js</code>.
               <br/>אם אין לך עדיין נתונים — הדף יעלה עם נקודות דוגמה.
             </div>
-          </aside>
-        </div>
-
-        <div class="gemsList" id="gemsList" aria-label="רשימת פנינים"></div>
-      </div>
-    </div>
-  </section>
+</aside>
+</div>
+<div aria-label="רשימת פנינים" class="gemsList" id="gemsList"></div>
+</div>
+</div>
+</section>
 </main>
 
-<div id="siteFooterMount"></div>
 
-<script defer src="assets/js/layout-inject.js?v=2026-01-31-v20"></script>
-<script defer src="assets/js/site.js?v=2026-01-31-v20"></script>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script defer src="assets/js/hidden-gems-map.js?v=2026-01-30-v1"></script>
+<script crossorigin="" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script defer="" src="assets/js/hidden-gems-map.js?v=2026-01-30-v1"></script>
 <!-- Weglot helper: refresh translations after dynamic content renders -->
 <script>
 (function(){
@@ -200,5 +184,5 @@
   mo.observe(document.documentElement, { childList:true, subtree:true });
 })();
 </script>
-</body>
+<div id="siteFooterMount"></div><script data-base="" defer="" src="assets/js/layout-inject.js?v=2026-01-31-v21"></script><script defer="" src="assets/js/site.js?v=2026-01-31-v21"></script></body>
 </html>
