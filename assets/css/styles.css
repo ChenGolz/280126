@@ -4337,60 +4337,147 @@ body.menuOpen .navOverlay{
   }
 }
 
-/* Hero button contrast safety (v21) */
-.hero .btn.ghost{ color: rgba(15,23,42,.92); }
-.hero .btn.ghost:hover{ color: rgba(15,23,42,1); }
-.hero .heroCopy .muted, .hero .heroCopy p{ color: rgba(15,23,42,.90); }
-.hero.product-hero{ color: rgba(15,23,42,.95); }
+/* =========================
+   v24 UI cleanup + speed
+   ========================= */
 
-/* Grouped nav enhancements (v23): one-open behavior + full-width tabs */
-@media (min-width: 900px){
-  .siteHeader .nav{
-    display:flex;
-    align-items:center;
-    justify-content: space-between;
-    gap: 8px;
-    overflow: visible;
-    white-space: normal;
+/* Faster, consistent font without extra network requests */
+:root {
+  --font-main: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Hebrew", "Noto Sans", Arial, sans-serif;
+}
+
+/* Header: avoid heavy backdrop-filter on mobile */
+.siteHeader {
+  backdrop-filter: none !important;
+}
+
+/* Navigation: simpler + clearer (no stretched tabs) */
+.siteHeader .headerRow {
+  gap: 14px;
+}
+
+.siteHeader .brandText {
+  font-weight: 800;
+}
+
+.siteHeader .nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  padding: 6px 0;
+}
+
+.siteHeader .nav a,
+.siteHeader details.navGroup > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  background: rgba(255, 255, 255, 0.75);
+  color: rgba(15, 23, 42, 0.92);
+  font-weight: 800;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.siteHeader .nav a:hover,
+.siteHeader details.navGroup > summary:hover {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(15, 23, 42, 0.18);
+}
+
+.siteHeader .nav a.active,
+.siteHeader details.navGroup > summary.active {
+  background: rgba(79, 70, 229, 0.10);
+  border-color: rgba(79, 70, 229, 0.28);
+}
+
+.siteHeader details.navGroup {
+  position: relative;
+}
+
+.siteHeader details.navGroup > summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+.siteHeader details.navGroup > summary::-webkit-details-marker {
+  display: none;
+}
+
+.siteHeader .navDrop {
+  position: absolute;
+  top: calc(100% + 10px);
+  inset-inline-start: 0;
+  min-width: 220px;
+  max-width: 320px;
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 16px;
+  box-shadow: 0 14px 40px rgba(0,0,0,.14);
+  padding: 10px;
+  display: grid;
+  gap: 6px;
+  z-index: 2000;
+}
+
+.siteHeader .navDrop a {
+  display: block;
+  padding: 10px 10px;
+  border-radius: 12px;
+  color: rgba(15, 23, 42, 0.92);
+  font-weight: 800;
+}
+
+.siteHeader .navDrop a:hover {
+  background: rgba(79, 70, 229, 0.08);
+}
+
+@media (max-width: 900px) {
+  /* On smaller screens, let dropdowns flow in the page for stability */
+  .siteHeader .nav {
+    gap: 6px;
   }
-  .siteHeader .nav > a,
-  .siteHeader .nav > details.navGroup{
-    flex: 1 1 0;
-    display:flex;
-    justify-content:center;
-  }
-  .siteHeader .nav > a{
-    padding: 8px 10px;
+  .siteHeader .navDrop {
+    position: static;
+    max-width: 100%;
+    min-width: 0;
+    box-shadow: none;
     border-radius: 14px;
-    font-weight: 900;
-  }
-  .siteHeader .navGroup > summary{
-    width: 100%;
-    justify-content: center;
-  }
-  .siteHeader .navDrop{
-    min-width: 260px;
+    margin-top: 8px;
   }
 }
 
-@media (max-width: 899px){
-  /* mobile/tablet: keep swipe menu but dropdowns should not be clipped */
-  .siteHeader .nav{
-    overflow-x: auto;
-  }
-  .siteHeader .navDrop{
-    position: fixed;
-    top: 64px;
-    right: 12px;
-    left: 12px;
-    width: auto;
-    max-width: 520px;
-    margin: 0 auto;
-  }
+/* Hero contrast: keep readable text on dark hero backgrounds */
+.hero.product-hero,
+.hero.heroCompact {
+  color: rgba(255,255,255,0.96) !important;
 }
 
-/* Ensure dropdown is always readable and above hero */
-.siteHeader .navDrop{
-  z-index: 5000;
+.hero.product-hero .heroCopy p,
+.hero.product-hero .heroCopy .muted,
+.hero.heroCompact .heroCopy p,
+.hero.heroCompact .heroCopy .muted {
+  color: rgba(255,255,255,0.86) !important;
 }
 
+.hero.product-hero .btn.ghost {
+  color: rgba(255,255,255,0.92) !important;
+  border-color: rgba(255,255,255,0.22) !important;
+}
+
+.hero.product-hero .btn.ghost:hover {
+  color: rgba(255,255,255,1) !important;
+  border-color: rgba(255,255,255,0.34) !important;
+}
+
+/* Reduce heavy shadows a bit on mobile to improve scroll performance */
+@media (max-width: 700px) {
+  .card, .panel {
+    box-shadow: 0 8px 18px rgba(0,0,0,.08) !important;
+  }
+}
