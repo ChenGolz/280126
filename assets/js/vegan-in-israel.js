@@ -5,6 +5,10 @@
 
   const DATA_URL = 'data/vegan-in-israel.json?v=2026-01-30-v6';
   const STATE = {
+    listPage: 1,
+    listPer: 0,
+    listPagerEl: null,
+
     places: [],
     filter: {
       q: '',
@@ -177,9 +181,17 @@
 
   function renderList() {
     const grid = $('#placesGrid');
-    const items = STATE.places.filter(passesFilter);
+    const itemsAll = STATE.places.filter(passesFilter);
+    STATE.listPer = kbPerPage('places');
+    if (!STATE.listPagerEl) STATE.listPagerEl = kbEnsurePager(grid, 'placesPager');
+    kbRenderPager(STATE.listPagerEl, STATE.listPage, itemsAll.length, STATE.listPer, function(n){ STATE.listPage = n; renderList(); });
+    const start = (STATE.listPage - 1) * STATE.listPer;
+    const end = start + STATE.listPer;
+    const items = (itemsAll.length > STATE.listPer) ? itemsAll.slice(start, end) : itemsAll;
 
-    if (!items.length) {
+    if (!itemsAll.length) {
+      if (STATE.listPagerEl) { STATE.listPagerEl.innerHTML=''; STATE.listPagerEl.style.display='none'; }
+      
       grid.innerHTML = `
         <div class="contentCard" style="grid-column:1/-1;">
           <h3 style="margin:0 0 .25rem;">לא מצאנו התאמה</h3>
@@ -399,6 +411,69 @@
       .replaceAll('"', '&quot;')
       .replaceAll("'", '&#039;');
   }
+
+
+  function kbPerPage(kind){
+    var w = window.innerWidth || 1024;
+    if(kind === 'posts'){ return w <= 640 ? 6 : (w <= 1024 ? 9 : 12); }
+    if(kind === 'bundles'){ return w <= 640 ? 4 : (w <= 1024 ? 6 : 8); }
+    if(kind === 'picker'){ return w <= 640 ? 10 : (w <= 1024 ? 14 : 18); }
+    if(kind === 'places'){ return w <= 640 ? 10 : (w <= 1024 ? 14 : 16); }
+    if(kind === 'deals'){ return w <= 640 ? 12 : (w <= 1024 ? 18 : 24); }
+    if(kind === 'brands'){ return w <= 640 ? 12 : (w <= 1024 ? 18 : 24); }
+    if(kind === 'hg'){ return w <= 640 ? 3 : (w <= 1024 ? 5 : 8); } // groups per page
+    // default grid
+    return w <= 640 ? 12 : (w <= 1024 ? 18 : 24);
+  }
+
+  function kbEnsurePager(afterEl, id){
+    if(!afterEl) return null;
+    var ex = document.getElementById(id);
+    if(ex) return ex;
+    var wrap = document.createElement('div');
+    wrap.className = 'kbPager';
+    wrap.id = id;
+    afterEl.insertAdjacentElement('afterend', wrap);
+    return wrap;
+  }
+
+  function kbRenderPager(pagerEl, page, totalItems, perPage, onPage){
+    if(!pagerEl) return;
+    var totalPages = Math.max(1, Math.ceil(totalItems / perPage));
+    // show pager only when it actually saves work (2+ pages)
+    if(totalPages <= 1){
+      pagerEl.innerHTML = '';
+      pagerEl.style.display = 'none';
+      return;
+    }
+    pagerEl.style.display = 'flex';
+
+    // clamp
+    if(page < 1) page = 1;
+    if(page > totalPages) page = totalPages;
+
+    var prevDisabled = page <= 1;
+    var nextDisabled = page >= totalPages;
+
+    pagerEl.innerHTML = ''
+      + '<button class="btnSmall btnGhost" type="button" ' + (prevDisabled ? 'disabled aria-disabled="true"' : '') + ' data-kbprev>הקודם</button>'
+      + '<span class="kbPagerInfo">עמוד ' + page + ' מתוך ' + totalPages + '</span>'
+      + '<button class="btnSmall btnGhost" type="button" ' + (nextDisabled ? 'disabled aria-disabled="true"' : '') + ' data-kbnext>הבא</button>';
+
+    var prevBtn = pagerEl.querySelector('[data-kbprev]');
+    var nextBtn = pagerEl.querySelector('[data-kbnext]');
+    if(prevBtn) prevBtn.onclick = function(){ if(page>1) onPage(page-1); };
+    if(nextBtn) nextBtn.onclick = function(){ if(page<totalPages) onPage(page+1); };
+  }
+
+  function kbRangeText(page, totalItems, perPage){
+    if(!totalItems) return 'אין תוצאות';
+    var start = (page-1)*perPage + 1;
+    var end = Math.min(totalItems, page*perPage);
+    return 'מציגים ' + start + '–' + end + ' מתוך ' + totalItems;
+  }
+
+
 
   document.addEventListener('DOMContentLoaded', load);
 })();

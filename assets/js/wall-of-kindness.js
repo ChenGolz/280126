@@ -1,3 +1,66 @@
+
+
+
+  function kbPerPage(kind){
+    var w = window.innerWidth || 1024;
+    if(kind === 'posts'){ return w <= 640 ? 6 : (w <= 1024 ? 9 : 12); }
+    if(kind === 'bundles'){ return w <= 640 ? 4 : (w <= 1024 ? 6 : 8); }
+    if(kind === 'picker'){ return w <= 640 ? 10 : (w <= 1024 ? 14 : 18); }
+    if(kind === 'places'){ return w <= 640 ? 10 : (w <= 1024 ? 14 : 16); }
+    if(kind === 'deals'){ return w <= 640 ? 12 : (w <= 1024 ? 18 : 24); }
+    if(kind === 'brands'){ return w <= 640 ? 12 : (w <= 1024 ? 18 : 24); }
+    if(kind === 'hg'){ return w <= 640 ? 3 : (w <= 1024 ? 5 : 8); } // groups per page
+    // default grid
+    return w <= 640 ? 12 : (w <= 1024 ? 18 : 24);
+  }
+
+  function kbEnsurePager(afterEl, id){
+    if(!afterEl) return null;
+    var ex = document.getElementById(id);
+    if(ex) return ex;
+    var wrap = document.createElement('div');
+    wrap.className = 'kbPager';
+    wrap.id = id;
+    afterEl.insertAdjacentElement('afterend', wrap);
+    return wrap;
+  }
+
+  function kbRenderPager(pagerEl, page, totalItems, perPage, onPage){
+    if(!pagerEl) return;
+    var totalPages = Math.max(1, Math.ceil(totalItems / perPage));
+    // show pager only when it actually saves work (2+ pages)
+    if(totalPages <= 1){
+      pagerEl.innerHTML = '';
+      pagerEl.style.display = 'none';
+      return;
+    }
+    pagerEl.style.display = 'flex';
+
+    // clamp
+    if(page < 1) page = 1;
+    if(page > totalPages) page = totalPages;
+
+    var prevDisabled = page <= 1;
+    var nextDisabled = page >= totalPages;
+
+    pagerEl.innerHTML = ''
+      + '<button class="btnSmall btnGhost" type="button" ' + (prevDisabled ? 'disabled aria-disabled="true"' : '') + ' data-kbprev>הקודם</button>'
+      + '<span class="kbPagerInfo">עמוד ' + page + ' מתוך ' + totalPages + '</span>'
+      + '<button class="btnSmall btnGhost" type="button" ' + (nextDisabled ? 'disabled aria-disabled="true"' : '') + ' data-kbnext>הבא</button>';
+
+    var prevBtn = pagerEl.querySelector('[data-kbprev]');
+    var nextBtn = pagerEl.querySelector('[data-kbnext]');
+    if(prevBtn) prevBtn.onclick = function(){ if(page>1) onPage(page-1); };
+    if(nextBtn) nextBtn.onclick = function(){ if(page<totalPages) onPage(page+1); };
+  }
+
+  function kbRangeText(page, totalItems, perPage){
+    if(!totalItems) return 'אין תוצאות';
+    var start = (page-1)*perPage + 1;
+    var end = Math.min(totalItems, page*perPage);
+    return 'מציגים ' + start + '–' + end + ' מתוך ' + totalItems;
+  }
+
 (function () {
   // --- Helpers ---
   function safeText(v) { return (v == null) ? '' : String(v); }
@@ -64,6 +127,10 @@
   // --- UI refs ---
   var el = {};
   var state = {
+    page: 1,
+    per: 0,
+    pagerEl: null,
+
     tab: 'all',
     search: '',
     sort: 'new',
@@ -171,18 +238,42 @@
     }
     list = sortPosts(list);
 
+    state.per = kbPerPage('posts');
+    if (el.postsGrid && !state.pagerEl) state.pagerEl = kbEnsurePager(el.postsGrid, 'wokPager');
+
+    // Deep-link: ensure the requested post is on the current page
+    var deepId = '';
+    try {
+      var mm = location.search.match(/[?&]post=([^&]+)/);
+      deepId = mm ? decodeURIComponent(mm[1] || '') : '';
+    } catch(e) { deepId = ''; }
+    if (deepId) {
+      for (var di = 0; di < list.length; di++) {
+        if (String(list[di].id || '') === deepId) {
+          state.page = Math.floor(di / state.per) + 1;
+          break;
+        }
+      }
+    }
+
+    kbRenderPager(state.pagerEl, state.page, list.length, state.per, function(n){ state.page=n; render(); });
+
+    var start = (state.page - 1) * state.per;
+    var end = start + state.per;
+    var pageList = (list.length > state.per) ? list.slice(start, end) : list;
+
     if (el.postsGrid) {
       if (!list.length) {
         el.postsGrid.innerHTML = '<div class="muted" style="grid-column:1/-1; padding: 12px 4px">אין פוסטים לפי הסינון. נסי לחפש אחרת או לפרסם פוסט חדש 💛</div>';
       } else {
         var html = '';
-        for (var j = 0; j < list.length; j++) html += postHTML(list[j]);
+        for (var j = 0; j < pageList.length; j++) html += postHTML(pageList[j]);
         el.postsGrid.innerHTML = html;
       }
     }
 
     if (el.feedCount) {
-      el.feedCount.textContent = list.length ? ('מוצגים ' + list.length + ' פוסטים') : 'אין תוצאות';
+      el.feedCount.textContent = list.length ? kbRangeText(state.page, list.length, state.per) : 'אין תוצאות';
     }
 
     // Let Weglot refresh (optional)
@@ -194,6 +285,7 @@
 
   function setTab(tab) {
     state.tab = tab;
+    state.page = 1;
     setTabSelected('tabAll', tab === 'all');
     setTabSelected('tabHaul', tab === 'haul');
     setTabSelected('tabPet', tab === 'pet');
@@ -410,6 +502,7 @@
       updatePreviewFromFile(null);
       setFormMsg('פורסם! תודה על שיתוף 💛', 'ok');
 
+      state.page = 1;
       render();
     });
   }

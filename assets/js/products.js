@@ -6,6 +6,72 @@
   const grid = qs("#grid");
   const liveCount = qs("#liveCount");
 
+  // Pagination (v10)
+  let kbPage = 1;
+  let kbPer = 0;
+  let kbPagerEl = null;
+
+  function kbPerPage(kind){
+    var w = window.innerWidth || 1024;
+    if(kind === 'posts'){ return w <= 640 ? 6 : (w <= 1024 ? 9 : 12); }
+    if(kind === 'bundles'){ return w <= 640 ? 4 : (w <= 1024 ? 6 : 8); }
+    if(kind === 'picker'){ return w <= 640 ? 10 : (w <= 1024 ? 14 : 18); }
+    if(kind === 'places'){ return w <= 640 ? 10 : (w <= 1024 ? 14 : 16); }
+    if(kind === 'deals'){ return w <= 640 ? 12 : (w <= 1024 ? 18 : 24); }
+    if(kind === 'brands'){ return w <= 640 ? 12 : (w <= 1024 ? 18 : 24); }
+    if(kind === 'hg'){ return w <= 640 ? 3 : (w <= 1024 ? 5 : 8); } // groups per page
+    // default grid
+    return w <= 640 ? 12 : (w <= 1024 ? 18 : 24);
+  }
+
+  function kbEnsurePager(afterEl, id){
+    if(!afterEl) return null;
+    var ex = document.getElementById(id);
+    if(ex) return ex;
+    var wrap = document.createElement('div');
+    wrap.className = 'kbPager';
+    wrap.id = id;
+    afterEl.insertAdjacentElement('afterend', wrap);
+    return wrap;
+  }
+
+  function kbRenderPager(pagerEl, page, totalItems, perPage, onPage){
+    if(!pagerEl) return;
+    var totalPages = Math.max(1, Math.ceil(totalItems / perPage));
+    // show pager only when it actually saves work (2+ pages)
+    if(totalPages <= 1){
+      pagerEl.innerHTML = '';
+      pagerEl.style.display = 'none';
+      return;
+    }
+    pagerEl.style.display = 'flex';
+
+    // clamp
+    if(page < 1) page = 1;
+    if(page > totalPages) page = totalPages;
+
+    var prevDisabled = page <= 1;
+    var nextDisabled = page >= totalPages;
+
+    pagerEl.innerHTML = ''
+      + '<button class="btnSmall btnGhost" type="button" ' + (prevDisabled ? 'disabled aria-disabled="true"' : '') + ' data-kbprev>הקודם</button>'
+      + '<span class="kbPagerInfo">עמוד ' + page + ' מתוך ' + totalPages + '</span>'
+      + '<button class="btnSmall btnGhost" type="button" ' + (nextDisabled ? 'disabled aria-disabled="true"' : '') + ' data-kbnext>הבא</button>';
+
+    var prevBtn = pagerEl.querySelector('[data-kbprev]');
+    var nextBtn = pagerEl.querySelector('[data-kbnext]');
+    if(prevBtn) prevBtn.onclick = function(){ if(page>1) onPage(page-1); };
+    if(nextBtn) nextBtn.onclick = function(){ if(page<totalPages) onPage(page+1); };
+  }
+
+  function kbRangeText(page, totalItems, perPage){
+    if(!totalItems) return 'אין תוצאות';
+    var start = (page-1)*perPage + 1;
+    var end = Math.min(totalItems, page*perPage);
+    return 'מציגים ' + start + '–' + end + ' מתוך ' + totalItems;
+  }
+
+
   const brandSelect = qs("#brandSelect");
   const storeSelect = qs("#storeSelect");
   
@@ -1229,7 +1295,8 @@ function normalizeProduct(p) {
   }
 
   let renderRaf = 0;
-  function scheduleRender() {
+  function scheduleRender(resetPage) {
+    if (resetPage !== false) kbPage = 1;
     cancelAnimationFrame(renderRaf);
     renderRaf = requestAnimationFrame(render);
   }
@@ -1240,9 +1307,17 @@ function normalizeProduct(p) {
     const list = data.filter(matches);
     sortList(list);
 
+    kbPer = kbPerPage('products');
+    if (!kbPagerEl) kbPagerEl = kbEnsurePager(grid, 'productsPager');
+    kbRenderPager(kbPagerEl, kbPage, list.length, kbPer, function(n){ kbPage = n; render(); });
+
+    const start = (kbPage - 1) * kbPer;
+    const end = start + kbPer;
+    const pageItems = (list.length > kbPer) ? list.slice(start, end) : list;
+
     const frag = document.createDocumentFragment();
 
-    list.forEach((p) => {
+    pageItems.forEach((p) => {
       const card = document.createElement("article");
       card.className = "productCard";
 
@@ -1390,7 +1465,10 @@ function normalizeProduct(p) {
       window.Weglot.refresh();
     }
 
-    if (liveCount) liveCount.textContent = `${list.length} מוצרים`;
+    if (liveCount) {
+      if (list.length > kbPer) liveCount.textContent = kbRangeText(kbPage, list.length, kbPer);
+      else liveCount.textContent = `${list.length} מוצרים`;
+    }
 
     const empty = qs("#emptyState");
     if (empty) empty.hidden = list.length !== 0;

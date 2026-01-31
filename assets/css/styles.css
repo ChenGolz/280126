@@ -4353,3 +4353,26 @@ input,button,select,textarea{ font-family: inherit; }
 @media (min-width: 641px) and (max-width: 1024px){
   .hero{ padding-top: 40px; padding-bottom: 34px; }
 }
+
+
+/* ===== PAGINATION + LOAD MORE (v10) ===== */
+.kbPager{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin:16px 0 6px;
+}
+.kbPager .btnSmall{ min-width: 90px; }
+.kbPagerInfo{
+  font-size: .95rem;
+  color: rgba(0,0,0,.72);
+  padding: 2px 6px;
+}
+.kbLoadMoreWrap{
+  display:flex;
+  justify-content:center;
+  margin: 16px 0 6px;
+}
+.kbLoadMoreWrap .btn{ min-width: 180px; }

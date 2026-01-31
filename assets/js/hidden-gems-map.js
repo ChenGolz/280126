@@ -18,6 +18,9 @@
     country: 'all',
     q: '',
     sort: 'country',
+    page: 1,
+    per: 0,
+    pagerEl: null,
   };
 
   function norm(s){
@@ -38,6 +41,69 @@
       .replaceAll('"', '&quot;')
       .replaceAll("'", '&#039;');
   }
+
+
+  function kbPerPage(kind){
+    var w = window.innerWidth || 1024;
+    if(kind === 'posts'){ return w <= 640 ? 6 : (w <= 1024 ? 9 : 12); }
+    if(kind === 'bundles'){ return w <= 640 ? 4 : (w <= 1024 ? 6 : 8); }
+    if(kind === 'picker'){ return w <= 640 ? 10 : (w <= 1024 ? 14 : 18); }
+    if(kind === 'places'){ return w <= 640 ? 10 : (w <= 1024 ? 14 : 16); }
+    if(kind === 'deals'){ return w <= 640 ? 12 : (w <= 1024 ? 18 : 24); }
+    if(kind === 'brands'){ return w <= 640 ? 12 : (w <= 1024 ? 18 : 24); }
+    if(kind === 'hg'){ return w <= 640 ? 3 : (w <= 1024 ? 5 : 8); } // groups per page
+    // default grid
+    return w <= 640 ? 12 : (w <= 1024 ? 18 : 24);
+  }
+
+  function kbEnsurePager(afterEl, id){
+    if(!afterEl) return null;
+    var ex = document.getElementById(id);
+    if(ex) return ex;
+    var wrap = document.createElement('div');
+    wrap.className = 'kbPager';
+    wrap.id = id;
+    afterEl.insertAdjacentElement('afterend', wrap);
+    return wrap;
+  }
+
+  function kbRenderPager(pagerEl, page, totalItems, perPage, onPage){
+    if(!pagerEl) return;
+    var totalPages = Math.max(1, Math.ceil(totalItems / perPage));
+    // show pager only when it actually saves work (2+ pages)
+    if(totalPages <= 1){
+      pagerEl.innerHTML = '';
+      pagerEl.style.display = 'none';
+      return;
+    }
+    pagerEl.style.display = 'flex';
+
+    // clamp
+    if(page < 1) page = 1;
+    if(page > totalPages) page = totalPages;
+
+    var prevDisabled = page <= 1;
+    var nextDisabled = page >= totalPages;
+
+    pagerEl.innerHTML = ''
+      + '<button class="btnSmall btnGhost" type="button" ' + (prevDisabled ? 'disabled aria-disabled="true"' : '') + ' data-kbprev>הקודם</button>'
+      + '<span class="kbPagerInfo">עמוד ' + page + ' מתוך ' + totalPages + '</span>'
+      + '<button class="btnSmall btnGhost" type="button" ' + (nextDisabled ? 'disabled aria-disabled="true"' : '') + ' data-kbnext>הבא</button>';
+
+    var prevBtn = pagerEl.querySelector('[data-kbprev]');
+    var nextBtn = pagerEl.querySelector('[data-kbnext]');
+    if(prevBtn) prevBtn.onclick = function(){ if(page>1) onPage(page-1); };
+    if(nextBtn) nextBtn.onclick = function(){ if(page<totalPages) onPage(page+1); };
+  }
+
+  function kbRangeText(page, totalItems, perPage){
+    if(!totalItems) return 'אין תוצאות';
+    var start = (page-1)*perPage + 1;
+    var end = Math.min(totalItems, page*perPage);
+    return 'מציגים ' + start + '–' + end + ' מתוך ' + totalItems;
+  }
+
+
 
   function googleMapsLink(item){
     const q = [item.name, item.address || '', item.city || '', item.country || ''].filter(Boolean).join(', ');
@@ -99,7 +165,15 @@
 
     const grouped = groupByCountry(sorted);
 
-    groupsEl.innerHTML = grouped.map(([country, items]) => {
+    STATE.per = kbPerPage('hg');
+    if (!STATE.pagerEl) STATE.pagerEl = kbEnsurePager(groupsEl, 'hgPager');
+    kbRenderPager(STATE.pagerEl, STATE.page, grouped.length, STATE.per, function(n){ STATE.page=n; render(); });
+
+    const gStart = (STATE.page - 1) * STATE.per;
+    const gEnd = gStart + STATE.per;
+    const pageGroups = (grouped.length > STATE.per) ? grouped.slice(gStart, gEnd) : grouped;
+
+    groupsEl.innerHTML = pageGroups.map(([country, items]) => {
       // If sorting by name/city, still group by country for scanability.
       const cards = items.map(it => {
         const loc = [it.city, it.country].filter(Boolean).join(', ');
@@ -164,13 +238,14 @@
     const s = $('#hgSort');
     const r = $('#hgReset');
 
-    q && q.addEventListener('input', () => { STATE.q = q.value || ''; render(); });
-    c && c.addEventListener('change', () => { STATE.country = c.value; render(); });
-    s && s.addEventListener('change', () => { STATE.sort = s.value; render(); });
+    q && q.addEventListener('input', () => { STATE.q = q.value || ''; STATE.page = 1; render(); });
+    c && c.addEventListener('change', () => { STATE.country = c.value; STATE.page = 1; render(); });
+    s && s.addEventListener('change', () => { STATE.sort = s.value; STATE.page = 1; render(); });
     r && r.addEventListener('click', () => {
       STATE.q = '';
       STATE.country = 'all';
       STATE.sort = 'country';
+      STATE.page = 1;
       if (q) q.value = '';
       if (c) c.value = 'all';
       if (s) s.value = 'country';
