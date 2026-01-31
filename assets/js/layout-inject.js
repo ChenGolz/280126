@@ -1,4 +1,4 @@
-// Build: 2026-01-31-v13
+// Build: 2026-01-31-v15
 // Shared layout injector (header + footer) for KBWG static pages
 // Loads partials/header.html into #siteHeaderMount and partials/footer.html into #siteFooterMount
 (function () {

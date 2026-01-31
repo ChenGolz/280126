@@ -4507,3 +4507,16 @@ input,button,select,textarea{ font-family: inherit; }
 @media (max-width: 520px){
   .siteNotice p{ font-size: .92rem; }
 }
+
+/* Pharmacy (v15) */
+.pillBtn{ border: 1px solid rgba(42,91,154,.18); background: rgba(157,195,230,.14); color: #0f172a; font-weight: 900; padding: 8px 10px; border-radius: 999px; cursor: pointer; }
+.pillBtn.is-active{ background: rgba(42,91,154,.18); border-color: rgba(42,91,154,.26); }
+.phMetaRow{ display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+.phCard{ border: 1px solid rgba(31,41,55,.10); background: rgba(255,255,255,.86); border-radius: 18px; padding: 14px; box-shadow: 0 10px 22px rgba(0,0,0,.04); }
+.phTitle{ margin: 0 0 8px; font-size: 1.06rem; }
+.phBadges,.phStores{ display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
+.pill{ display:inline-flex; align-items:center; padding: 6px 10px; border-radius:999px; font-weight:900; border:1px solid rgba(31,41,55,.10); }
+.pill--soft{ background: rgba(245,158,11,.10); border-color: rgba(245,158,11,.16); }
+.pill--muted{ background: rgba(148,163,184,.14); border-color: rgba(148,163,184,.20); color: rgba(30,41,59,.86); }
+.phActions{ margin-top: 12px; display:flex; gap:10px; flex-wrap:wrap; }
+@media (max-width: 520px){ .phActions .btn{ width:100%; justify-content:center; } }

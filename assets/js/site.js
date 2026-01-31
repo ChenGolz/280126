@@ -2,9 +2,52 @@
 
 (function () {
   // Build marker: use this to verify you loaded the latest JS
-  window.KBWG_BUILD = '2026-01-31-v13';
+  window.KBWG_BUILD = '2026-01-31-v15';
   try { console.info('[KBWG] build', window.KBWG_BUILD); } catch(e) {}
-    function kbwgSetActiveNav() {
+    
+function kbwgInjectFaqSchema(){
+  try{
+    if (window.__KBWG_FAQ_SCHEMA_DONE) return;
+    window.__KBWG_FAQ_SCHEMA_DONE = true;
+
+    let faqs = null;
+    const el = document.getElementById('kbwgFaqData');
+    if (el && el.textContent && el.textContent.trim()){
+      try{
+        const parsed = JSON.parse(el.textContent.trim());
+        if (Array.isArray(parsed) && parsed.length){
+          faqs = parsed.filter(x => x && x.q && x.a).slice(0, 12);
+        }
+      }catch(_){}
+    }
+
+    if (!faqs){
+      faqs = [
+        { q: 'מה זה “100% טבעוני”?', a: 'מוצר ללא רכיבים מן החי — כולל נגזרות כמו דבש, לנולין, קרמין וכדומה.' },
+        { q: 'מה זה “לא נוסה על בעלי חיים”?', a: 'אנחנו מציגים רק מותגים ומוצרים שמוצהרים/מאומתים כלא מבצעים ניסויים בבעלי חיים.' },
+        { q: 'איך אתם בודקים מותגים?', a: 'משלבים הצהרה רשמית של מותג + הצלבה עם מקורות מוכרים ובדיקה תקופתית. פירוט בעמוד “שיטה”.' },
+        { q: 'מה לעשות אם מצאתי מידע שגוי?', a: 'שלחי לנו דרך “צור קשר” — זה עוזר לשמור את המאגר חינמי ומדויק.' }
+      ];
+    }
+
+    const schema = {
+      "@context":"https://schema.org",
+      "@type":"FAQPage",
+      "mainEntity": faqs.map(f => ({
+        "@type":"Question",
+        "name": String(f.q),
+        "acceptedAnswer": { "@type":"Answer", "text": String(f.a) }
+      }))
+    };
+
+    const s = document.createElement('script');
+    s.type = 'application/ld+json';
+    s.textContent = JSON.stringify(schema);
+    document.head.appendChild(s);
+  }catch(_){}
+}
+
+function kbwgSetActiveNav() {
     // Auto-highlight active nav (fallback if aria-current isn't set)
       const pathname = window.location.pathname || '';
       document.querySelectorAll('.nav a').forEach(a => {

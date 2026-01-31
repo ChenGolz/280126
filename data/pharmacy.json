@@ -1,0 +1,165 @@
+{
+  "updated": "2026-01-31",
+  "stores": [
+    {
+      "id": "superpharm",
+      "name": "סופר-פארם"
+    },
+    {
+      "id": "be",
+      "name": "Be"
+    },
+    {
+      "id": "goodpharm",
+      "name": "Good Pharm"
+    }
+  ],
+  "items": [
+    {
+      "name": "מייקאפ/פאונדיישן טבעוני — לבחור לפי גוון",
+      "brand": "(הוסיפי מותג)",
+      "category": "מייקאפ",
+      "stores": [
+        "superpharm",
+        "be",
+        "goodpharm"
+      ],
+      "notes": "טיפ: חפשי על האריזה 'Vegan' או בדקי רכיבים.",
+      "tags": [
+        "מומלץ"
+      ],
+      "link": "products.html?q=foundation"
+    },
+    {
+      "name": "מסקרה טבעונית לעיניים רגישות",
+      "brand": "(הוסיפי מותג)",
+      "category": "איפור",
+      "stores": [
+        "superpharm",
+        "be",
+        "goodpharm"
+      ],
+      "notes": "טיפ: הימנעי מ־Beeswax/Lanolin/Collagen.",
+      "tags": [],
+      "link": "products.html?q=mascara"
+    },
+    {
+      "name": "דאודורנט טבעוני ללא אלומיניום",
+      "brand": "(הוסיפי מותג)",
+      "category": "דאודורנט",
+      "stores": [
+        "superpharm",
+        "be",
+        "goodpharm"
+      ],
+      "notes": "טיפ: בדקי אם יש 'stearic acid' ממקור צמחי.",
+      "tags": [],
+      "link": "products.html?q=deodorant"
+    },
+    {
+      "name": "קרם הגנה טבעוני לפנים",
+      "brand": "(הוסיפי מותג)",
+      "category": "SPF",
+      "stores": [
+        "superpharm",
+        "be"
+      ],
+      "notes": "טיפ: קרם הגנה הוא מוצר שחוזרים אליו — שווה לבחור אחד שאת אוהבת.",
+      "tags": [
+        "פופולרי"
+      ],
+      "link": "products.html?q=spf"
+    },
+    {
+      "name": "שמפו טבעוני לשיער יבש",
+      "brand": "(הוסיפי מותג)",
+      "category": "שיער",
+      "stores": [
+        "superpharm",
+        "be",
+        "goodpharm"
+      ],
+      "notes": "טיפ: העדיפי ללא Keratin/Collagen.",
+      "tags": [],
+      "link": "products.html?q=shampoo"
+    },
+    {
+      "name": "סבון פנים עדין טבעוני",
+      "brand": "(הוסיפי מותג)",
+      "category": "טיפוח",
+      "stores": [
+        "superpharm",
+        "be",
+        "goodpharm"
+      ],
+      "notes": "טיפ: לפעמים המפתח הוא פשטות — פחות רכיבים.",
+      "tags": [],
+      "link": "products.html?q=cleanser"
+    },
+    {
+      "name": "שפתון/ליפסטיק טבעוני",
+      "brand": "(הוסיפי מותג)",
+      "category": "איפור",
+      "stores": [
+        "superpharm",
+        "be"
+      ],
+      "notes": "טיפ: הימנעי מ־Carmine (E120).",
+      "tags": [],
+      "link": "products.html?q=lipstick"
+    },
+    {
+      "name": "קרם לחות טבעוני לעור רגיש",
+      "brand": "(הוסיפי מותג)",
+      "category": "טיפוח",
+      "stores": [
+        "superpharm",
+        "be",
+        "goodpharm"
+      ],
+      "notes": "טיפ: בדקי שאין Lanolin/Collagen.",
+      "tags": [],
+      "link": "products.html?q=moisturizer"
+    },
+    {
+      "name": "משחת שיניים טבעונית",
+      "brand": "(הוסיפי מותג)",
+      "category": "היגיינה",
+      "stores": [
+        "superpharm",
+        "be",
+        "goodpharm"
+      ],
+      "notes": "טיפ: בדקי שאין Propolis.",
+      "tags": [],
+      "link": "products.html?q=toothpaste"
+    },
+    {
+      "name": "קרם ידיים טבעוני",
+      "brand": "(הוסיפי מותג)",
+      "category": "טיפוח",
+      "stores": [
+        "superpharm",
+        "be",
+        "goodpharm"
+      ],
+      "notes": "טיפ: חפשי תו 'Vegan' / 'Cruelty-Free'.",
+      "tags": [],
+      "link": "products.html?q=hand%20cream"
+    }
+  ],
+  "faqs": [
+    {
+      "q": "האם כל מה שמופיע כאן 100% טבעוני ולא נוסה על בעלי חיים?",
+      "a": "כן — המטרה היא להציג רק אפשרויות טבעוניות ושאינן נוסו על בעלי חיים. אם יש ספק, עדיף לא להכניס עד שנבדק."
+    },
+    {
+      "q": "איך בודקים מוצר בפארם במהירות?",
+      "a": "הדביקי רשימת רכיבים בבודק הרכיבים באתר, וחפשי גם תוויות כמו Vegan / Cruelty‑Free על האריזה."
+    },
+    {
+      "q": "למה יש כאן 'Top 10' כתבנית?",
+      "a": "כדי שתוכלי לערוך בקלות: כל הרשימה יושבת בקובץ JSON אחד. אפשר להתחיל עם התבנית ולהחליף לפריטים שאת מאשרת."
+    }
+  ]
+}
