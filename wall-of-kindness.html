@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-
 <html dir="rtl" lang="he">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>Wall of Kindness · קהילה טבעונית</title>
-<meta content="שיתופים מהקהילה: קניות 100% טבעוניות שלא נוסו על בעלי חיים + אימוץ והצלה." name="description"/>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="assets/css/styles.css?v=2026-01-31-v17" rel="stylesheet"/>
-<link href="assets/img/logo.png" rel="icon" type="image/png"/>
-<style>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>Wall of Kindness · קיר החסד</title>
+  <meta content="עמוד קהילה לשיתופים: רכישות ללא אכזריות וחיות מחמד מאומצות/מוצלות." name="description"/>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800&amp;display=swap" rel="stylesheet"/>
+  <link href="assets/css/styles.css?v=2026-01-14-v12" rel="stylesheet"/>
+  <link href="assets/img/logo.png" rel="icon" type="image/png"/>
+
+  <style>
     /* Page-only styles */
     .pageWall .contentCard{ padding: 16px; }
     .wallLayout{ display:grid; grid-template-columns: 420px 1fr; gap: 16px; align-items:start; }
@@ -68,101 +68,186 @@
     .highlight{ outline: 3px solid rgba(245,158,11,.55); outline-offset: 2px; }
   </style>
 </head>
+
 <body class="pageWall">
-<div id="siteHeaderMount"></div>
+<header class="siteHeader" id="siteHeader">
+  <div class="wrap headerRow">
+    <a aria-label="בית" class="logo" href="index.html">
+      <img alt="לקנות ללא אכזריות" class="logoImg" height="40" src="assets/img/logo.png" width="40"/>
+      <span class="logoText">לקנות ללא אכזריות</span>
+    </a>
+    <nav aria-label="ניווט ראשי" class="nav">
+  <a class="" href="index.html">בית</a>
+
+  <details class="navGroup">
+    <summary>מאגר</summary>
+    <div class="navDrop" role="menu" aria-label="מאגר">
+      <a class="" href="products.html" role="menuitem">מוצרים</a>
+      <a class="" href="israeli-brands.html" role="menuitem">מותגים בישראל</a>
+      <a class="" href="recommended-brands.html" role="menuitem">מותגים מחו״ל</a>
+    </div>
+  </details>
+
+  <details class="navGroup">
+    <summary>כלים</summary>
+    <div class="navDrop" role="menu" aria-label="כלים">
+      <a class="" href="ingredient-detective.html" role="menuitem">בודק רכיבים</a>
+      <a class="" href="shopping-calendar.html" role="menuitem">לוח מבצעים</a>
+    </div>
+  </details>
+
+  <details class="navGroup">
+    <summary>מדריכים</summary>
+    <div class="navDrop" role="menu" aria-label="מדריכים">
+      <a class="" href="vegan-in-israel.html" role="menuitem">טבעוני בישראל</a>
+      <a class="" href="hidden-gems-map.html" role="menuitem">Hidden Gems</a>
+      <a class="" href="learn.html" role="menuitem">מידע</a>
+    </div>
+  </details>
+
+  <details class="navGroup">
+    <summary>דילים</summary>
+    <div class="navDrop" role="menu" aria-label="דילים">
+      <a class="" href="todays-top-deals.html" role="menuitem">דילים חמים</a>
+      <a class="" href="bundles.html" role="menuitem">מארזים</a>
+    </div>
+  </details>
+
+  <details class="navGroup">
+    <summary>קהילה</summary>
+    <div class="navDrop" role="menu" aria-label="קהילה">
+      <a class="" href="wall-of-kindness.html" role="menuitem">קיר טוב</a>
+    </div>
+  </details>
+
+  <details class="navGroup">
+    <summary>אודות</summary>
+    <div class="navDrop" role="menu" aria-label="אודות">
+      <a class="" href="about.html" role="menuitem">אודות</a>
+      <a class="" href="contact.html" role="menuitem">צור קשר</a>
+    </div>
+  </details>
+</nav>
+
+  </div>
+</header>
+
 <main id="main">
-<section class="hero product-hero heroSmall">
-<img alt="" aria-hidden="true" class="decorPhoto decorCL" decoding="async" loading="eager" src="assets/img/photos/dad-whisky.jpg"/>
-<div class="wrap heroInner">
-<div class="heroCopy center-text">
-<h1>Wall of Kindness · קיר החסד</h1>
-<p>קהילה של השראה: שתפי תמונה של קנייה טבעונית או של חיית מחמד שהצלת 🐾</p>
-<div class="badgeRow center-badges">
-<div class="trust-badge"><span class="icon">💛</span> קהילה</div>
-<div class="trust-badge"><span class="icon">🐇</span> לא נוסו על בעלי חיים</div>
-<div class="trust-badge"><span class="icon">🐾</span> הצלה</div>
-</div>
-</div>
-</div>
-</section>
-<section class="panel filter-panel">
-<div class="wrap">
-<div class="toolbar-container contentCard">
-<div class="wallLayout">
-<aside aria-label="טופס שליחה" class="wallPanel">
-<h2 class="panelTitle">העלאת פוסט</h2>
-<p class="panelHint">שתפי תמונה של קנייה טבעונית או של חיית מחמד שהצלת 🐾<br/>בקרוב: קיר קהילתי פתוח לכולם.</p>
-<form id="wallForm" novalidate="">
-<div class="kbField">
-<label for="postType">סוג פוסט</label>
-<select class="kbSelect" id="postType" name="type" required="">
-<option value="haul">🛍️ קנייה ללא אכזריות (Haul)</option>
-<option value="pet">🐾 חיית מחמד מאומצת/מוצלת</option>
-</select>
-</div>
-<div class="kbRow2">
-<div class="kbField">
-<label for="postName">שם / אינסטגרם (אופציונלי)</label>
-<input class="kbInput" id="postName" name="name" placeholder="@yourhandle"/>
-</div>
-<div class="kbField">
-<label for="postLocation">עיר / מדינה (אופציונלי)</label>
-<input class="kbInput" id="postLocation" name="location" placeholder="Tel Aviv, IL"/>
-</div>
-</div>
-<div class="kbField">
-<label for="postCaption">טקסט קצר</label>
-<textarea class="kbTextarea" id="postCaption" name="caption" placeholder="מה שימח אותך היום? איזה מותג/מוצר? איך קוראים לחבר החדש?" required=""></textarea>
-</div>
-<div class="kbField">
-<label for="postPhoto">תמונה (JPG/PNG/WebP)</label>
-<input accept="image/*" class="kbInput" id="postPhoto" name="photo" required="" type="file"/>
-<div class="kbSmall">הדף מקטין את התמונה אוטומטית כדי לשמור מקום.</div>
-</div>
-<div class="kbField" style="margin-top:12px">
-<label style="display:flex; gap:10px; align-items:flex-start; font-weight:800">
-<input id="postConsent" required="" style="margin-top:3px; width:16px; height:16px" type="checkbox"/>
-<span>אני מאשרת/מאשר שיש לי זכות לפרסם את התמונה והיא אינה פוגעת באחרים.</span>
-</label>
-</div>
-<div class="kbPreview" id="photoPreview" style="display:none">
-<img alt="תצוגה מקדימה" id="photoPreviewImg" src=""/>
-</div>
-<div class="kbBtns">
-<button class="kbBtn kbBtnPrimary" id="btnSubmitPost" type="submit">פרסום 💛</button>
-<button class="kbBtn" id="btnExportPosts" type="button">ייצוא JSON</button>
-<button class="kbBtn kbBtnDanger" id="btnClearLocal" type="button">איפוס מקומי</button>
-</div>
-<div class="kbSmall" id="formMsg" style="margin-top:10px"></div>
-</form>
-</aside>
-<section aria-label="פיד קהילה">
-<div class="wallTopbar">
-<div aria-label="פילטר פוסטים" class="tabs" role="tablist">
-<button aria-selected="true" class="tab" data-tab="all" id="tabAll" role="tab">הכל</button>
-<button aria-selected="false" class="tab" data-tab="haul" id="tabHaul" role="tab">🛍️ קניות</button>
-<button aria-selected="false" class="tab" data-tab="pet" id="tabPet" role="tab">🐾 הצלה</button>
-</div>
-<div class="wallFilters">
-<input class="kbInput" id="feedSearch" placeholder="חיפוש בפיד…" type="search"/>
-<select class="kbSelect" id="feedSort" style="width: 170px">
-<option value="new">הכי חדש</option>
-<option value="top">הכי אהוב</option>
-</select>
-</div>
-</div>
-<div class="kbSmall" id="feedCount" style="margin-bottom:10px"></div>
-<div class="postsGrid" id="postsGrid"></div>
-</section>
-</div>
-</div>
-</div>
-</section>
+  <section class="hero product-hero heroSmall">
+    <img alt="" aria-hidden="true" class="decorPhoto decorCL" src="assets/img/photos/dogs-cuddle.jpg"/>
+    <div class="wrap heroInner">
+      <div class="heroCopy center-text">
+        <h1>Wall of Kindness · קיר החסד</h1>
+        <p>שיתופים מהקהילה: קניות ללא אכזריות 🛍️ + חיות מחמד מאומצות/מוצלות 🐾</p>
+        <div class="badgeRow center-badges">
+          <div class="trust-badge"><span class="icon">💛</span> Community</div>
+          <div class="trust-badge"><span class="icon">🐇</span> Cruelty‑Free</div>
+          <div class="trust-badge"><span class="icon">🐾</span> Rescue</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel filter-panel">
+    <div class="wrap">
+      <div class="toolbar-container contentCard">
+        <div class="wallLayout">
+          <aside class="wallPanel" aria-label="טופס שליחה">
+            <h2 class="panelTitle">העלאת פוסט</h2>
+            <p class="panelHint">
+              כרגע זה עובד כ־UGC “קליל” ושומר אצלך בדפדפן (LocalStorage) — מושלם לשלב ראשון / דמו.
+              אם תרצי שזה יהיה ציבורי לכל המשתמשים, אפשר לחבר Endpoint (הסבר בתוך <code>assets/js/wall-of-kindness.js</code>).
+            </p>
+
+            <form id="wallForm" novalidate>
+              <div class="kbField">
+                <label for="postType">סוג פוסט</label>
+                <select class="kbSelect" id="postType" name="type" required>
+                  <option value="haul">🛍️ קנייה ללא אכזריות (Haul)</option>
+                  <option value="pet">🐾 חיית מחמד מאומצת/מוצלת</option>
+                </select>
+              </div>
+
+              <div class="kbRow2">
+                <div class="kbField">
+                  <label for="postName">שם / אינסטגרם (אופציונלי)</label>
+                  <input class="kbInput" id="postName" name="name" placeholder="@yourhandle"/>
+                </div>
+                <div class="kbField">
+                  <label for="postLocation">עיר / מדינה (אופציונלי)</label>
+                  <input class="kbInput" id="postLocation" name="location" placeholder="Tel Aviv, IL"/>
+                </div>
+              </div>
+
+              <div class="kbField">
+                <label for="postCaption">טקסט קצר</label>
+                <textarea class="kbTextarea" id="postCaption" name="caption" placeholder="מה שימח אותך היום? איזה מותג/מוצר? איך קוראים לחבר החדש?" required></textarea>
+              </div>
+
+              <div class="kbField">
+                <label for="postPhoto">תמונה (JPG/PNG/WebP)</label>
+                <input class="kbInput" id="postPhoto" name="photo" type="file" accept="image/*" required/>
+                <div class="kbSmall">הדף מקטין את התמונה אוטומטית כדי לשמור מקום.</div>
+              </div>
+
+              <div class="kbField" style="margin-top:12px">
+                <label style="display:flex; gap:10px; align-items:flex-start; font-weight:800">
+                  <input id="postConsent" type="checkbox" required style="margin-top:3px; width:16px; height:16px"/>
+                  <span>אני מאשרת/מאשר שיש לי זכות לפרסם את התמונה והיא אינה פוגעת באחרים.</span>
+                </label>
+              </div>
+
+              <div class="kbPreview" id="photoPreview" style="display:none">
+                <img alt="תצוגה מקדימה" id="photoPreviewImg" src=""/>
+              </div>
+
+              <div class="kbBtns">
+                <button class="kbBtn kbBtnPrimary" id="btnSubmitPost" type="submit">פרסום 💛</button>
+                <button class="kbBtn" id="btnExportPosts" type="button">ייצוא JSON</button>
+                <button class="kbBtn kbBtnDanger" id="btnClearLocal" type="button">איפוס מקומי</button>
+              </div>
+
+              <div class="kbSmall" id="formMsg" style="margin-top:10px"></div>
+            </form>
+          </aside>
+
+          <section aria-label="פיד קהילה">
+            <div class="wallTopbar">
+              <div class="tabs" role="tablist" aria-label="פילטר פוסטים">
+                <button class="tab" id="tabAll" role="tab" aria-selected="true" data-tab="all">הכל</button>
+                <button class="tab" id="tabHaul" role="tab" aria-selected="false" data-tab="haul">🛍️ Hauls</button>
+                <button class="tab" id="tabPet" role="tab" aria-selected="false" data-tab="pet">🐾 Rescues</button>
+              </div>
+
+              <div class="wallFilters">
+                <input class="kbInput" id="feedSearch" type="search" placeholder="חיפוש בפיד…"/>
+                <select class="kbSelect" id="feedSort" style="width: 170px">
+                  <option value="new">הכי חדש</option>
+                  <option value="top">הכי אהוב</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="kbSmall" id="feedCount" style="margin-bottom:10px"></div>
+            <div class="postsGrid" id="postsGrid"></div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
-<div id="siteFooterMount"></div>
-<script data-base="./" defer="" src="assets/js/layout-inject.js?v=2026-01-31-v18"></script>
-<script defer="" src="assets/js/site.js?v=2026-01-31-v15"></script>
-<script defer="" src="assets/js/wall-of-kindness.js?v=2026-01-31-v10"></script>
+
+<footer class="siteFooter">
+  <div class="wrap">
+    <div aria-label="ציטוטים" class="footerQuotes">
+      <span class="quotePill">חמלה היא דרך חיים</span><span class="quotePill">חיה ותן לחיות</span><span class="quotePill">חמלה היא האופנה הכי יפה</span><span class="quotePill">היו טובים לכל היצורים</span>
+    </div>
+    <p class="muted">גילוי נאות והגבלת אחריות: התוכן בדף זה מיועד לקהילה ולשיתופים. אין לנו אחריות על תוכן משתמשים. אם נתקלת בתוכן בעייתי — אנא דווחי דרך “צור קשר”.</p>
+  </div>
+</footer>
+
+<script defer src="assets/js/site.js?v=2026-01-14-v12"></script>
+<script defer src="assets/js/wall-of-kindness.js?v=2026-01-30-v1"></script>
 <!-- Weglot helper: refresh translations after dynamic content renders -->
 <script>
 (function(){

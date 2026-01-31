@@ -1,152 +1,248 @@
 <!DOCTYPE html>
-
 <html dir="rtl" lang="he">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>Hidden Gems · טבעוני בעולם | לקנות ללא אכזריות</title>
-<meta content="רשימת Hidden Gems של מקומות טבעוניים בעולם: מסעדות ועסקים 100% טבעוניים — מסודר ונוח לחיפוש." name="description"/>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="assets/css/styles.css?v=2026-01-31-v17" rel="stylesheet"/>
-<link href="assets/img/logo.png" rel="icon" type="image/png"/>
-<style>
-  /* Hidden Gems – list view */
-  .hgTopRow{
-    display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end;
-    margin: 14px 0 10px;
-  }
-  .hgTopRow .field{ flex: 1; min-width: 240px; }
-  .hgMetaRow{
-    display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
-    margin-top: 8px;
-  }
-  .hgCount{
-    font-weight:700;
-  }
-  .hgGroups{
-    margin-top: 14px;
-    display:flex; flex-direction:column; gap: 16px;
-  }
-  .hgCountryHeader{
-    display:flex; align-items:center; justify-content:space-between; gap:12px;
-    margin: 0 0 10px;
-  }
-  .hgCountryHeader h3{
-    margin:0;
-    font-size: 1.05rem;
-  }
-  .hgGrid{
-    display:grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
-  }
-  .hgCard{
-    border: 1px solid rgba(0,0,0,.08);
-    border-radius: 14px;
-    padding: 14px;
-    background: #fff;
-    box-shadow: 0 10px 30px rgba(0,0,0,.06);
-    display:flex;
-    flex-direction:column;
-    gap: 8px;
-  }
-  .hgName{
-    margin:0;
-    font-weight: 800;
-    font-size: 1.02rem;
-    line-height: 1.25;
-  }
-  .hgLoc{
-    margin:0;
-    color: rgba(0,0,0,.68);
-    font-weight:600;
-  }
-  .hgAddr{
-    margin:0;
-    color: rgba(0,0,0,.62);
-    font-size:.95rem;
-  }
-  .hgActions{
-    display:flex; gap:8px; flex-wrap:wrap;
-    margin-top: 4px;
-  }
-  .hgActions a, .hgActions button{
-    font-size: .92rem;
-  }
-  .hgTag{
-    display:inline-flex;
-    align-items:center;
-    gap:6px;
-    padding: 6px 10px;
-    border-radius: 999px;
-    background: rgba(0,0,0,.06);
-    font-weight: 700;
-    font-size: .86rem;
-    color: rgba(0,0,0,.75);
-  }
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>Hidden Gems · מפת פנינים ללא אכזריות</title>
+  <meta content="מפה אינטראקטיבית של פנינים טבעוניות וללא ניסויים בעולם — בוטיקים, סלונים ומקלטים." name="description"/>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800&amp;display=swap" rel="stylesheet"/>
+  <link href="assets/css/styles.css?v=2026-01-14-v12" rel="stylesheet"/>
+  <link href="assets/img/logo.png" rel="icon" type="image/png"/>
 
-  @media (max-width: 980px){
-    .hgGrid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  }
-  @media (max-width: 560px){
-    .hgGrid{ grid-template-columns: 1fr; }
-  }
-</style>
+  <!-- Leaflet (map) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <style>
+    /* Page-only styles (do not affect site-wide) */
+    .pageMap .contentCard{ padding: 16px; }
+    .mapLayout{ display:grid; grid-template-columns: 1fr 340px; gap: 16px; align-items:start; }
+    @media (max-width: 960px){ .mapLayout{ grid-template-columns: 1fr; } }
+    .mapPane{ position:relative; overflow:hidden; border-radius: 16px; border: 1px solid rgba(15,23,42,.08); background: rgba(248,250,252,.7); }
+    #gemsMap{ height: 560px; width: 100%; }
+    @media (max-width: 520px){ #gemsMap{ height: 460px; } }
+
+    .mapControls{ border: 1px solid rgba(15,23,42,.08); border-radius: 16px; padding: 14px; background: rgba(255,255,255,.72); }
+    .mapTitle{ font-weight: 800; font-size: 16px; margin: 0 0 10px; }
+    .mapHint{ margin: 0 0 12px; font-size: 13px; color: rgba(15,23,42,.72); }
+    .kbField{ margin: 10px 0; }
+    .kbField label{ display:block; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: rgba(15,23,42,.78); }
+    .kbInput, .kbSelect{ width: 100%; border-radius: 12px; border: 1px solid rgba(15,23,42,.12); padding: 10px 12px; font-family: inherit; }
+    .kbChecks{ display:grid; gap: 8px; margin-top: 8px; }
+    .kbChecks label{ display:flex; gap: 10px; align-items:center; font-weight: 700; font-size: 14px; }
+    .kbChecks input{ width: 16px; height: 16px; }
+    .kbBtns{ display:flex; flex-wrap:wrap; gap: 10px; margin-top: 12px; }
+    .kbBtn{ cursor:pointer; border: 1px solid rgba(15,23,42,.12); border-radius: 999px; padding: 10px 12px; font-family: inherit; font-weight: 800; background: rgba(15,23,42,.04); }
+    .kbBtnPrimary{ background: rgba(16,185,129,.14); border-color: rgba(16,185,129,.28); }
+    .kbBtnGhost{ background: transparent; }
+    .kbCount{ margin-top: 10px; font-size: 13px; color: rgba(15,23,42,.70); }
+
+    .mapLegend{ position:absolute; inset-inline-start: 12px; inset-block-end: 12px; background: rgba(255,255,255,.82);
+      border: 1px solid rgba(15,23,42,.10); border-radius: 14px; padding: 10px 12px; display:grid; gap: 6px; }
+    .legendRow{ display:flex; gap: 8px; align-items:center; font-size: 13px; font-weight: 800; color: rgba(15,23,42,.80); }
+    .legendDot{ width: 10px; height: 10px; border-radius: 999px; }
+    .dotBoutique{ background: rgba(79,70,229,.92); }
+    .dotSalon{ background: rgba(236,72,153,.92); }
+    .dotSanctuary{ background: rgba(16,185,129,.92); }
+    .dotSuggest{ background: rgba(245,158,11,.92); }
+
+    .pinsNote{ margin-top: 12px; font-size: 12.5px; color: rgba(15,23,42,.68); line-height: 1.55; }
+    .pinsNote code{ background: rgba(15,23,42,.06); padding: 1px 6px; border-radius: 10px; }
+
+    .gemsList{ margin-top: 14px; display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; }
+    @media (max-width: 980px){ .gemsList{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
+    @media (max-width: 560px){ .gemsList{ grid-template-columns: 1fr; } }
+    .gemCard{ border: 1px solid rgba(15,23,42,.08); border-radius: 16px; padding: 12px; background: rgba(255,255,255,.74); cursor:pointer; }
+    .gemTop{ display:flex; justify-content:space-between; gap: 10px; align-items:flex-start; }
+    .gemName{ font-weight: 900; }
+    .gemType{ font-size: 12px; font-weight: 900; padding: 4px 10px; border-radius: 999px; border:1px solid rgba(15,23,42,.10); background: rgba(15,23,42,.04); }
+    .typeBoutique{ border-color: rgba(79,70,229,.25); background: rgba(79,70,229,.10); }
+    .typeSalon{ border-color: rgba(236,72,153,.25); background: rgba(236,72,153,.10); }
+    .typeSanctuary{ border-color: rgba(16,185,129,.25); background: rgba(16,185,129,.10); }
+    .typeSuggest{ border-color: rgba(245,158,11,.28); background: rgba(245,158,11,.12); }
+    .gemMeta{ margin-top: 6px; font-size: 13px; color: rgba(15,23,42,.72); }
+    .gemLink{ margin-top: 8px; font-size: 13px; font-weight: 800; text-decoration: underline; text-underline-offset: 3px; display:inline-block; }
+    .gemLink:hover{ opacity:.9; }
+
+    /* Marker pins (Leaflet divIcon) */
+    .kbPin{ width: 34px; height: 34px; border-radius: 999px; display:flex; align-items:center; justify-content:center;
+      border: 2px solid rgba(255,255,255,.95); box-shadow: 0 8px 18px rgba(15,23,42,.20); font-size: 16px; }
+    .kbPinBoutique{ background: rgba(79,70,229,.92); }
+    .kbPinSalon{ background: rgba(236,72,153,.92); }
+    .kbPinSanctuary{ background: rgba(16,185,129,.92); }
+    .kbPinSuggest{ background: rgba(245,158,11,.92); }
+
+    dialog.kbDialog{ border: 0; padding: 0; border-radius: 18px; width: min(640px, 92vw); box-shadow: 0 30px 90px rgba(2,6,23,.35); }
+    .kbDialogCard{ padding: 16px; background: #fff; }
+    .kbDialogHeader{ display:flex; justify-content:space-between; align-items:center; gap: 12px; margin-bottom: 8px; }
+    .kbDialogHeader h3{ margin: 0; font-size: 18px; }
+    .kbClose{ border: 1px solid rgba(15,23,42,.12); background: rgba(15,23,42,.04); border-radius: 999px; padding: 8px 12px; cursor:pointer; font-weight: 900; }
+    .kbDialogGrid{ display:grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 560px){ .kbDialogGrid{ grid-template-columns: 1fr; } }
+    .kbDialogFooter{ display:flex; flex-wrap:wrap; gap: 10px; margin-top: 12px; align-items:center; justify-content:space-between; }
+    .kbSmall{ font-size: 12.5px; color: rgba(15,23,42,.72); line-height:1.55; }
+  </style>
 </head>
+
 <body class="pageMap">
-<div id="siteHeaderMount"></div>
+<header class="siteHeader" id="siteHeader">
+  <div class="wrap headerRow">
+    <a aria-label="בית" class="logo" href="index.html">
+      <img alt="לקנות ללא אכזריות" class="logoImg" height="40" src="assets/img/logo.png" width="40"/>
+      <span class="logoText">לקנות ללא אכזריות</span>
+    </a>
+    <nav aria-label="ניווט ראשי" class="nav">
+  <a class="" href="index.html">בית</a>
+
+  <details class="navGroup">
+    <summary>מאגר</summary>
+    <div class="navDrop" role="menu" aria-label="מאגר">
+      <a class="" href="products.html" role="menuitem">מוצרים</a>
+      <a class="" href="israeli-brands.html" role="menuitem">מותגים בישראל</a>
+      <a class="" href="recommended-brands.html" role="menuitem">מותגים מחו״ל</a>
+    </div>
+  </details>
+
+  <details class="navGroup">
+    <summary>כלים</summary>
+    <div class="navDrop" role="menu" aria-label="כלים">
+      <a class="" href="ingredient-detective.html" role="menuitem">בודק רכיבים</a>
+      <a class="" href="shopping-calendar.html" role="menuitem">לוח מבצעים</a>
+    </div>
+  </details>
+
+  <details class="navGroup">
+    <summary>מדריכים</summary>
+    <div class="navDrop" role="menu" aria-label="מדריכים">
+      <a class="" href="vegan-in-israel.html" role="menuitem">טבעוני בישראל</a>
+      <a class="" href="hidden-gems-map.html" role="menuitem">Hidden Gems</a>
+      <a class="" href="learn.html" role="menuitem">מידע</a>
+    </div>
+  </details>
+
+  <details class="navGroup">
+    <summary>דילים</summary>
+    <div class="navDrop" role="menu" aria-label="דילים">
+      <a class="" href="todays-top-deals.html" role="menuitem">דילים חמים</a>
+      <a class="" href="bundles.html" role="menuitem">מארזים</a>
+    </div>
+  </details>
+
+  <details class="navGroup">
+    <summary>קהילה</summary>
+    <div class="navDrop" role="menu" aria-label="קהילה">
+      <a class="" href="wall-of-kindness.html" role="menuitem">קיר טוב</a>
+    </div>
+  </details>
+
+  <details class="navGroup">
+    <summary>אודות</summary>
+    <div class="navDrop" role="menu" aria-label="אודות">
+      <a class="" href="about.html" role="menuitem">אודות</a>
+      <a class="" href="contact.html" role="menuitem">צור קשר</a>
+    </div>
+  </details>
+</nav>
+
+  </div>
+</header>
+
 <main id="main">
-<section class="hero product-hero heroSmall">
-<img alt="" aria-hidden="true" class="decorPhoto decorCL" decoding="async" loading="eager" src="assets/img/photos/hero-intl.png"/>
-<div class="wrap heroInner">
-<div class="heroCopy center-text">
-<h1>Hidden Gems בעולם</h1>
-<p>רשימה מסודרת של מסעדות טבעוניות מומלצות בעולם — לחיפוש, סינון ושמירה לטיולים.</p>
-</div>
-</div>
-</section>
-<section class="panel">
-<div class="wrap">
-<div class="contentCard">
-<h2 class="sectionTitle">חיפוש וסינון</h2>
-<div class="hgTopRow">
-<div class="field">
-<label for="hgSearch">חיפוש</label>
-<input id="hgSearch" placeholder="לדוגמה: London, Athens, Pizza..." type="search"/>
-</div>
-<div class="field" style="min-width: 220px;">
-<label for="hgCountry">מדינה</label>
-<select id="hgCountry">
-<option value="all">כל המדינות</option>
-</select>
-</div>
-<div class="field" style="min-width: 220px;">
-<label for="hgSort">מיון</label>
-<select id="hgSort">
-<option value="country">מדינה → עיר → שם</option>
-<option value="name">שם (א״ב)</option>
-<option value="city">עיר (א״ב)</option>
-</select>
-</div>
-<div class="field" style="align-self:flex-end;">
-<button class="btnSmall" id="hgReset" type="button">איפוס</button>
-</div>
-</div>
-<div class="hgMetaRow">
-<div class="muted" style="margin:0;">טיפ: לחצי על “פתח במפות” כדי לנווט או לשמור.</div>
-<div class="hgCount"><span id="hgCount">0</span> מקומות</div>
-</div>
-</div>
-<div class="hgGroups" id="hgGroups"></div>
-</div>
-</section>
+  <section class="hero product-hero heroSmall">
+    <img alt="" aria-hidden="true" class="decorPhoto decorCL" src="assets/img/photos/hero-top.png"/>
+    <div class="wrap heroInner">
+      <div class="heroCopy center-text">
+        <h1>Hidden Gems · מפת פנינים ללא אכזריות בעולם</h1>
+        <p>בוטיקים טבעוניים, סלונים עם מוצרים מאושרי PETA, וחוות/מקלטים — כדי שתוכלי לתכנן טיול (או יום חופשי) עם לב שקט.</p>
+        <div class="badgeRow center-badges">
+          <div class="trust-badge"><span class="icon">🗺️</span> Map</div>
+          <div class="trust-badge"><span class="icon">🌿</span> Vegan</div>
+          <div class="trust-badge"><span class="icon">🐰</span> PETA</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel filter-panel">
+    <div class="wrap">
+      <div class="toolbar-container contentCard">
+        <div class="mapLayout">
+          <div class="mapPane">
+            <div id="gemsMap" aria-label="מפת פנינים"></div>
+            <div class="mapLegend" aria-label="מקרא">
+              <div class="legendRow"><span class="legendDot dotBoutique"></span>בוטיקים טבעוניים</div>
+              <div class="legendRow"><span class="legendDot dotSalon"></span>סלונים (PETA‑approved)</div>
+              <div class="legendRow"><span class="legendDot dotSanctuary"></span>חוות/מקלטים</div>
+              <div class="legendRow"><span class="legendDot dotSuggest"></span>המלצות מהקהילה</div>
+            </div>
+          </div>
+
+          <aside class="mapControls" aria-label="סינון וחיפוש">
+            <p class="mapTitle">סינון מהיר</p>
+            <p class="mapHint">טיפ: שמרי את הדף במועדפים לפני טיול ✨</p>
+
+            <div class="kbField">
+              <label for="mapSearch">חיפוש (עיר / מדינה / שם)</label>
+              <input class="kbInput" id="mapSearch" placeholder="למשל: Barcelona, Tokyo, Tel Aviv" type="search"/>
+            </div>
+
+            <div class="kbField">
+              <label for="mapRegion">אזור</label>
+              <select class="kbSelect" id="mapRegion">
+                <option value="all">כל העולם</option>
+                <option value="europe">אירופה</option>
+                <option value="middle-east">מזרח התיכון</option>
+                <option value="north-america">צפון אמריקה</option>
+                <option value="south-america">דרום אמריקה</option>
+                <option value="asia">אסיה</option>
+                <option value="africa">אפריקה</option>
+                <option value="oceania">אוקיאניה</option>
+              </select>
+            </div>
+
+            <div class="kbChecks" role="group" aria-label="קטגוריות">
+              <label><input checked id="fBoutique" type="checkbox"/> 🛍️ בוטיקים טבעוניים</label>
+              <label><input checked id="fSalon" type="checkbox"/> 💇‍♀️ סלונים (PETA‑approved)</label>
+              <label><input checked id="fSanctuary" type="checkbox"/> 🐮 חוות/מקלטים</label>
+              <label><input checked id="fSuggest" type="checkbox"/> ⭐ המלצות מהקהילה</label>
+            </div>
+
+            <div class="kbBtns">
+              <button class="kbBtn kbBtnPrimary" id="btnLocate" type="button">📍 מצאי סביבי</button>
+              <button class="kbBtn kbBtnGhost" id="btnReset" type="button">↩︎ איפוס</button>
+              <button class="kbBtn" id="btnSuggest" type="button">➕ להציע מקום</button>
+            </div>
+
+            <div class="kbCount" id="mapCount">טוען…</div>
+
+            <div class="pinsNote">
+              <strong>עריכת נקודות:</strong> ניתן להוסיף נקודות ב־<code>data/hidden-gems.json</code> (מומלץ),
+              או ישירות בקובץ <code>assets/js/hidden-gems-map.js</code>.
+              <br/>אם אין לך עדיין נתונים — הדף יעלה עם נקודות דוגמה.
+            </div>
+          </aside>
+        </div>
+
+        <div class="gemsList" id="gemsList" aria-label="רשימת פנינים"></div>
+      </div>
+    </div>
+  </section>
 </main>
-<div id="siteFooterMount"></div>
-<script data-base="./" defer="" src="assets/js/layout-inject.js?v=2026-01-31-v18"></script>
-<script defer="" src="assets/js/site.js?v=2026-01-31-v15"></script>
-<script defer="" src="assets/js/hidden-gems-map.js?v=2026-01-31-v10"></script>
+
+<footer class="siteFooter">
+  <div class="wrap">
+    <div aria-label="ציטוטים" class="footerQuotes">
+      <span class="quotePill">חמלה היא דרך חיים</span><span class="quotePill">חיה ותן לחיות</span><span class="quotePill">חמלה היא האופנה הכי יפה</span><span class="quotePill">היו טובים לכל היצורים</span>
+    </div>
+    <p class="muted">גילוי נאות והגבלת אחריות: התוכן בדף זה מיועד למידע בלבד. מומלץ לוודא עצמאית סטטוסים/אישורים מול העסק/הארגון. אם ידוע לך על שינוי/טעות — נשמח לקבל עדכון.</p>
+  </div>
+</footer>
+
+<script defer src="assets/js/site.js?v=2026-01-14-v12"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script defer src="assets/js/hidden-gems-map.js?v=2026-01-30-v1"></script>
 <!-- Weglot helper: refresh translations after dynamic content renders -->
 <script>
 (function(){

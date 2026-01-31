@@ -4,27 +4,86 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>דילים טבעוניים · מבצעים ללא ניסויים | לקנות ללא אכזריות</title>
-<meta content="דילים ומבצעים על מוצרים 100% טבעוניים ואשר לא נוסו על בעלי חיים. חיפוש, סינון וטעינה מהירה." name="description"/>
+<title>nocrueltyil.com | מומלצי היום באמזון </title>
+<meta content="המבצעים החמים של היום (דירוג אמזון גבוה)." name="description"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <!-- Page-only typography (does not change header/site-wide typography) -->
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
-<link href="assets/css/styles.css?v=2026-01-31-v17" rel="stylesheet"/>
+<link href="assets/css/styles.css?v=2026-01-14-v12" rel="stylesheet"/>
 <link href="assets/img/logo.png" rel="icon" type="image/png"/>
 </head>
 <body class="page-products page-deals">
-<div id="siteHeaderMount"></div>
+<header class="siteHeader" id="siteHeader">
+<div class="wrap headerRow">
+<a aria-label="בית" class="logo" href="index.html">
+<img alt="ללא ניסויים" class="logoImg" height="40" src="assets/img/logo.png" width="40"/>
+<span class="logoText">ללא ניסויים</span>
+</a>
+<nav aria-label="ניווט ראשי" class="nav">
+  <a class="" href="index.html">בית</a>
+
+  <details class="navGroup">
+    <summary>מאגר</summary>
+    <div class="navDrop" role="menu" aria-label="מאגר">
+      <a class="" href="products.html" role="menuitem">מוצרים</a>
+      <a class="" href="israeli-brands.html" role="menuitem">מותגים בישראל</a>
+      <a class="" href="recommended-brands.html" role="menuitem">מותגים מחו״ל</a>
+    </div>
+  </details>
+
+  <details class="navGroup">
+    <summary>כלים</summary>
+    <div class="navDrop" role="menu" aria-label="כלים">
+      <a class="" href="ingredient-detective.html" role="menuitem">בודק רכיבים</a>
+      <a class="" href="shopping-calendar.html" role="menuitem">לוח מבצעים</a>
+    </div>
+  </details>
+
+  <details class="navGroup">
+    <summary>מדריכים</summary>
+    <div class="navDrop" role="menu" aria-label="מדריכים">
+      <a class="" href="vegan-in-israel.html" role="menuitem">טבעוני בישראל</a>
+      <a class="" href="hidden-gems-map.html" role="menuitem">Hidden Gems</a>
+      <a class="" href="learn.html" role="menuitem">מידע</a>
+    </div>
+  </details>
+
+  <details class="navGroup">
+    <summary>דילים</summary>
+    <div class="navDrop" role="menu" aria-label="דילים">
+      <a class="" href="todays-top-deals.html" role="menuitem">דילים חמים</a>
+      <a class="" href="bundles.html" role="menuitem">מארזים</a>
+    </div>
+  </details>
+
+  <details class="navGroup">
+    <summary>קהילה</summary>
+    <div class="navDrop" role="menu" aria-label="קהילה">
+      <a class="" href="wall-of-kindness.html" role="menuitem">קיר טוב</a>
+    </div>
+  </details>
+
+  <details class="navGroup">
+    <summary>אודות</summary>
+    <div class="navDrop" role="menu" aria-label="אודות">
+      <a class="" href="about.html" role="menuitem">אודות</a>
+      <a class="" href="contact.html" role="menuitem">צור קשר</a>
+    </div>
+  </details>
+</nav>
+
+</div>
+</header>
 <main id="main">
 <section class="hero product-hero heroSmall">
-<img alt="" aria-hidden="true" class="decorPhoto decorCL" decoding="async" loading="eager" src="assets/img/photos/hero-top.png"/>
+<img alt="" aria-hidden="true" class="decorPhoto decorCL" src="assets/img/photos/hero-top.png"/>
 <div class="wrap heroInner">
 <div class="heroCopy center-text">
 <h1>המומלצים שלנו - מוצרים בהנחה מאמאזון ארה"ב</h1>
-          <div class="muted" style="margin-top:6px;font-weight:900;">עודכן לאחרונה: 31.01.2026</div>
 <div class="badgeRow center-badges">
 <div class="trust-badge"><span class="icon">🐇</span> Leaping Bunny</div>
-<div class="trust-badge"><span class="icon">🌿</span> טבעוני</div>
+<div class="trust-badge"><span class="icon">🌿</span> Vegan</div>
 <div class="trust-badge"><span class="icon">🐰</span> PETA</div>
 </div>
 </div>
@@ -32,8 +91,8 @@
 </section>
 <section class="wrap">
 <div class="dealsGrid" id="dealsGrid"></div>
-<div class="muted" id="dealsLoading" style="margin-top:14px">טוען מבצעים…</div>
-<div class="muted" id="dealsEmpty" style="margin-top:14px; display:none">
+<div id="dealsLoading" class="muted" style="margin-top:14px">טוען מבצעים…</div>
+<div id="dealsEmpty" class="muted" style="margin-top:14px; display:none">
   אין כרגע מוצרים מסומנים בהנחה.
   <br/>
   כדי להציג כאן מוצר, הוסיפי למוצר ב־<code>data/products.json</code> את השדה:
@@ -41,10 +100,16 @@
 </div>
 </section>
 </main>
-<div id="siteFooterMount"></div>
-<script data-base="./" defer="" src="assets/js/layout-inject.js?v=2026-01-31-v18"></script>
-<script defer="" src="assets/js/site.js?v=2026-01-31-v15"></script>
-<script defer="" src="assets/js/todays-deals.js?v=2026-01-31-v10"></script>
+<footer class="siteFooter">
+<div class="wrap">
+<div aria-label="ציטוטים" class="footerQuotes">
+<span class="quotePill">חמלה היא דרך חיים</span><span class="quotePill">חיה ותן לחיות</span><span class="quotePill">חמלה היא האופנה הכי יפה</span><span class="quotePill">היו טובים לכל היצורים</span>
+</div>
+<p class="muted"> As an Amazon Associate I earn from qualifying purchases. גילוי נאות והגבלת אחריות: באתר מופיעים קישורי שותפים, המאפשרים לקיום האתר, וברכישה דרך קישור כזה ייתכן שנקבל עמלה ללא עלות נוספת עבורך. התוכן מסופק “כמות שהוא” לצורכי מידע בלבד, וייתכנו טעויות/חוסרים/עיכובים בעדכון סטטוסים או אישורים של מותגים. איננו נושאים באחריות לכל נזק, הפסד או הוצאה (ישירים או עקיפים) הנובעים מהשימוש באתר או מהסתמכות על המידע. אם ידוע לך על שינוי/טעות — נשמח לקבל עדכון.</p>
+</div>
+</footer>
+<script defer="" src="assets/js/site.js?v=2026-01-14-v12"></script>
+<script defer="" src="assets/js/todays-deals.js?v=2026-01-28-v6"></script>
 <!-- Weglot helper: refresh translations after dynamic content renders -->
 <script>
 (function(){
