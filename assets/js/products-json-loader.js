@@ -1,4 +1,4 @@
-// Build: 2026-01-31-v10
+// Build: 2026-01-31-v11
 try { window.KBWG_PRODUCTS_BUILD = '2026-01-28-v1'; console.info('[KBWG] KBWG_PRODUCTS_BUILD ' + window.KBWG_PRODUCTS_BUILD); } catch(e) {}
 
 /*
@@ -135,7 +135,7 @@ try { window.KBWG_PRODUCTS_BUILD = '2026-01-28-v1'; console.info('[KBWG] KBWG_PR
     })
     .finally(function () {
       // The main page logic expects window.PRODUCTS to exist.
-      loadScript(resolveFromBase('assets/js/products.js?v=2026-01-31-v10')).catch(function (e) {
+      loadScript(resolveFromBase('assets/js/products.js')).catch(function (e) {
         console.error('[products-json-loader] Could not start products.js', e);
       });
     });
