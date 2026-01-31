@@ -6,7 +6,8 @@
   const HEADER_URL = base + 'partials/header.html';
   const FOOTER_URL = base + 'partials/footer.html';
 
-  function cacheKey(url){ return 'kbwg:partial:' + url; }
+  const CACHE_VERSION = 'v7';
+  function cacheKey(url){ return 'kbwg:partial:' + CACHE_VERSION + ':' + url; }
 
   async function inject(url, mountSelector) {
     const mount = document.querySelector(mountSelector);

@@ -290,7 +290,8 @@
   }
 
   async function focusOn(placeId) {
-    const p = STATE.places.find(x => x.id === placeId);
+    const pid = String(placeId);
+    const p = STATE.places.find(x => String(x.id) === pid);
     if (!p) return;
     if (!STATE.map) { renderMap({ fit: true }); }
     if (!STATE.map) return;
@@ -301,7 +302,7 @@
     }
     if (!p || !STATE.map || !Number.isFinite(p.lat) || !Number.isFinite(p.lng)) return;
     STATE.map.setView([p.lat, p.lng], 15, { animate: true });
-    const m = STATE.markers.find(mm => mm.__placeId === placeId);
+    const m = STATE.markers.find(mm => String(mm.__placeId) === pid);
     if (m) m.openPopup();
     // scroll to map on mobile
     $('#mapSection')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
