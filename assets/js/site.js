@@ -2,7 +2,7 @@
 
 (function () {
   // Build marker: use this to verify you loaded the latest JS
-  window.KBWG_BUILD = '2026-01-12-v6';
+  window.KBWG_BUILD = '2026-01-31-v20';
   try { console.info('[KBWG] build', window.KBWG_BUILD); } catch(e) {}
   function kbwgHighlightActiveNav(){
     const pathname = window.location.pathname || '';
@@ -111,25 +111,6 @@
     kbwgSetupMobileNav();
   }
 
-    if (!href) return;
-
-    const isHomeLink = (href === 'index.html' || href.endsWith('/index.html'));
-    const onHome = (
-      pathname === '/' ||
-      pathname === '' ||
-      /\/index\.html?$/.test(pathname) ||
-      /\/$/.test(pathname)
-    );
-
-    if (
-      (isHomeLink && onHome) ||
-      pathname.endsWith('/' + href) ||
-      pathname.endsWith(href)
-    ) {
-      a.classList.add('active');
-      a.setAttribute('aria-current', 'page');
-    }
-  });
 
   // Hero quote rotator (rotates through the 5 quotes)
   const QUOTES = [
@@ -167,60 +148,6 @@
   }
 
 
-      const close = () => {
-        header.classList.remove('navOpen'); header.classList.remove('navopen');
-        document.body.classList.remove('menuOpen'); document.body.classList.remove('menuopen');
-        btn.setAttribute('aria-expanded', 'false');
-      };
-      const open = () => {
-        header.classList.add('navOpen'); header.classList.add('navopen');
-        document.body.classList.add('menuOpen'); document.body.classList.add('menuopen');
-        btn.setAttribute('aria-expanded', 'true');
-      };
-
-
-      // Insert a branded header inside the drawer (mobile only)
-      if (!nav.querySelector('.navDrawerHeader')) {
-        const drawerHeader = document.createElement('div');
-        drawerHeader.className = 'navDrawerHeader';
-        drawerHeader.innerHTML = `
-          <a class="navDrawerLogo" href="index.html" aria-label="דף הבית">
-            <img class="navDrawerLogoImg" src="assets/img/logo.png" alt="ללא ניסויים" width="34" height="34" />
-            <span class="navDrawerLogoText">ללא ניסויים</span>
-          </a>
-          <button type="button" class="navDrawerClose" aria-label="סגירה">×</button>
-        `;
-        nav.insertBefore(drawerHeader, nav.firstChild);
-
-        const closeBtn = drawerHeader.querySelector('.navDrawerClose');
-        const homeLogo = drawerHeader.querySelector('.navDrawerLogo');
-        if (closeBtn) closeBtn.addEventListener('click', close);
-        if (homeLogo) homeLogo.addEventListener('click', close);
-      }
-
-
-      btn.addEventListener('click', () => {
-        const isOpen = header.classList.contains('navOpen');
-        isOpen ? close() : open();
-      });
-      overlay.addEventListener('click', close);
-
-
-      // Close when a link is clicked
-      nav.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
-
-      // Close on Escape
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') close();
-      });
-
-      // Close when switching to desktop width
-      const mq = window.matchMedia('(min-width: 901px)');
-      const onMq = () => { if (mq.matches) close(); };
-      mq.addEventListener ? mq.addEventListener('change', onMq) : mq.addListener(onMq);
-      onMq();
-    }
-  }
 
     // מוצרים page: collapsible Amazon US/UK info box
     // Makes the heading "איך זה עובד עם אמזון ארה"ב ואנגליה?" clickable and toggles the extra details.

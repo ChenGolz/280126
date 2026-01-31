@@ -1,6 +1,7 @@
-// KBWG layout injector (shared header/footer) — Build 2026-01-31-v19
+// Build: 2026-01-31-v20
+// KBWG layout injector (shared header/footer) — Build 2026-01-31-v20
 (function() {
-  const BUILD = '2026-01-31-v19';
+  const BUILD = '2026-01-31-v20';
   const fetchText = async (url) => {
     const res = await fetch(url, { cache: 'force-cache' });
     if (!res.ok) throw new Error('Failed to fetch ' + url + ' (' + res.status + ')');
