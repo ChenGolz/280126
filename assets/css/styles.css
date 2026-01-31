@@ -4376,3 +4376,68 @@ input,button,select,textarea{ font-family: inherit; }
   margin: 16px 0 6px;
 }
 .kbLoadMoreWrap .btn{ min-width: 180px; }
+
+
+/* Home teasers (v12) — lightweight preview grids */
+.homeTeasers .contentCard{ background: rgba(255,255,255,.80); }
+.homeTeaserLoading{
+  display:flex; align-items:center; justify-content:center;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px dashed rgba(42,91,154,.22);
+  background: rgba(157,195,230,.14);
+  font-weight: 900;
+}
+.homeTeaserEmpty{ padding: 10px 0; text-align:center; }
+
+.homeCardsGrid{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 10px;
+}
+.homeCardsGrid--deals .dealCard,
+.homeCardsGrid--products .productCard{
+  box-shadow: var(--shadow);
+}
+.homeCardsGrid .dealCard{ margin:0; }
+.homeCardsGrid .dealCta .dealBtn{ padding: 8px 10px; border-radius: 12px; }
+.homeCardsGrid .productCard{ padding: 14px; }
+.homeCardsGrid .pMedia img{ border-radius: 14px; }
+
+@media (max-width: 900px){
+  .homeCardsGrid{ grid-template-columns: 1fr; }
+}
+
+
+/* Pager (v12) — shared pagination UI */
+.pager{
+  margin: 14px 0 4px;
+  display:flex;
+  justify-content:center;
+}
+.pagerRow{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  padding: 10px 12px;
+  border-radius: 16px;
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,.78);
+}
+.pagerNums{ display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
+.pagerBtn,.pagerNum{
+  border: 1px solid rgba(42,91,154,.22);
+  background: rgba(157,195,230,.18);
+  color: #0f172a;
+  font-weight: 1000;
+  padding: 8px 10px;
+  border-radius: 12px;
+  cursor:pointer;
+}
+.pagerBtn[disabled]{ opacity:.5; cursor: not-allowed; }
+.pagerNum.is-active{
+  background: rgba(42,91,154,.20);
+}
+.pagerEllipsis{ padding: 0 6px; font-weight: 900; color: var(--muted); }
