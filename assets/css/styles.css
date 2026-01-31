@@ -1094,14 +1094,9 @@ body{font-family: var(--he-font);}
 .hero.product-hero > .decorPhoto{
   position: static;
   flex: 0 0 auto;
-  width: min(340px, 34vw);
-  max-width: 360px;
-  display: block;
-  height: 220px;               /* keep a consistent hero image area */
-  object-fit: contain;          /* show the WHOLE image */
-  object-position: center;      /* centered */
-  background: rgba(255,255,255,.12);
-  padding: 8px;
+  width: min(320px, 30vw);
+  max-width: 340px;
+  height: auto;
   opacity: 1;
   margin: 0;
   border-radius: 18px;
@@ -1126,14 +1121,12 @@ body{font-family: var(--he-font);}
     box-shadow: 0 10px 20px rgba(0,0,0,.09);
   }
   .hero.product-hero > .decorPhoto{
-    width: 122px;
-    max-width: 38vw;
-    height: 92px;
-    padding: 4px;
+    width: 110px;
+    max-width: 34vw;
+    max-height: 84px;
+    padding: 0;
     border-radius: 14px;
-    object-fit: contain;
-    object-position: center;
-}
+  }
   .hero.product-hero .wrap.heroInner{
     flex: 1 1 auto;
     max-width: none;
@@ -4306,4 +4299,57 @@ input,button,select,textarea{ font-family: inherit; }
   .heroInner{ grid-template-columns: 1fr; }
   .heroMedia{ max-height: 320px; }
   .siteHeader .nav a{ padding: 8px 10px; }
+}
+
+
+
+/* ===== HERO RESPONSIVE FIX (v9) =====
+   Goal: prevent oversized hero on iPad/tablet and show full hero images without cropping.
+*/
+.hero{ 
+  /* don't force viewport-height heroes */
+  min-height: unset;
+}
+.hero .heroInner{
+  min-height: unset;
+}
+.hero.product-hero.heroSmall{
+  padding: 34px 0;
+}
+.hero.product-hero.heroSmall .heroInner{
+  gap: 18px;
+}
+
+/* Make hero image area predictable across breakpoints */
+.hero.product-hero > .decorPhoto{
+  display: block;
+  width: min(360px, 34vw);
+  max-width: 360px;
+  height: 220px;
+  object-fit: contain;
+  object-position: center;
+}
+
+/* Tablet/iPad: reduce vertical space and prevent huge empty areas */
+@media (min-width: 641px) and (max-width: 1024px){
+  .hero.product-hero.heroSmall{ padding: 26px 0; }
+  .hero.product-hero.heroSmall .heroInner{ min-height: unset; }
+  .hero.product-hero > .decorPhoto{
+    width: min(260px, 34vw);
+    height: 160px;
+  }
+}
+
+/* Mobile: keep hero compact */
+@media (max-width: 640px){
+  .hero.product-hero.heroSmall{ padding: 22px 0; }
+  .hero.product-hero > .decorPhoto{
+    width: 122px;
+    height: 92px;
+  }
+}
+
+/* Tablet hero padding clamp */
+@media (min-width: 641px) and (max-width: 1024px){
+  .hero{ padding-top: 40px; padding-bottom: 34px; }
 }
