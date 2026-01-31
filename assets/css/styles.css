@@ -1,5 +1,7 @@
 /* KBWG – full standalone styling (RTL-first) */
 :root{
+  --font-main: \"Assistant\", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
   --bg: #f6f7f4;
   --paper: rgba(255,255,255,.85);
   --paper2: rgba(255,255,255,.70);
@@ -16,10 +18,11 @@
 }
 
 *{ box-sizing:border-box; }
-html,body{ height:100%; }
+html,html{ font-family: var(--font-main); }
+body{ height:100%; }
 body{
   margin:0;
-  font-family: "Heebo","Assistant","Rubik", system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+  font-family: var(--font-main);
   color: var(--ink);
   background:
     radial-gradient(900px 500px at 80% 10%, rgba(42,91,154,.12), transparent 60%),
@@ -41,6 +44,12 @@ h1,h2,h3{ line-height: 1.15; letter-spacing: .2px; }
 h1{ font-size: clamp(30px, 4vw, 44px); margin:0 0 10px; }
 h2{ font-size: clamp(20px, 2.6vw, 28px); margin:0 0 10px; }
 h3{ font-size: 18px; margin:0 0 8px; }
+
+
+/* Global font consistency */
+button, input, select, textarea, option, label, .btn, .pill, .tag, .nav, .siteHeader, .siteFooter{
+  font-family: var(--font-main);
+}
 
 /* Header */
 .siteHeader{
@@ -1066,7 +1075,7 @@ body::after{
   --card-hover:0 12px 28px rgba(0,0,0,.12);
   --radius:12px;
 }
-body{font-family:"Heebo","Assistant",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;}
+body{font-family: var(--font-main);}
 .logoTag{font-size:12px;color:rgba(255,255,255,.9);margin-inline-start:10px;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.14);}
 .siteHeader{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.85);backdrop-filter:saturate(180%) blur(10px);}
 .siteHeader .logoTag{color:#1f2a37;background:rgba(42,91,154,.12);}
@@ -1840,7 +1849,7 @@ body{ overflow-x: hidden; }
 .brandLinks a{font-weight:900;}
 
 /* מוצרים page – premium font + subtle wow, without touching header/hero */
-.page-products main{font-family:"Assistant",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;font-weight:400;}
+.page-products main{font-family:var(--font-main);font-weight:400;}
 .page-products main p,.page-products main li,.page-products main .muted{font-weight:300;}
 .page-products main h1,.page-products main h2,.page-products main h3{font-weight:500;}
 .page-products .productsResults .productCard{transition:transform .18s, box-shadow .18s, border-color .18s;}
@@ -3538,7 +3547,7 @@ html, body{ overflow-x: hidden; }
 
 /* --- Hebrew RTL enhancements --- */
 :root { --he-font: 'Heebo', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif; }
-html[dir="rtl"] body { direction: rtl; text-align: right; font-family: var(--he-font); }
+html[dir="rtl"] body { direction: rtl; text-align: right; font-family: var(--font-main); }
 html[dir="rtl"] input, html[dir="rtl"] textarea, html[dir="rtl"] select { font-family: var(--he-font); }
 html[dir="rtl"] .nav, html[dir="rtl"] nav ul { flex-direction: row; }
 html[dir="rtl"] .menu, html[dir="rtl"] .topMenu, html[dir="rtl"] .navbar, html[dir="rtl"] .nav-links { flex-direction: row; }
@@ -4333,3 +4342,55 @@ body.menuOpen .navOverlay{
 .hero .btn.ghost:hover{ color: rgba(15,23,42,1); }
 .hero .heroCopy .muted, .hero .heroCopy p{ color: rgba(15,23,42,.90); }
 .hero.product-hero{ color: rgba(15,23,42,.95); }
+
+/* Grouped nav enhancements (v23): one-open behavior + full-width tabs */
+@media (min-width: 900px){
+  .siteHeader .nav{
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    gap: 8px;
+    overflow: visible;
+    white-space: normal;
+  }
+  .siteHeader .nav > a,
+  .siteHeader .nav > details.navGroup{
+    flex: 1 1 0;
+    display:flex;
+    justify-content:center;
+  }
+  .siteHeader .nav > a{
+    padding: 8px 10px;
+    border-radius: 14px;
+    font-weight: 900;
+  }
+  .siteHeader .navGroup > summary{
+    width: 100%;
+    justify-content: center;
+  }
+  .siteHeader .navDrop{
+    min-width: 260px;
+  }
+}
+
+@media (max-width: 899px){
+  /* mobile/tablet: keep swipe menu but dropdowns should not be clipped */
+  .siteHeader .nav{
+    overflow-x: auto;
+  }
+  .siteHeader .navDrop{
+    position: fixed;
+    top: 64px;
+    right: 12px;
+    left: 12px;
+    width: auto;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+}
+
+/* Ensure dropdown is always readable and above hero */
+.siteHeader .navDrop{
+  z-index: 5000;
+}
+

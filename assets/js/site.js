@@ -2,7 +2,7 @@
 
 (function () {
   // Build marker: use this to verify you loaded the latest JS
-  window.KBWG_BUILD = '2026-02-01-v22';
+  window.KBWG_BUILD = '2026-02-01-v23';
   try { console.info('[KBWG] build', window.KBWG_BUILD); } catch(e) {}
   // Auto-highlight active nav (fallback if aria-current isn't set)
   const pathname = window.location.pathname || '';
@@ -152,7 +152,37 @@
     // מוצרים page: collapsible Amazon US/UK info box
     // Makes the heading "איך זה עובד עם אמזון ארה"ב ואנגליה?" clickable and toggles the extra details.
     
+
+function kbwgSetupNavGroups(){
+  try{
+    const groups = Array.from(document.querySelectorAll('.siteHeader details.navGroup'));
+    if(!groups.length) return;
+
+    // Close others when one opens
+    groups.forEach(d => {
+      d.addEventListener('toggle', () => {
+        if(d.open){
+          groups.forEach(o => { if(o !== d) o.open = false; });
+        }
+      });
+    });
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if(!e.target.closest('.siteHeader .navGroup')){
+        groups.forEach(o => o.open = false);
+      }
+    });
+
+    // Close on scroll (prevents floating dropdown)
+    window.addEventListener('scroll', () => {
+      groups.forEach(o => o.open = false);
+    }, { passive: true });
+  } catch(e) {}
+}
+
 function kbwgInitAll(){
+  try { kbwgSetupNavGroups && kbwgSetupNavGroups(); } catch(e) {}
   try { kbwgSetActiveNav && kbwgSetActiveNav(); } catch(e) {}
   try { kbwgSetupMobileNav && kbwgSetupMobileNav(); } catch(e) {}
   try {
