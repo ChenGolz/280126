@@ -1,4 +1,4 @@
-// Home page helpers (v12) — fast, minimal, non-salesy
+// Home page helpers (v14) — fast, minimal, non-salesy
 (function(){
   function qs(sel){ return document.querySelector(sel); }
   function esc(s){
@@ -6,12 +6,43 @@
       return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]);
     });
   }
+
+  function isValidImg(u){
+    if(typeof u !== 'string') return false;
+    var s = u.trim();
+    return s.length > 6;
+  }
+
   function idle(fn){
     if ('requestIdleCallback' in window) {
       window.requestIdleCallback(fn, { timeout: 1800 });
     } else {
       setTimeout(fn, 650);
     }
+  }
+
+
+  function onVisible(el, fn){
+    if(!el || typeof fn !== 'function') return;
+    var done = false;
+    function run(){
+      if(done) return;
+      done = true;
+      fn();
+    }
+    if(!('IntersectionObserver' in window)){
+      run();
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          io.disconnect();
+          run();
+        }
+      });
+    }, { rootMargin: '200px 0px' });
+    io.observe(el);
   }
 
   function bindHomeSearch(){
@@ -76,7 +107,7 @@
       return av - bv;
     });
 
-    var top = deals.slice(0, 6);
+    var top = deals.slice(0, 4);
     loading.style.display = 'none';
     grid.innerHTML = '';
     if (empty) empty.textContent = '';
@@ -90,7 +121,7 @@
     top.forEach(function(p){
       var brand = esc(p.brand || '');
       var name = esc(p.name || '');
-      var img = p.image ? esc(p.image) : '';
+      var img = isValidImg(p.image) ? esc(p.image) : '';
       var best = pickBestOffer(p);
       var priceText = best ? formatMoney(best._price, best.currency) : '';
       html += (
@@ -138,7 +169,7 @@
       return 0;
     });
 
-    var top = products.slice(0, 6);
+    var top = products.slice(0, 4);
     loading.style.display = 'none';
     grid.innerHTML = '';
     if (empty) empty.textContent = '';
@@ -152,7 +183,7 @@
     top.forEach(function(p){
       var brand = esc(p.brand || '');
       var name = esc(p.name || '');
-      var img = p.image ? esc(p.image) : '';
+      var img = isValidImg(p.image) ? esc(p.image) : '';
       var q = encodeURIComponent((p.brand || '') + ' ' + (p.name || ''));
       html += (
         '<article class="productCard">' +
@@ -201,7 +232,7 @@
 
   function init(){
     bindHomeSearch();
-    idle(loadTeasers);
+    onVisible(qs('#homeTeasers') || qs('#homeDealsGrid') || qs('#homeProductsGrid'), function(){ idle(loadTeasers); });
   }
 
   if(document.readyState === 'loading'){
