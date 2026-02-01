@@ -1,4 +1,4 @@
-// Build: 2026-01-31-v21
+// Build: 2026-02-01-v27
 (function(){
   const base = (document.currentScript && document.currentScript.dataset && document.currentScript.dataset.base) ? document.currentScript.dataset.base : '';
   const headerMount = document.getElementById('siteHeaderMount');
@@ -6,7 +6,7 @@
 
   function fetchInto(url, mount){
     if(!mount) return Promise.resolve();
-    return fetch(base + url + '?v=2026-02-01-v25', { cache: 'force-cache' })
+    return fetch(base + url + '?v=2026-02-01-v27', { cache: 'force-cache' })
       .then(r => r.text())
       .then(html => {
         mount.innerHTML = html;

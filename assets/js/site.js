@@ -154,142 +154,37 @@
     
 
 function kbwgSetupNavGroups(){
-  // Legacy <details> dropdowns (if still present)
-  const detailsGroups = Array.from(document.querySelectorAll("details.navGroup"));
-  if(detailsGroups.length){
-    const closeAllDetails = (except) => {
-      detailsGroups.forEach(d => {
-        if(d !== except) d.removeAttribute("open");
-      });
-    };
+  try{
+    const groups = Array.from(document.querySelectorAll('.siteHeader details.navGroup'));
+    if(!groups.length) return;
 
-    detailsGroups.forEach(d => {
-      d.addEventListener("toggle", () => {
-        if(d.open) closeAllDetails(d);
+    // Close others when one opens
+    groups.forEach(d => {
+      d.addEventListener('toggle', () => {
+        if(d.open){
+          groups.forEach(o => { if(o !== d) o.open = false; });
+        }
       });
     });
 
-    document.addEventListener("click", (e) => {
-      if(!e.target.closest("details.navGroup")) closeAllDetails();
-    });
-  }
-
-  // New dropdown groups: title is a link + arrow button opens menu
-  const groups = Array.from(document.querySelectorAll("[data-navgroup]"));
-  if(!groups.length) return;
-
-  const closeAll = (except) => {
-    groups.forEach(g => {
-      if(g === except) return;
-      g.classList.remove("isOpen");
-      const btn = g.querySelector(".navToggle");
-      const drop = g.querySelector(".navDrop");
-      if(btn) btn.setAttribute("aria-expanded", "false");
-      if(drop) drop.hidden = true;
-    });
-  };
-
-  const openGroup = (g) => {
-    closeAll(g);
-    g.classList.add("isOpen");
-    const btn = g.querySelector(".navToggle");
-    const drop = g.querySelector(".navDrop");
-    if(btn) btn.setAttribute("aria-expanded", "true");
-    if(drop) drop.hidden = false;
-  };
-
-  const closeGroup = (g) => {
-    g.classList.remove("isOpen");
-    const btn = g.querySelector(".navToggle");
-    const drop = g.querySelector(".navDrop");
-    if(btn) btn.setAttribute("aria-expanded", "false");
-    if(drop) drop.hidden = true;
-  };
-
-  groups.forEach(g => {
-    const btn = g.querySelector(".navToggle");
-    const drop = g.querySelector(".navDrop");
-    if(!btn || !drop) return;
-
-    // Initial state
-    btn.setAttribute("aria-expanded", "false");
-    drop.hidden = true;
-
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      const isOpen = g.classList.contains("isOpen");
-      if(isOpen) closeGroup(g);
-      else openGroup(g);
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if(!e.target.closest('.siteHeader .navGroup')){
+        groups.forEach(o => o.open = false);
+      }
     });
 
-    // Clicking inside the dropdown shouldn't bubble and close it immediately
-    drop.addEventListener("click", (e) => {
-      e.stopPropagation();
-      // If user clicked a link - close dropdown (navigation continues)
-      const a = e.target.closest("a");
-      if(a) closeGroup(g);
-    });
-  });
-
-  // Click outside closes any open dropdown
-  document.addEventListener("click", (e) => {
-    if(!e.target.closest("[data-navgroup]")) closeAll();
-  });
-
-  // Escape closes dropdown
-  document.addEventListener("keydown", (e) => {
-    if(e.key === "Escape") closeAll();
-  });
-
-  window.addEventListener("resize", () => closeAll(), { passive: true });
-
-  // Active link highlighting (stable, across all pages)
-  const current = (location.pathname.split("/").pop() || "index.html").toLowerCase();
-  const navLinks = Array.from(document.querySelectorAll("#primaryNav a[href]"));
-  navLinks.forEach(a => {
-    const href = (a.getAttribute("href") || "").toLowerCase();
-    if(!href || href.startsWith("http") || href.startsWith("#")) return;
-    const isActive = href === current;
-    a.classList.toggle("active", isActive);
-  });
-
-  // If a submenu item is active, also mark its top link
-  groups.forEach(g => {
-    const top = g.querySelector(".navTop");
-    if(!top) return;
-    const anyActive = !!g.querySelector(".navDrop a.active");
-    if(anyActive) top.classList.add("active");
-  });
+    // Close on scroll (prevents floating dropdown)
+    window.addEventListener('scroll', () => {
+      groups.forEach(o => o.open = false);
+    }, { passive: true });
+  } catch(e) {}
 }
 
-
-function kbwgOptimizeImages(){
-  // Make image decoding non-blocking, and lazy-load non-hero images for speed
-  const imgs = Array.from(document.querySelectorAll("img"));
-  imgs.forEach(img => {
-    try{
-      if(!img.getAttribute("decoding")) img.setAttribute("decoding","async");
-      const inHero = !!img.closest(".hero");
-      if(!inHero && !img.getAttribute("loading")) img.setAttribute("loading","lazy");
-    }catch(_e){}
-  });
-}
 function kbwgInitAll(){
-  kbwgOptimizeImages();
   try { kbwgSetupNavGroups && kbwgSetupNavGroups(); } catch(e) {}
   try { kbwgSetActiveNav && kbwgSetActiveNav(); } catch(e) {}
   try { kbwgSetupMobileNav && kbwgSetupMobileNav(); } catch(e) {}
-  try {
-    // Optional: fix an older awkward homepage hero sentence (safe, exact-match only)
-    const heroP = document.querySelector('.page-home .hero .heroCopy p');
-    if (heroP) {
-      const t = (heroP.textContent || '').trim();
-      if (t === 'הבית שלך לקניות לקנות ללא אכזריות בבעלי חיים — חיפוש מוצרים, בודק רכיבים ולוח מבצעים') {
-        heroP.textContent = 'המדריך לקניות 100% טבעוניות ואשר לא נוסו על בעלי חיים — מוצרים, מותגים, מפענח רכיבים ודילים.';
-      }
-    }
-  } catch(e) {}
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -715,17 +610,6 @@ window.addEventListener('DOMContentLoaded', () => {
         firstP.insertAdjacentElement('afterend', p);
       } else {
         hero.appendChild(p);
-      }
-    }
-  } catch(e) {}
-
-  try {
-    // Optional: fix an older awkward homepage hero sentence (safe, exact-match only)
-    const heroP = document.querySelector('.page-home .hero .heroCopy p');
-    if (heroP) {
-      const t = (heroP.textContent || '').trim();
-      if (t === 'הבית שלך לקניות לקנות ללא אכזריות בבעלי חיים — חיפוש מוצרים, בודק רכיבים ולוח מבצעים') {
-        heroP.textContent = 'המדריך לקניות 100% טבעוניות וללא ניסויים בבעלי חיים — מוצרים, מותגים, בודק רכיבים ולוח מבצעים.';
       }
     }
   } catch(e) {}
