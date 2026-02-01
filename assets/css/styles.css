@@ -181,6 +181,44 @@ h3{ font-size: 18px; margin:0 0 8px; }
   .heroInner{ grid-template-columns: 1fr; }
 }
 
+/* Mobile nav reliability (v22)
+   1) Ensure the hamburger is visible up to 920px (drawer breakpoint).
+   2) Force dropdowns to render as inline accordions inside the drawer
+      (avoids absolute-position overlap/clipping on tablets).
+   3) Hide the off-canvas nav from hit-testing when closed.
+*/
+@media (max-width: 920px){
+  /* Hamburger must exist at the same breakpoint as the drawer */
+  #siteHeader .navToggle,
+  .siteHeader .navToggle{
+    display: inline-flex !important;
+    position: relative;
+    z-index: 100000 !important;
+    touch-action: manipulation;
+  }
+
+  /* Prevent the off-canvas panel from capturing taps when closed */
+  #siteHeader .nav,
+  .siteHeader .nav{
+    visibility: hidden !important;
+  }
+  #siteHeader.navOpen .nav,
+  .siteHeader.navOpen .nav{
+    visibility: visible !important;
+  }
+
+  /* Dropdowns should be inline inside the drawer (no overlap) */
+  #siteHeader .navDrop,
+  .siteHeader .navDrop{
+    position: static !important;
+    top: auto !important;
+    right: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    margin: 6px 0 10px !important;
+  }
+}
+
 /* --- Compact heroes (show content without scrolling) --- */
 .hero.heroCompact{ margin: 10px 0 12px; }
 .hero.heroCompact .heroInner{
@@ -1446,7 +1484,7 @@ body{ overflow-x: hidden; }
 
 .navDrawerHeader{ display:none; }
 
-@media (max-width: 900px){
+@media (max-width: 920px){
   /* Ensure drawer is above overlay (header creates stacking context due to backdrop-filter) */
   .siteHeader{ z-index: 10001; }
 
@@ -4683,78 +4721,47 @@ picture.decorPhoto > img{
   }
 }
 
-/* =========================================================
-   HERO headers: consistent size + show full image (v23)
-   Update: user wants the *bigger* hero images back, BUT consistent
-   height/size across pages, and images fully visible (no zoom/crop).
-========================================================= */
+/* Mobile nav reliability (v22)
+   - Drawer breakpoint is <=920px (matches the z-index/readability guards).
+   - Some devices (esp. tablets / landscape phones) fell into a gap where
+     the drawer CSS applied but the hamburger button was hidden.
+   - Also force dropdowns to render inline inside the drawer to avoid
+     absolute-position overlap/clipping.
+*/
+@media (max-width: 920px){
+  /* Ensure the toggle is visible/clickable at the same breakpoint */
+  #siteHeader .navToggle,
+  .siteHeader .navToggle{
+    display: inline-flex !important;
+    position: relative;
+    z-index: 100000 !important;
+    touch-action: manipulation;
+  }
 
-/* Consistent hero spacing everywhere (keep it roomy) */
-.hero.product-hero{
-  padding-block: clamp(26px, 3.2vw, 40px) !important;
-}
-.hero.product-hero .heroInner{
-  gap: 18px !important;
-}
+  /* Prevent off-canvas drawer from intercepting taps when closed */
+  #siteHeader .nav,
+  .siteHeader .nav{
+    visibility: hidden !important;
+  }
+  #siteHeader.navOpen .nav,
+  .siteHeader.navOpen .nav{
+    visibility: visible !important;
+  }
 
-/* Larger, consistent hero media box (same size on all pages for the same viewport) */
-.hero.product-hero{
-  --heroMediaW: min(340px, 30vw);
-  --heroMediaH: 260px;
-}
-@media (min-width: 641px) and (max-width: 1024px){
-  .hero.product-hero{ --heroMediaW: min(280px, 34vw); --heroMediaH: 210px; }
-}
-@media (max-width: 640px){
-  .hero.product-hero{ --heroMediaW: 200px; --heroMediaH: 160px; }
-}
-
-/* Apply the fixed box to either <img.decorPhoto> or <picture.decorPhoto> */
-.hero.product-hero > .decorPhoto,
-.hero.product-hero > picture.decorPhoto{
-  width: var(--heroMediaW) !important;
-  max-width: var(--heroMediaW) !important;
-  height: var(--heroMediaH) !important;
-  max-height: var(--heroMediaH) !important;
-}
-
-/* Make sure the actual bitmap uses contain (no crop) and fills the box */
-.hero.product-hero > img.decorPhoto,
-.hero.product-hero > picture.decorPhoto > img{
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: contain !important;
-  object-position: center !important;
-  display: block;
-  background: transparent !important;
-}
-
-/* Prevent any lingering overrides from forcing cover/crop */
-.hero.product-hero > picture.decorPhoto > img{
-  object-fit: contain !important;
-}
-
-
-
-/* =========================================================
-   KBWG v24 — Header hero images: stretch to fill frame
-   Goal: fill the hero image slot WITHOUT cropping ("not zoomed in"),
-         so we use object-fit: fill (may distort aspect ratio).
-   ========================================================= */
-.heroMedia img,
-.heroMedia picture > img,
-.hero.heroCompact .heroMedia img,
-.pageHero .heroMedia img{
-  width: 100% !important;
-  height: 100% !important;
-  max-height: none !important;
-  object-fit: fill !important;
-  transform: none !important;
-}
-
-/* If a page uses an <img class="heroMedia"> (rare), cover it too */
-img.heroMedia{
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: fill !important;
+  /* Dropdowns become inline accordions in the drawer */
+  #siteHeader .navDrop,
+  .siteHeader .navDrop{
+    position: static !important;
+    top: auto !important;
+    right: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-shadow: none !important;
+    margin: 8px 0 10px !important;
+  }
+  #siteHeader .navDrop a,
+  .siteHeader .navDrop a{
+    width: 100% !important;
+  }
 }
