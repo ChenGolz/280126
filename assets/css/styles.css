@@ -4608,3 +4608,19 @@ picture.decorPhoto > img{
   .navOverlay{ z-index: 99998 !important; }
   .siteHeader .nav{ z-index: 99999 !important; }
 }
+
+/* Mobile nav FIX (v20)
+   Some mobile browsers (notably iOS Safari) treat `backdrop-filter`/filters
+   as a containing block for fixed-position children, which can cause the
+   drawer to appear "behind"/clipped by the page.
+*/
+@media (max-width: 920px){
+  .siteHeader{
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    filter: none !important;
+    transform: none !important;
+    will-change: auto !important;
+    overflow: visible !important;
+  }
+}

@@ -2,7 +2,7 @@
 
 (function () {
   // Build marker: use this to verify you loaded the latest JS
-  window.KBWG_BUILD = '2026-01-31-v15';
+  window.KBWG_BUILD = '2026-02-01-v16';
   try { console.info('[KBWG] build', window.KBWG_BUILD); } catch(e) {}
     
 function kbwgInjectFaqSchema(){
@@ -112,6 +112,36 @@ function kbwgSetActiveNav() {
     });
   }
 
+    function kbwgInitNavAccordion(navRoot){
+      try{
+        if (!navRoot || navRoot.dataset.kbwgAccordionInit) return;
+        navRoot.dataset.kbwgAccordionInit = '1';
+
+        const groups = Array.from(navRoot.querySelectorAll('details.navGroup'));
+        if (!groups.length) return;
+
+        const closeAllExcept = (keep) => {
+          groups.forEach(d => {
+            if (d !== keep) d.open = false;
+          });
+        };
+
+        // Ensure only one group is open at a time (desktop + mobile)
+        groups.forEach(d => {
+          d.addEventListener('toggle', () => {
+            if (d.open) closeAllExcept(d);
+          });
+        });
+      }catch(_){ }
+    }
+
+    function kbwgCloseAllNavGroups(navRoot){
+      try{
+        if (!navRoot) return;
+        navRoot.querySelectorAll('details.navGroup[open]').forEach(d => { d.open = false; });
+      }catch(_){ }
+    }
+
     function kbwgInitMobileNav() {
     // Mobile nav: inject a hamburger button and collapse nav on small screens
       const header = document.getElementById('siteHeader');
@@ -119,6 +149,9 @@ function kbwgSetActiveNav() {
       const nav = header ? header.querySelector('.nav') : null;
     
       if (header && headerRow && nav) {
+        // Nav groups (details/summary): make it behave like an accordion
+        kbwgInitNavAccordion(nav);
+
         // Ensure nav has an id for aria-controls
         if (!nav.id) nav.id = 'primaryNav';
     
@@ -148,6 +181,7 @@ function kbwgSetActiveNav() {
             header.classList.remove('navOpen'); header.classList.remove('navopen');
             document.body.classList.remove('menuOpen'); document.body.classList.remove('menuopen');
             btn.setAttribute('aria-expanded', 'false');
+            kbwgCloseAllNavGroups(nav);
           };
           const open = () => {
             header.classList.add('navOpen'); header.classList.add('navopen');
