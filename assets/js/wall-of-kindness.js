@@ -108,7 +108,7 @@
       name: '@example',
       location: 'Tel Aviv, IL',
       caption: 'דוגמה לפוסט 🛍️\nהחליפי עם פוסטים אמיתיים דרך הטופס.',
-      imageDataUrl: 'assets/img/photos/hero-top.png',
+      imageDataUrl: 'assets/img/photos/hero-top.jpg',
       createdAt: '2026-01-01T10:00:00.000Z',
       likes: 2
     },

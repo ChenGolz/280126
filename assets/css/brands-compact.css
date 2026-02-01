@@ -4,6 +4,8 @@
    - Use Rubik for Hebrew UI
    - Use Inter for English UI (Weglot)
 */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Rubik:wght@300;400;600;700;800&display=swap');
+
 /* Controls */
 .brandsControls{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;}
 .brandsSearchControl{flex:1 1 260px;min-width:200px;}
@@ -126,9 +128,11 @@
    ========================== */
 
 html[lang^="he"] .page-recommended-brands .brandName{
-  }
+  font-family: "Rubik","Assistant",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif !important;
+}
 html[lang^="en"] .page-recommended-brands .brandName{
-  }
+  font-family: "Inter",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif !important;
+}
 
 .page-recommended-brands .brandName{
   font-weight: 800 !important;
@@ -231,14 +235,18 @@ html[lang^="en"] .page-recommended-brands .brandName{
   .page-recommended-brands .brandLinks a{ flex: 1 1 calc(50% - 8px) !important; min-width: 120px !important; }
 }
 
+
 /* --- Hebrew RTL enhancements --- */
 :root { --he-font: 'Heebo', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif; }
-html[dir="rtl"] body { direction: rtl; text-align: right; }
-html[dir="rtl"] input, html[dir="rtl"] textarea, html[dir="rtl"] select { }
+html[dir="rtl"] body { direction: rtl; text-align: right; font-family: var(--he-font); }
+html[dir="rtl"] input, html[dir="rtl"] textarea, html[dir="rtl"] select { font-family: var(--he-font); }
 html[dir="rtl"] .nav, html[dir="rtl"] nav ul { flex-direction: row; }
 html[dir="rtl"] .menu, html[dir="rtl"] .topMenu, html[dir="rtl"] .navbar, html[dir="rtl"] .nav-links { flex-direction: row; }
 html[dir="rtl"] .card, html[dir="rtl"] .productCard, html[dir="rtl"] .dealCard, html[dir="rtl"] .brandCard { text-align: right; }
 html[dir="rtl"] .price, html[dir="rtl"] .priceLabel { direction: ltr; unicode-bidi: embed; } /* keep numbers readable */
+
+
+
 
 /* Remove the empty logo box entirely (shrinks the card) */
 .page-recommended-brands .brandLogo{

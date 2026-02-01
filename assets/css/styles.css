@@ -1,7 +1,5 @@
 /* KBWG – full standalone styling (RTL-first) */
 :root{
-  --font-main: \"Assistant\", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-
   --bg: #f6f7f4;
   --paper: rgba(255,255,255,.85);
   --paper2: rgba(255,255,255,.70);
@@ -18,11 +16,10 @@
 }
 
 *{ box-sizing:border-box; }
-html,html{ font-family: var(--font-main); }
-body{ height:100%; }
+html,body{ height:100%; }
 body{
   margin:0;
-  font-family: var(--font-main);
+  font-family: var(--he-font);
   color: var(--ink);
   background:
     radial-gradient(900px 500px at 80% 10%, rgba(42,91,154,.12), transparent 60%),
@@ -45,12 +42,6 @@ h1{ font-size: clamp(30px, 4vw, 44px); margin:0 0 10px; }
 h2{ font-size: clamp(20px, 2.6vw, 28px); margin:0 0 10px; }
 h3{ font-size: 18px; margin:0 0 8px; }
 
-
-/* Global font consistency */
-button, input, select, textarea, option, label, .btn, .pill, .tag, .nav, .siteHeader, .siteFooter{
-  font-family: var(--font-main);
-}
-
 /* Header */
 .siteHeader{
   position: sticky; top:0; z-index:20;
@@ -63,26 +54,23 @@ button, input, select, textarea, option, label, .btn, .pill, .tag, .nav, .siteHe
   padding: 12px 0;
 }
 
-/* Header nav: keep one line; if there is not enough space, scroll horizontally */
+/* Header nav: show ALL items on desktop (wrap) */
 .siteHeader .nav{ flex: 1 1 auto; }
 .siteHeader .logo{ flex: 0 0 auto; }
 
-.siteHeader .nav{
-  flex-wrap: nowrap;
-  white-space: nowrap;
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
+/* Desktop: wrap so every item is visible */
+@media (min-width: 901px){
+  .siteHeader .nav{
+    flex-wrap: wrap;
+    white-space: normal;
+    overflow: visible;
+  }
+  .siteHeader .nav a{
+    flex: 0 0 auto;
+    font-size: 13px;
+    padding: 6px 9px;
+  }
 }
-.siteHeader .nav a{
-  flex: 0 0 auto;
-}
-
-@media (max-width: 780px){
-  /* On small screens we still keep it one row; users can swipe the menu */
-  .siteHeader .nav a{ padding: 10px 12px; }
-}
-
 .logo{
   display:flex; align-items:center; gap:10px; min-width: 220px;
 }
@@ -1075,7 +1063,7 @@ body::after{
   --card-hover:0 12px 28px rgba(0,0,0,.12);
   --radius:12px;
 }
-body{font-family: var(--font-main);}
+body{font-family: var(--he-font);}
 .logoTag{font-size:12px;color:rgba(255,255,255,.9);margin-inline-start:10px;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.14);}
 .siteHeader{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.85);backdrop-filter:saturate(180%) blur(10px);}
 .siteHeader .logoTag{color:#1f2a37;background:rgba(42,91,154,.12);}
@@ -1155,6 +1143,41 @@ body{font-family: var(--font-main);}
 
 /* ✅ FIX: was global .heroInner{display:flex...} and broke other pages */
 .hero.product-hero .heroInner{position:relative; z-index:2;}
+
+
+/* Contrast fixes (v17) — ensure hero/header text is always readable */
+.hero.product-hero .heroCopy,
+.hero.product-hero .heroCopy h1,
+.hero.product-hero .heroCopy p{
+  color: rgba(255,255,255,.95);
+}
+.hero.product-hero .muted{
+  color: rgba(255,255,255,.86) !important;
+}
+
+/* Buttons on dark hero: avoid white-on-white / black-on-blue */
+.hero.product-hero .btn{
+  background: rgba(255,255,255,.92);
+  color: #0f172a;
+  border-color: rgba(255,255,255,.24);
+}
+.hero.product-hero .btn.primary{
+  background: rgba(255,255,255,.16);
+  color: rgba(255,255,255,.95);
+  border-color: rgba(255,255,255,.26);
+}
+.hero.product-hero .btn.ghost{
+  background: rgba(255,255,255,.92);
+  color: #0f172a;
+}
+.hero.product-hero .btn:hover{
+  filter: brightness(1.02);
+}
+.hero.product-hero .btn:focus{
+  outline: 2px solid rgba(255,255,255,.55);
+  outline-offset: 2px;
+}
+
 
 .center-text{text-align:center;}
 .center-text h1{margin:0 0 6px;font-size:1.55rem;line-height:1.06;}
@@ -1849,7 +1872,7 @@ body{ overflow-x: hidden; }
 .brandLinks a{font-weight:900;}
 
 /* מוצרים page – premium font + subtle wow, without touching header/hero */
-.page-products main{font-family:var(--font-main);font-weight:400;}
+.page-products main{font-family:"Assistant",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;font-weight:400;}
 .page-products main p,.page-products main li,.page-products main .muted{font-weight:300;}
 .page-products main h1,.page-products main h2,.page-products main h3{font-weight:500;}
 .page-products .productsResults .productCard{transition:transform .18s, box-shadow .18s, border-color .18s;}
@@ -3546,8 +3569,8 @@ html, body{ overflow-x: hidden; }
 
 
 /* --- Hebrew RTL enhancements --- */
-:root { --he-font: var(--font-main); }
-html[dir="rtl"] body { direction: rtl; text-align: right; font-family: var(--font-main); }
+:root { --he-font: 'Assistant', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif; }
+html[dir="rtl"] body { direction: rtl; text-align: right; font-family: var(--he-font); }
 html[dir="rtl"] input, html[dir="rtl"] textarea, html[dir="rtl"] select { font-family: var(--he-font); }
 html[dir="rtl"] .nav, html[dir="rtl"] nav ul { flex-direction: row; }
 html[dir="rtl"] .menu, html[dir="rtl"] .topMenu, html[dir="rtl"] .navbar, html[dir="rtl"] .nav-links { flex-direction: row; }
@@ -4281,172 +4304,291 @@ body.menuOpen .navOverlay{
 
 /* === /KBWG PATCH v20 === */
 
+input,button,select,textarea{ font-family: inherit; }
 
-/* Grouped nav (v21) */
-.siteHeader .nav{ overflow: visible; }
-.siteHeader .navGroup{ position: relative; display:inline-block; }
-.siteHeader .navGroup > summary{
-  list-style:none;
-  cursor:pointer;
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  padding: 8px 10px;
-  border-radius: 14px;
-  font-weight: 900;
-  border: 1px solid transparent;
-}
-.siteHeader .navGroup > summary::-webkit-details-marker{ display:none; }
-.siteHeader .navGroup[open] > summary{
-  background: rgba(157,195,230,.18);
-  border-color: rgba(42,91,154,.18);
-}
-.siteHeader .navDrop{
-  position:absolute;
-  top: calc(100% + 8px);
-  right:0;
-  min-width: 240px;
-  padding: 8px;
-  border-radius: 16px;
-  border: 1px solid rgba(31,41,55,.12);
-  background: rgba(255,255,255,.96);
-  box-shadow: 0 18px 40px rgba(0,0,0,.10);
-  display:grid;
-  gap:4px;
-  z-index: 2000;
-}
-.siteHeader .navDrop a{
-  display:block;
-  padding: 10px 10px;
-  border-radius: 12px;
-  text-decoration:none;
-  font-weight: 900;
-}
-.siteHeader .navDrop a:hover{ background: rgba(157,195,230,.18); }
 
-/* Mobile/iPad: keep dropdowns in flow so nothing gets clipped */
-@media (max-width: 820px){
-  .siteHeader .navGroup{ width: 100%; display:block; }
-  .siteHeader .navGroup > summary{ width:100%; justify-content:space-between; }
-  .siteHeader .navDrop{
-    position: static;
-    min-width: unset;
-    margin-top: 6px;
-    box-shadow: none;
-    background: rgba(255,255,255,.86);
-  }
+/* -------------------------------------------------------
+   Cross‑site responsive polish (mobile + iPad)
+-------------------------------------------------------- */
+@media (max-width: 600px){
+  .wrap{ width: min(1120px, 100% - 24px); }
+  .toolbar-container, .contentCard{ padding: 16px; border-radius: 14px; }
+  .contentCard{ margin-bottom: 18px; }
+  .cardsGrid{ gap: 12px; margin: 12px 0; }
+  .homeGrid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .miniCard{ padding: 14px; }
+  .miniCardIcon{ font-size: 24px; margin-bottom: 8px; }
+  .miniCardText{ font-size: .92rem; }
+  .lead{ font-size: 1rem; }
+  .heroCopy p{ font-size: 1.02rem; }
+  .btn{ padding: 10px 14px; }
 }
 
-/* Hero button contrast safety (v21) */
-.hero .btn.ghost{ color: rgba(15,23,42,.92); }
-.hero .btn.ghost:hover{ color: rgba(15,23,42,1); }
-.hero .heroCopy .muted, .hero .heroCopy p{ color: rgba(15,23,42,.90); }
-.hero.product-hero{ color: rgba(15,23,42,.95); }
-
-/* Grouped nav enhancements (v23): one-open behavior + full-width tabs */
-@media (min-width: 900px){
-  .siteHeader .nav{
-    display:flex;
-    align-items:center;
-    justify-content: space-between;
-    gap: 8px;
-    overflow: visible;
-    white-space: normal;
-  }
-  .siteHeader .nav > a,
-  .siteHeader .nav > details.navGroup{
-    flex: 1 1 0;
-    display:flex;
-    justify-content:center;
-  }
-  .siteHeader .nav > a{
-    padding: 8px 10px;
-    border-radius: 14px;
-    font-weight: 900;
-  }
-  .siteHeader .navGroup > summary{
-    width: 100%;
-    justify-content: center;
-  }
-  .siteHeader .navDrop{
-    min-width: 260px;
-  }
+@media (max-width: 420px){
+  .homeGrid{ grid-template-columns: 1fr; }
 }
 
-@media (max-width: 899px){
-  /* mobile/tablet: keep swipe menu but dropdowns should not be clipped */
-  .siteHeader .nav{
-    overflow-x: auto;
-  }
-  .siteHeader .navDrop{
-    position: fixed;
-    top: 64px;
-    right: 12px;
-    left: 12px;
-    width: auto;
-    max-width: 520px;
-    margin: 0 auto;
-  }
+/* iPad / tablets: more breathing room and stacked hero */
+@media (min-width: 768px) and (max-width: 1024px){
+  .wrap{ width: min(1120px, 100% - 32px); }
+  .heroInner{ grid-template-columns: 1fr; }
+  .heroMedia{ max-height: 320px; }
+  .siteHeader .nav a{ padding: 8px 10px; }
 }
 
-/* Ensure dropdown is always readable and above hero */
-.siteHeader .navDrop{
-  z-index: 5000;
+
+
+/* ===== HERO RESPONSIVE FIX (v9) =====
+   Goal: prevent oversized hero on iPad/tablet and show full hero images without cropping.
+*/
+.hero{ 
+  /* don't force viewport-height heroes */
+  min-height: unset;
+}
+.hero .heroInner{
+  min-height: unset;
+}
+.hero.product-hero.heroSmall{
+  padding: 34px 0;
+}
+.hero.product-hero.heroSmall .heroInner{
+  gap: 18px;
 }
 
-/* =========================================
-   v28: NAV dropdown + font consistency fix
-   - Hide dropdowns by default
-   - Only one opens (JS), and prevent layout "jump"
-   - Improve hero contrast (white on blue)
-   ========================================= */
-
-.siteHeader .navDrop{
-  display: none;
-}
-
-.siteHeader details.navGroup[open] > .navDrop{
-  display: grid;
-}
-
-/* Prevent nav items from stretching / shifting across pages */
-@media (min-width: 900px){
-  .siteHeader .nav{
-    justify-content: flex-start;
-    gap: 10px;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  .siteHeader .nav::-webkit-scrollbar{ display:none; }
-  .siteHeader .nav > a,
-  .siteHeader .nav > details.navGroup{
-    flex: 0 0 auto;
-  }
-}
-
-/* Slightly larger nav text */
-.siteHeader .nav > a,
-.siteHeader details.navGroup > summary{
-  font-size: 16px;
-}
-
-/* Ensure hero text is readable on the blue hero */
-.hero.product-hero .heroCopy,
-.hero.product-hero .heroCopy p,
-.hero.product-hero .heroCopy .muted,
-.hero.product-hero h1{
-  color: rgba(255,255,255,.96);
-}
-
-.hero.product-hero .heroCopy p{ opacity: .92; }
-
-/* Keep hero photo from making the hero huge on iPad/portrait images */
+/* Make hero image area predictable across breakpoints */
 .hero.product-hero > .decorPhoto{
-  max-height: 230px;
+  display: block;
+  width: min(360px, 34vw);
+  max-width: 360px;
+  height: 220px;
   object-fit: contain;
-  background: rgba(255,255,255,.06);
+  object-position: center;
 }
+
+/* Tablet/iPad: reduce vertical space and prevent huge empty areas */
+@media (min-width: 641px) and (max-width: 1024px){
+  .hero.product-hero.heroSmall{ padding: 26px 0; }
+  .hero.product-hero.heroSmall .heroInner{ min-height: unset; }
+  .hero.product-hero > .decorPhoto{
+    width: min(260px, 34vw);
+    height: 160px;
+  }
+}
+
+/* Mobile: keep hero compact */
+@media (max-width: 640px){
+  .hero.product-hero.heroSmall{ padding: 22px 0; }
+  .hero.product-hero > .decorPhoto{
+    width: 122px;
+    height: 92px;
+  }
+}
+
+/* Tablet hero padding clamp */
+@media (min-width: 641px) and (max-width: 1024px){
+  .hero{ padding-top: 40px; padding-bottom: 34px; }
+}
+
+
+/* ===== PAGINATION + LOAD MORE (v10) ===== */
+.kbPager{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin:16px 0 6px;
+}
+.kbPager .btnSmall{ min-width: 90px; }
+.kbPagerInfo{
+  font-size: .95rem;
+  color: rgba(0,0,0,.72);
+  padding: 2px 6px;
+}
+.kbLoadMoreWrap{
+  display:flex;
+  justify-content:center;
+  margin: 16px 0 6px;
+}
+.kbLoadMoreWrap .btn{ min-width: 180px; }
+
+
+/* Home teasers (v12) — lightweight preview grids */
+.homeTeasers .contentCard{ background: rgba(255,255,255,.80); }
+.homeTeaserLoading{
+  display:flex; align-items:center; justify-content:center;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px dashed rgba(42,91,154,.22);
+  background: rgba(157,195,230,.14);
+  font-weight: 900;
+}
+.homeTeaserEmpty{ padding: 10px 0; text-align:center; }
+
+.homeCardsGrid{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 10px;
+}
+.homeCardsGrid--deals .dealCard,
+.homeCardsGrid--products .productCard{
+  box-shadow: var(--shadow);
+}
+.homeCardsGrid .dealCard{ margin:0; }
+.homeCardsGrid .dealCta .dealBtn{ padding: 8px 10px; border-radius: 12px; }
+.homeCardsGrid .productCard{ padding: 14px; }
+.homeCardsGrid .pMedia img{ border-radius: 14px; }
 
 @media (max-width: 900px){
-  .hero.product-hero > .decorPhoto{ max-height: 160px; }
+  .homeCardsGrid{ grid-template-columns: 1fr; }
+}
+
+
+/* Pager (v12) — shared pagination UI */
+.pager{
+  margin: 14px 0 4px;
+  display:flex;
+  justify-content:center;
+}
+.pagerRow{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  padding: 10px 12px;
+  border-radius: 16px;
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,.78);
+}
+.pagerNums{ display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
+.pagerBtn,.pagerNum{
+  border: 1px solid rgba(42,91,154,.22);
+  background: rgba(157,195,230,.18);
+  color: #0f172a;
+  font-weight: 1000;
+  padding: 8px 10px;
+  border-radius: 12px;
+  cursor:pointer;
+}
+.pagerBtn[disabled]{ opacity:.5; cursor: not-allowed; }
+.pagerNum.is-active{
+  background: rgba(42,91,154,.20);
+}
+.pagerEllipsis{ padding: 0 6px; font-weight: 900; color: var(--muted); }
+
+
+/* Sticky header (v13) */
+.siteHeader{
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+  background: rgba(255,255,255,.78);
+  border-bottom: 1px solid rgba(31,41,55,.08);
+}
+@supports not (backdrop-filter: blur(10px)){
+  .siteHeader{ background: rgba(255,255,255,.92); }
+}
+
+/* Home quick cards: show grid on mobile, highlight Products */
+@media (max-width: 520px){
+  .homeGrid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .miniCard{ padding: 14px; }
+  .miniCardIcon{ font-size: 24px; }
+  .miniCardText{ font-size: .92rem; }
+}
+
+.miniCard.isPrimary{
+  border-color: rgba(42,91,154,.22);
+  background: linear-gradient(180deg, rgba(157,195,230,.20), rgba(255,255,255,.92));
+}
+.miniCard.isPrimary .miniCardTitle{ color: #0f172a; }
+
+
+/* Ingredient checker mobile (v13) */
+.pasteBlock textarea{
+  width:100%;
+  min-height: 140px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(31,41,55,.14);
+  font-size: 1rem;
+  line-height: 1.4;
+  resize: vertical;
+}
+@media (max-width: 520px){
+  #qIng{
+    padding: 14px 14px;
+    font-size: 1.05rem;
+    border-radius: 14px;
+  }
+  .suggestions .sugItem{
+    padding: 12px 12px;
+    border-radius: 14px;
+  }
+}
+
+.brandBadge--muted{
+  background: rgba(148,163,184,.18);
+  border-color: rgba(148,163,184,.26);
+  color: rgba(30,41,59,.82);
+}
+
+
+/* Notice banner (v13) — less intrusive */
+.siteNotice{ padding: 8px 0; }
+.siteNotice p{ margin:0; font-weight: 800; font-size: .95rem; }
+@media (max-width: 520px){
+  .siteNotice p{ font-size: .92rem; }
+}
+
+/* Pharmacy (v15) */
+.pillBtn{ border: 1px solid rgba(42,91,154,.18); background: rgba(157,195,230,.14); color: #0f172a; font-weight: 900; padding: 8px 10px; border-radius: 999px; cursor: pointer; }
+.pillBtn.is-active{ background: rgba(42,91,154,.18); border-color: rgba(42,91,154,.26); }
+.phMetaRow{ display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+.phCard{ border: 1px solid rgba(31,41,55,.10); background: rgba(255,255,255,.86); border-radius: 18px; padding: 14px; box-shadow: 0 10px 22px rgba(0,0,0,.04); }
+.phTitle{ margin: 0 0 8px; font-size: 1.06rem; }
+.phBadges,.phStores{ display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
+.pill{ display:inline-flex; align-items:center; padding: 6px 10px; border-radius:999px; font-weight:900; border:1px solid rgba(31,41,55,.10); }
+.pill--soft{ background: rgba(245,158,11,.10); border-color: rgba(245,158,11,.16); }
+.pill--muted{ background: rgba(148,163,184,.14); border-color: rgba(148,163,184,.20); color: rgba(30,41,59,.86); }
+.phActions{ margin-top: 12px; display:flex; gap:10px; flex-wrap:wrap; }
+@media (max-width: 520px){ .phActions .btn{ width:100%; justify-content:center; } }
+
+/* ===========================
+   PWA/A11y enhancements (auto)
+   =========================== */
+
+/* Skip-to-content link (RTL-friendly) */
+.skipLink{
+  position: absolute;
+  inset-block-start: 10px;
+  inset-inline-start: 12px;
+  padding: 10px 12px;
+  background: #ffffff;
+  border: 1px solid rgba(15,23,42,.18);
+  border-radius: 12px;
+  box-shadow: 0 10px 26px rgba(0,0,0,.10);
+  color: rgba(15,23,42,.92);
+  font-weight: 800;
+  text-decoration: none;
+  transform: translateY(-140%);
+  transition: transform .15s ease;
+  z-index: 9999;
+}
+.skipLink:focus{
+  transform: translateY(0);
+  outline: 3px solid rgba(42,91,154,.35);
+  outline-offset: 2px;
+}
+
+/* Allow <picture class="decorPhoto"> to behave like the original <img.decorPhoto> */
+picture.decorPhoto{ display:block; }
+picture.decorPhoto > img{
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  border-radius: inherit;
 }
