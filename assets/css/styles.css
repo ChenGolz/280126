@@ -4683,19 +4683,56 @@ picture.decorPhoto > img{
   }
 }
 
-/* Mobile nav layering fix (v22)
-   The overlay was visually dimming the drawer because the header creates a stacking context.
-   Keep the overlay BELOW the header/drawer so the menu is not "faded".
-*/
-@media (max-width: 920px){
-  body.menuOpen #siteHeader,
-  body.menuopen #siteHeader{
-    z-index: 100060 !important;
-  }
-  body.menuOpen .navOverlay,
-  body.menuopen .navOverlay{
-    z-index: 100050 !important;
-  }
-  /* Extra safety: keep drawer above everything in the header context */
-  #siteHeader .nav{ z-index: 100070 !important; }
+/* =========================================================
+   HERO headers: consistent size + show full image (v22)
+   Request: headers same size across all pages (use smaller one),
+   and hero images fully visible (no zoom, no cropping).
+   Notes:
+   - Many pages use <picture class="decorPhoto">; object-fit must apply on the <img>.
+   - We enforce a fixed media box so page-to-page aspect ratios don't change hero height.
+========================================================= */
+
+/* Compact, consistent hero spacing everywhere */
+.hero.product-hero.heroSmall{
+  padding-block: clamp(16px, 2.2vw, 22px) !important;
+}
+.hero.product-hero.heroSmall .heroInner{
+  gap: 14px !important;
+}
+
+/* Consistent hero media box (same size on all pages for the same viewport) */
+.hero.product-hero{
+  --heroMediaW: min(220px, 34vw);
+  --heroMediaH: 140px;
+}
+@media (min-width: 641px) and (max-width: 1024px){
+  .hero.product-hero{ --heroMediaW: min(190px, 34vw); --heroMediaH: 120px; }
+}
+@media (max-width: 640px){
+  .hero.product-hero{ --heroMediaW: 124px; --heroMediaH: 96px; }
+}
+
+/* Apply the fixed box to either <img.decorPhoto> or <picture.decorPhoto> */
+.hero.product-hero > .decorPhoto,
+.hero.product-hero > picture.decorPhoto{
+  width: var(--heroMediaW) !important;
+  max-width: var(--heroMediaW) !important;
+  height: var(--heroMediaH) !important;
+  max-height: var(--heroMediaH) !important;
+  overflow: hidden !important;
+}
+
+/* Make sure the actual bitmap uses contain (no crop) and fills the box */
+.hero.product-hero > img.decorPhoto,
+.hero.product-hero > picture.decorPhoto > img{
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  display: block;
+}
+
+/* Prevent any lingering overrides from forcing cover/crop */
+.hero.product-hero > picture.decorPhoto > img{
+  background: transparent !important;
 }
