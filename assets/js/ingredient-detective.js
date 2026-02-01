@@ -41,52 +41,97 @@
   let DB = DB_FALLBACK;
   let DB_READY = false;
 
-  // Resolve DB URL robustly (works from /, /en/, and GitHub Pages subfolders)
-  const scriptEl =
-    document.currentScript ||
-    document.querySelector('script[src*="ingredient-detective.js"]');
+  // Resolve DB URL robustly (works on custom domains + GitHub Pages subfolders)
+  const scriptEl = document.currentScript || document.querySelector('script[src*="ingredient-detective"]');
+  const scriptUrl = scriptEl && scriptEl.src ? new URL(scriptEl.src, location.href) : new URL(location.href);
 
-  const scriptUrl = scriptEl && scriptEl.src ? new URL(scriptEl.src, location.href) : null;
-
-  // Allow override via: <script data-db="assets/data/ingredient-db.json" ...>
-  const overrideDb = scriptEl && scriptEl.dataset ? scriptEl.dataset.db : '';
-
-  const buildTag = scriptUrl ? (scriptUrl.searchParams.get('v') || '') : '';
-  const defaultDbUrl = (function () {
-    if (overrideDb) return new URL(overrideDb, location.href);
-    if (!scriptUrl) return new URL('assets/data/ingredient-db.json', location.href);
-    return new URL('../data/ingredient-db.json', scriptUrl);
-  })();
-
-  if (buildTag && !defaultDbUrl.searchParams.get('v')) {
-    defaultDbUrl.searchParams.set('v', buildTag);
-  }
-
-  const DB_URL = defaultDbUrl.toString();
-
-  // If the default filename isn't present on the server, try a couple of known alternatives
-  // (only when user didn't explicitly set data-db).
-  const DB_CANDIDATES = (function () {
-    const list = [DB_URL];
+  const buildTag = (() => {
     try {
-      if (!overrideDb) {
-        const base = new URL(DB_URL, location.href);
-        // Swap filename only (keep folder & ?v=)
-        const v = base.searchParams.get('v');
-        base.search = '';
-        base.pathname = base.pathname.replace(/ingredient-db\.json$/i, '');
-        const mk = (fname) => {
-          const u = new URL(fname, base);
-          if (v) u.searchParams.set('v', v);
-          return u.toString();
-        };
-        list.push(mk('ingredient-db.v18.cleaned.json'));
-        list.push(mk('ingredient-vegan-watchlist.json'));
+      const u = new URL(scriptUrl.href, location.href);
+      return u.searchParams.get('v') || u.searchParams.get('ver') || '';
+    } catch (e) {
+      return '';
+    }
+  })() || (window.KBWG_BUILD || '2026-02-01-v23');
+
+  function siteBaseFromScript(u) {
+    try {
+      const idx = u.pathname.indexOf('/assets/');
+      if (idx >= 0) {
+        // Keep trailing slash
+        const basePath = u.pathname.slice(0, idx + 1);
+        return u.origin + basePath;
       }
     } catch (e) {}
-    // De-dupe
-    return Array.from(new Set(list));
+    // Fallback: directory of current page
+    return location.origin + location.pathname.replace(/[^\/]*$/, '');
+  }
+
+  const siteBase = siteBaseFromScript(scriptUrl);
+
+  function toUrl(hrefLike, baseHref) {
+    if (!hrefLike) return '';
+    try {
+      return new URL(hrefLike, baseHref || location.href).href;
+    } catch (e) {
+      return String(hrefLike);
+    }
+  }
+
+  function withBuild(href) {
+    try {
+      const u = new URL(href, location.href);
+      if (!u.searchParams.get('v')) u.searchParams.set('v', buildTag);
+      return u.href;
+    } catch (e) {
+      return href;
+    }
+  }
+
+  const overrideDb = (scriptEl && scriptEl.dataset && scriptEl.dataset.db ? String(scriptEl.dataset.db).trim() : '') || '';
+
+  const defaultDbUrl = withBuild(
+    overrideDb
+      ? toUrl(overrideDb, siteBase)
+      : toUrl('data/ingredient-db.json', siteBase)
+  );
+
+  const DB_CANDIDATES = (() => {
+    const out = [];
+    const push = (u) => {
+      const href = withBuild(u);
+      if (href && !out.includes(href)) out.push(href);
+    };
+
+    // Prefer explicit override first (if provided)
+    if (overrideDb) push(toUrl(overrideDb, siteBase));
+
+    // Common locations in this repo
+    push(toUrl('data/ingredient-db.json', siteBase));
+    push(toUrl('data/ingredient-db.v18.cleaned.json', siteBase));
+    push(toUrl('data/ingredient-vegan-watchlist.json', siteBase));
+
+    // Back-compat if the DB is placed under assets/
+    push(toUrl('assets/data/ingredient-db.json', siteBase));
+    push(toUrl('assets/data/ingredient-vegan-watchlist.json', siteBase));
+
+    // Relative to the script (legacy)
+    push(toUrl('../data/ingredient-db.json', scriptUrl));
+    push(toUrl('../../data/ingredient-db.json', scriptUrl));
+    push(toUrl('../data/ingredient-vegan-watchlist.json', scriptUrl));
+    push(toUrl('../../data/ingredient-vegan-watchlist.json', scriptUrl));
+
+    // Relative to the current page (unusual deployments)
+    push(toUrl('./data/ingredient-db.json', location.href));
+    push(toUrl('../data/ingredient-db.json', location.href));
+    push(toUrl('../../data/ingredient-db.json', location.href));
+
+    return out;
   })();
+
+  const DB_URL = defaultDbUrl;
+
+  console.log('[KBWG] Ingredients build', buildTag, '| default DB', DB_URL);
 
 
   function norm(s) {

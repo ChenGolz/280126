@@ -180,16 +180,63 @@ function kbwgSetActiveNav() {
         headerRow.insertBefore(btn, nav);
       }
 
+      const isMobileDrawer = () => (window.matchMedia ? window.matchMedia('(max-width: 920px)').matches : false);
+
+      // Inline fallback styles (helps if CSS is cached/broken on mobile)
+      const applyDrawerState = (isOpen) => {
+        if (!isMobileDrawer()) return;
+
+        // Overlay
+        overlay.style.position = 'fixed';
+        overlay.style.inset = '0';
+        overlay.style.background = 'rgba(2,6,23,.35)';
+        overlay.style.backdropFilter = 'blur(2px)';
+        overlay.style.transition = 'opacity .2s ease';
+        overlay.style.zIndex = '99998';
+
+        // Drawer
+        nav.style.position = 'fixed';
+        nav.style.top = '0';
+        nav.style.bottom = '0';
+        nav.style.right = '0';
+        nav.style.width = 'min(88vw, 340px)';
+        nav.style.maxWidth = '340px';
+        nav.style.background = '#fff';
+        nav.style.boxShadow = '0 16px 40px rgba(2,6,23,.22)';
+        nav.style.transition = 'transform .22s ease';
+        nav.style.zIndex = '99999';
+
+        // Toggle button above overlay
+        btn.style.position = 'relative';
+        btn.style.zIndex = '100000';
+
+        if (isOpen) {
+          overlay.style.opacity = '1';
+          overlay.style.pointerEvents = 'auto';
+          nav.style.transform = 'translateX(0)';
+          nav.style.pointerEvents = 'auto';
+          nav.style.visibility = 'visible';
+        } else {
+          overlay.style.opacity = '0';
+          overlay.style.pointerEvents = 'none';
+          nav.style.transform = 'translateX(105%)';
+          nav.style.pointerEvents = 'none';
+          nav.style.visibility = 'hidden';
+        }
+      };
+
       const close = () => {
         header.classList.remove('navOpen'); header.classList.remove('navopen');
         document.body.classList.remove('menuOpen'); document.body.classList.remove('menuopen');
         btn.setAttribute('aria-expanded', 'false');
         kbwgCloseAllNavGroups(nav);
+        applyDrawerState(false);
       };
       const open = () => {
         header.classList.add('navOpen'); header.classList.add('navopen');
         document.body.classList.add('menuOpen'); document.body.classList.add('menuopen');
         btn.setAttribute('aria-expanded', 'true');
+        applyDrawerState(true);
       };
 
       // Insert a branded header inside the drawer (mobile only)
@@ -236,6 +283,9 @@ function kbwgSetActiveNav() {
         mq.addEventListener ? mq.addEventListener('change', onMq) : mq.addListener(onMq);
         onMq();
       }
+
+      // Ensure a clean initial state (prevents a stuck gray overlay on some mobile browsers)
+      close();
 
       return true;
     }
