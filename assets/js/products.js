@@ -1355,6 +1355,11 @@ const frag = document.createDocumentFragment();
         img.decoding = "async";
         img.width = 640;
         img.height = 640;
+        // Avoid broken cards / console noise when an image is missing.
+        img.onerror = function(){
+          try{ this.onerror = null; }catch(e){}
+          this.src = 'assets/img/products/placeholder.jpg';
+        };
         media.appendChild(img);
       } else {
         const ph = document.createElement("div");

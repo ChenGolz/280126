@@ -14,7 +14,7 @@
 (function(){
   'use strict';
 
-  try { window.KBWG_BUNDLES_BUILD = '2026-01-25-v21-all-campaign'; console.info('[KBWG] Bundles build', window.KBWG_BUNDLES_BUILD); } catch(e) {}
+  try { window.KBWG_BUNDLES_BUILD = '2026-02-01-v22-fixes'; console.info('[KBWG] Bundles build', window.KBWG_BUNDLES_BUILD); } catch(e) {}
 
   var PRODUCTS_PATH = 'data/products.json';
   var FREE_SHIP_OVER_USD = 49;
@@ -1429,6 +1429,7 @@
     img.loading = 'lazy';
     img.alt = (p._brand ? (p._brand + ' ') : '') + (p._name || '');
     if(p._image) img.src = p._image;
+    img.onerror = function(){ this.onerror = null; this.src = 'assets/img/products/placeholder.jpg'; };
 
     var body = document.createElement('div');
 
@@ -1737,6 +1738,7 @@
     img.loading = 'lazy';
     img.alt = (p._brand ? (p._brand + ' ') : '') + (p._name || '');
     if(p._image) img.src = p._image;
+    img.onerror = function(){ this.onerror = null; this.src = 'assets/img/products/placeholder.jpg'; };
 
     var body = document.createElement('div');
 
@@ -2294,7 +2296,8 @@ var frag2 = document.createDocumentFragment();
       pickerEl.appendChild(help);
     }
     pickerEl.appendChild(frag2);
-    ensurePickerLoadMore(pickerEl, shownC2, totalC2, function(){
+    // builder mode: keep the load-more counter consistent with the slice we rendered
+    ensurePickerLoadMore(pickerEl, showN2, candidates.length, function(){
       // increment shown by one page
       STATE.pickerShown = (STATE.pickerShown || perPick2) + perPick2;
       renderPicker();
@@ -2363,6 +2366,7 @@ var img = document.createElement('img');
     img.loading = 'lazy';
     img.alt = (p._brand ? (p._brand + ' ') : '') + (p._name || '');
     if(p._image) img.src = p._image;
+    img.onerror = function(){ this.onerror = null; this.src = 'assets/img/products/placeholder.jpg'; };
 
     var body = document.createElement('div');
 
