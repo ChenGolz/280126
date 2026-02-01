@@ -4682,3 +4682,20 @@ picture.decorPhoto > img{
     background: #eef5ff !important;
   }
 }
+
+/* Mobile nav layering fix (v22)
+   The overlay was visually dimming the drawer because the header creates a stacking context.
+   Keep the overlay BELOW the header/drawer so the menu is not "faded".
+*/
+@media (max-width: 920px){
+  body.menuOpen #siteHeader,
+  body.menuopen #siteHeader{
+    z-index: 100060 !important;
+  }
+  body.menuOpen .navOverlay,
+  body.menuopen .navOverlay{
+    z-index: 100050 !important;
+  }
+  /* Extra safety: keep drawer above everything in the header context */
+  #siteHeader .nav{ z-index: 100070 !important; }
+}
