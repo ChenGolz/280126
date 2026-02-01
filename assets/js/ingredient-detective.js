@@ -6,7 +6,7 @@
 
   if (!input || !out || !hint || !sugs) return;
 
-  // Minimal fallback in case JSON fails to load
+  // Fallback DB (used until JSON loads, and if JSON fails to load)
   const DB_FALLBACK = [
     {
       name: 'Lanolin',
@@ -18,63 +18,52 @@
     {
       name: 'Carmine',
       he: 'קרמין',
-      keys: ['carmine', 'cochineal', 'carminic acid', 'קרמין', 'קוכיניל', 'E120', 'CI 75470', 'C.I. 75470'],
+      keys: ['carmine', 'cochineal', 'קרמין', 'קוכיניל', 'E120'],
       status: 'רכיב מן החי',
-      why: 'קרמין (E120 / CI 75470) מופק מחרק הקוכיניל ונמצא לעיתים באיפור ומזון.'
+      why: 'קרמין (E120) מופק מחרק הקוכיניל ונמצא לעיתים באיפור ומזון.',
+      alt: 'חלופות נפוצות: iron oxides, red lake, beet extract.'
     },
     {
       name: 'Glycerin',
       he: 'גליצרין',
-      keys: ['glycerin', 'glycerol', 'גליצרין'],
+      keys: ['glycerin', 'גליצרין', 'glycerol'],
       status: 'תלוי מקור',
-      why: 'גליצרין יכול להיות ממקור צמחי או מן החי. לרוב בתמרוקים הוא צמחי אבל לא תמיד מצוין.'
+      why: 'גליצרין יכול להיות ממקור צמחי או מן החי. לרוב בתמרוקים הוא צמחי אבל לא תמיד מצוין.',
+      alt: 'אם חשוב לך — חפשי “vegetable glycerin” או שאלי את המותג.'
     },
     {
       name: 'Squalene / Squalane',
       he: 'סקוואלן / סקוואלן',
       keys: ['squalene', 'squalane', 'סקוואלן', 'סקוואלן'],
       status: 'תלוי מקור',
-      why: 'יכול להגיע מכריש או ממקור צמחי (קנה סוכר/זית).'
+      why: 'יכול להגיע מכריש (פחות נפוץ היום) או ממקור צמחי (קנה סוכר/זית).',
+      alt: 'חפשי “plant-derived squalane”.'
     }
   ];
 
+  // Main DB (loaded from JSON)
   let DB = DB_FALLBACK;
   let DB_READY = false;
 
-  // Resolve DB URL robustly (works from /, /en/, and GitHub Pages subfolders)
-  const scriptEl =
-    document.currentScript ||
-    document.querySelector('script[src*="ingredient-detective.js"]');
+  // Fast indexes
+  let KEY_MAP = new Map();       // norm(key) -> item
+  let SEARCHABLE = [];           // [{ item, keys: [normed keys...] }]
 
-  const scriptUrl = scriptEl && scriptEl.src ? new URL(scriptEl.src, location.href) : null;
-
-  // Allow override via: <script data-db="assets/data/ingredient-db.json" ...>
-  const overrideDb = scriptEl && scriptEl.dataset ? scriptEl.dataset.db : '';
-
-  const buildTag = scriptUrl ? (scriptUrl.searchParams.get('v') || '') : '';
-  const defaultDbUrl = (function () {
-    if (overrideDb) return new URL(overrideDb, location.href);
-    if (!scriptUrl) return new URL('assets/data/ingredient-db.json', location.href);
-    return new URL('../data/ingredient-db.json', scriptUrl);
-  })();
-
-  if (buildTag && !defaultDbUrl.searchParams.get('v')) {
-    defaultDbUrl.searchParams.set('v', buildTag);
-  }
-
-  const DB_URL = defaultDbUrl.toString();
+  // Build a DB URL relative to THIS script (works from / and /en/ etc)
+  const SCRIPT_URL = (document.currentScript && document.currentScript.src)
+    ? new URL(document.currentScript.src, location.href)
+    : null;
+  const DB_URL = SCRIPT_URL
+    ? new URL('../data/ingredient-db.json', SCRIPT_URL).toString()
+    : 'assets/data/ingredient-db.json';
 
   function norm(s) {
     return (s || '')
       .toString()
       .trim()
       .toLowerCase()
-      .replace(/\([^)]*\)/g, ' ')                 // remove parenthetical notes
-      .replace(/["'`.,:;()\[\]{}<>!?]/g, ' ')
-      .replace(/[^a-z0-9\u0590-\u05FF\s-]/g, ' ') // keep english/hebrew/digits
-      .replace(/[-_]+/g, ' ')
-      .replace(/\s+/g, ' ')
-      .trim();
+      .replace(/["'`.,:;()\[\]{}<>!?]+/g, '')
+      .replace(/\s+/g, ' ');
   }
 
   function displayName(item) {
@@ -95,6 +84,27 @@
 
   function notifyRendered() {
     try { window.dispatchEvent(new Event('kbwg:content-rendered')); } catch (e) {}
+  }
+
+  function buildIndex() {
+    KEY_MAP = new Map();
+    SEARCHABLE = [];
+
+    for (const item of DB) {
+      const rawKeys = []
+        .concat(item.name ? [item.name] : [])
+        .concat(item.he ? [item.he] : [])
+        .concat(item.keys || []);
+
+      const keys = [];
+      for (const k of rawKeys) {
+        const nk = norm(k);
+        if (!nk) continue;
+        if (!keys.includes(nk)) keys.push(nk);
+        if (!KEY_MAP.has(nk)) KEY_MAP.set(nk, item);
+      }
+      SEARCHABLE.push({ item, keys });
+    }
   }
 
   function renderSuggestions(matches) {
@@ -119,12 +129,6 @@
         <p><strong>סטטוס:</strong> ${item.status || ''}</p>
         ${item.why ? `<p>${item.why}</p>` : ''}
         ${item.alt ? `<p><strong>חלופות:</strong> ${item.alt}</p>` : ''}
-        ${(item.meta_sources && (item.meta_sources.inci || item.meta_sources.cas || item.meta_sources.max)) ? `
-          <p class="muted" style="margin-top:8px;">
-            ${(item.meta_sources.inci ? `<span><strong>INCI:</strong> ${item.meta_sources.inci}</span>` : '')}
-            ${(item.meta_sources.cas ? `<span style="margin-inline-start:10px;"><strong>CAS:</strong> ${item.meta_sources.cas}</span>` : '')}
-            ${(item.meta_sources.max ? `<span style="margin-inline-start:10px;"><strong>מגבלה:</strong> ${item.meta_sources.max}</span>` : '')}
-          </p>` : ''}
       </article>
     `;
   }
@@ -142,21 +146,15 @@
     if (!nq) return [];
 
     const scored = [];
-    for (const item of DB) {
-      const keys = (item.keys || []).map(norm).filter(Boolean);
-
-      // also match canonical name
-      if (item.name) keys.push(norm(item.name));
-      if (item.he) keys.push(norm(item.he));
-
+    for (const row of SEARCHABLE) {
       let best = Infinity;
-      for (const k of keys) {
-        if (!k) continue;
-        if (k === nq) best = Math.min(best, 0);
-        else if (k.startsWith(nq)) best = Math.min(best, 1);
-        else if (k.includes(nq)) best = Math.min(best, 2);
+      for (const k of row.keys) {
+        if (k === nq) best = 0;
+        else if (best > 1 && k.startsWith(nq)) best = 1;
+        else if (best > 2 && k.includes(nq)) best = 2;
+        if (best === 0) break;
       }
-      if (best !== Infinity) scored.push({ item, score: best });
+      if (best !== Infinity) scored.push({ item: row.item, score: best });
     }
 
     scored.sort((a, b) => a.score - b.score || displayName(a.item).localeCompare(displayName(b.item)));
@@ -179,23 +177,16 @@
       return;
     }
 
-    const matches = findMatches(q);
-
-    if (!matches.length) {
-      clearUI();
-      renderHint('לא נמצאו תוצאות');
+    const exact = KEY_MAP.get(q);
+    if (exact) {
+      showDetails(exact);
       return;
     }
 
-    const exact = matches.find((m) => {
-      const nq = norm(raw);
-      return (m.item.keys || []).some((k) => norm(k) === nq) ||
-             (m.item.name && norm(m.item.name) === nq) ||
-             (m.item.he && norm(m.item.he) === nq);
-    });
-
-    if (exact) {
-      showDetails(exact.item);
+    const matches = findMatches(q);
+    if (!matches.length) {
+      clearUI();
+      renderHint('לא נמצאו תוצאות');
       return;
     }
 
@@ -212,21 +203,6 @@
   const pasteBlock = document.getElementById('pasteBlock');
   const pasteIng = document.getElementById('pasteIng');
   const runPaste = document.getElementById('runPaste');
-
-  function findIngredient(token) {
-    if (!DB_READY) return null;
-    const t = norm(token);
-    if (!t) return null;
-    for (const item of DB) {
-      const keys = (item.keys || []).map(norm).filter(Boolean);
-      if (item.name) keys.push(norm(item.name));
-      if (item.he) keys.push(norm(item.he));
-      for (const k of keys) {
-        if (k === t) return item;
-      }
-    }
-    return null;
-  }
 
   function renderPasteResults(text) {
     if (!DB_READY) {
@@ -251,15 +227,17 @@
     const unknown = [];
 
     for (const p of parts) {
-      const n = norm(p);
-      if (!n || seen.has(n)) continue;
-      seen.add(n);
-      const match = findIngredient(n);
+      const t = norm(p);
+      if (!t || seen.has(t)) continue;
+      seen.add(t);
+
+      const match = KEY_MAP.get(t);
       if (match) found.push(match);
       else unknown.push(p);
     }
 
     const frag = document.createDocumentFragment();
+
     if (found.length) {
       for (const item of found) {
         const wrap = document.createElement('div');
@@ -296,7 +274,6 @@
       const isOpen = pasteBlock.style.display !== 'none';
       pasteBlock.style.display = isOpen ? 'none' : 'block';
       togglePaste.textContent = isOpen ? 'הדביקי רשימת רכיבים (אופציונלי)' : 'סגירה';
-      if (!isOpen && pasteIng) pasteIng.focus();
     });
   }
 
@@ -313,22 +290,18 @@
 
       const r = await fetch(DB_URL, { cache: 'no-store' });
       if (!r.ok) throw new Error('HTTP ' + r.status);
-
       const data = await r.json();
       const arr = Array.isArray(data) ? data : (data && Array.isArray(data.items) ? data.items : null);
       if (!arr || !arr.length) throw new Error('Bad JSON payload');
 
       DB = arr;
+      buildIndex();
       DB_READY = true;
-
-      // Debug/proof:
-      window.__KBWG_ING_DB = { url: DB_URL, count: arr.length, loadedAt: new Date().toISOString() };
-      console.log('[KBWG] Ingredients DB loaded from JSON:', arr.length, 'items', DB_URL);
     } catch (e) {
-      console.warn('[KBWG] Ingredients DB load failed; using fallback DB', e);
+      console.warn('[Ingredient Detective] DB load failed; using fallback', e);
       DB = DB_FALLBACK;
+      buildIndex();
       DB_READY = true;
-      window.__KBWG_ING_DB = { url: DB_URL, count: DB.length, loadedAt: new Date().toISOString(), fallback: true };
     } finally {
       input.disabled = false;
       if (norm(input.value || '').length >= 2) onInput();
@@ -340,5 +313,6 @@
   }
 
   // Initial
+  buildIndex();
   loadDB();
 })();
