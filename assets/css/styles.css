@@ -4684,32 +4684,29 @@ picture.decorPhoto > img{
 }
 
 /* =========================================================
-   HERO headers: consistent size + show full image (v22)
-   Request: headers same size across all pages (use smaller one),
-   and hero images fully visible (no zoom, no cropping).
-   Notes:
-   - Many pages use <picture class="decorPhoto">; object-fit must apply on the <img>.
-   - We enforce a fixed media box so page-to-page aspect ratios don't change hero height.
+   HERO headers: consistent size + show full image (v23)
+   Update: user wants the *bigger* hero images back, BUT consistent
+   height/size across pages, and images fully visible (no zoom/crop).
 ========================================================= */
 
-/* Compact, consistent hero spacing everywhere */
-.hero.product-hero.heroSmall{
-  padding-block: clamp(16px, 2.2vw, 22px) !important;
+/* Consistent hero spacing everywhere (keep it roomy) */
+.hero.product-hero{
+  padding-block: clamp(26px, 3.2vw, 40px) !important;
 }
-.hero.product-hero.heroSmall .heroInner{
-  gap: 14px !important;
+.hero.product-hero .heroInner{
+  gap: 18px !important;
 }
 
-/* Consistent hero media box (same size on all pages for the same viewport) */
+/* Larger, consistent hero media box (same size on all pages for the same viewport) */
 .hero.product-hero{
-  --heroMediaW: min(220px, 34vw);
-  --heroMediaH: 140px;
+  --heroMediaW: min(340px, 30vw);
+  --heroMediaH: 260px;
 }
 @media (min-width: 641px) and (max-width: 1024px){
-  .hero.product-hero{ --heroMediaW: min(190px, 34vw); --heroMediaH: 120px; }
+  .hero.product-hero{ --heroMediaW: min(280px, 34vw); --heroMediaH: 210px; }
 }
 @media (max-width: 640px){
-  .hero.product-hero{ --heroMediaW: 124px; --heroMediaH: 96px; }
+  .hero.product-hero{ --heroMediaW: 200px; --heroMediaH: 160px; }
 }
 
 /* Apply the fixed box to either <img.decorPhoto> or <picture.decorPhoto> */
@@ -4719,7 +4716,6 @@ picture.decorPhoto > img{
   max-width: var(--heroMediaW) !important;
   height: var(--heroMediaH) !important;
   max-height: var(--heroMediaH) !important;
-  overflow: hidden !important;
 }
 
 /* Make sure the actual bitmap uses contain (no crop) and fills the box */
@@ -4730,9 +4726,11 @@ picture.decorPhoto > img{
   object-fit: contain !important;
   object-position: center !important;
   display: block;
+  background: transparent !important;
 }
 
 /* Prevent any lingering overrides from forcing cover/crop */
 .hero.product-hero > picture.decorPhoto > img{
-  background: transparent !important;
+  object-fit: contain !important;
 }
+
