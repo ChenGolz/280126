@@ -1,55 +1,31 @@
-/* Shared header/footer injector (v24) */
-(function () {
-  "use strict";
+// Build: 2026-01-31-v21
+(function(){
+  const base = (document.currentScript && document.currentScript.dataset && document.currentScript.dataset.base) ? document.currentScript.dataset.base : '';
+  const headerMount = document.getElementById('siteHeaderMount');
+  const footerMount = document.getElementById('siteFooterMount');
 
-  const BUILD = "2026-02-02-v24";
-  const HEADER_URL = `partials/header.html?v=${BUILD}`;
-  const FOOTER_URL = `partials/footer.html?v=${BUILD}`;
-
-  const H_KEY = `kbwg:header:${BUILD}`;
-  const F_KEY = `kbwg:footer:${BUILD}`;
-
-  async function getOrFetch(url, key) {
-    try {
-      const cached = sessionStorage.getItem(key);
-      if (cached) return cached;
-    } catch (_) {}
-
-    const res = await fetch(url, { cache: "force-cache" });
-    const html = await res.text();
-
-    try {
-      sessionStorage.setItem(key, html);
-    } catch (_) {}
-
-    return html;
+  function fetchInto(url, mount){
+    if(!mount) return Promise.resolve();
+    return fetch(base + url + '?v=2026-02-01-v25', { cache: 'force-cache' })
+      .then(r => r.text())
+      .then(html => {
+        mount.innerHTML = html;
+      });
   }
 
-  function inject(targetId, html) {
-    const el = document.getElementById(targetId);
-    if (el) el.innerHTML = html;
-  }
-
-  async function boot() {
+  Promise.all([
+    fetchInto('partials/header.html', headerMount),
+    fetchInto('partials/footer.html', footerMount),
+  ]).then(() => {
     try {
-      const [headerHTML, footerHTML] = await Promise.all([
-        getOrFetch(HEADER_URL, H_KEY),
-        getOrFetch(FOOTER_URL, F_KEY),
-      ]);
-
-      inject("siteHeaderMount", headerHTML);
-      inject("siteFooterMount", footerHTML);
-
-      // Let page scripts know the layout is ready
-      document.dispatchEvent(new CustomEvent("kbwg:layout-ready"));
-    } catch (e) {
-      console.error("layout-inject failed", e);
+      document.dispatchEvent(new CustomEvent('kbwg:layout-ready'));
+    } catch(e) {
+      // IE fallback
+      const evt = document.createEvent('Event');
+      evt.initEvent('kbwg:layout-ready', true, true);
+      document.dispatchEvent(evt);
     }
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", boot);
-  } else {
-    boot();
-  }
+  }).catch((err) => {
+    try { console.warn('[KBWG] layout inject failed', err); } catch(e) {}
+  });
 })();
