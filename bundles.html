@@ -2,15 +2,14 @@
 
 <html dir="rtl" lang="he">
 <head>
-<meta charset="utf-8"/>
+<meta charset="utf-8"/><meta content="strict-origin-when-cross-origin" name="referrer"/><meta content="light" name="color-scheme"/><meta content="#2a5b9a" name="theme-color"/><meta content="assets/img/social-preview.jpg" name="twitter:image"/><meta content="summary_large_image" name="twitter:card"/><meta content="assets/img/social-preview.jpg" property="og:image"/><meta content="באנדלים חכמים של מוצרים 100% טבעוניים שלא נוסו על בעלי חיים כדי להגיע למשלוח חינם באמזון." name="twitter:description"/><meta content="באנדלים חכמים של מוצרים 100% טבעוניים שלא נוסו על בעלי חיים כדי להגיע למשלוח חינם באמזון." property="og:description"/><meta content="באנדלים למשלוח חינם · 100% טבעוני · לא נוסו על בעלי חיים" name="twitter:title"/><meta content="באנדלים למשלוח חינם · 100% טבעוני · לא נוסו על בעלי חיים" property="og:title"/><meta content="website" property="og:type"/><meta content="he_IL" property="og:locale"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>מארזי שי וקופסאות הפתעה | לקנות ללא אכזריות</title>
-<meta content="מארזים נבחרים — מתנה מושלמת או פינוק לעצמך." name="description"/><link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<title>באנדלים למשלוח חינם · 100% טבעוני · לא נוסו על בעלי חיים</title>
+<meta content="באנדלים חכמים של מוצרים 100% טבעוניים שלא נוסו על בעלי חיים כדי להגיע למשלוח חינם באמזון." name="description"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.apis.com/css2?family=Assistant:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
-<link href="assets/css/styles.css?v=2026-01-31-v21" rel="stylesheet"/>
-<link href="assets/img/logo.png" rel="icon" type="image/png"/>
+<link href="assets/img/favicon.ico" rel="icon" sizes="any"/><link href="assets/img/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/><link href="assets/img/favicon-16.png" rel="icon" sizes="16x16" type="image/png"/><link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/><link href="site.webmanifest" rel="manifest"/><link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="assets/css/styles.css?v=2026-01-31-v17" rel="stylesheet"/>
 <style>
       /* Page-only styles (kept scoped) */
       .bundleHero .heroCopy p { max-width: 62ch; margin: 0.6rem auto 0; }
@@ -39,23 +38,70 @@
       .bundleBtn { display:inline-flex; align-items:center; gap:8px; border:0; border-radius: 999px; padding: 10px 14px; font-weight: 700; cursor:pointer; background: #111; color:#fff; }
       .bundleBtn:focus { outline: 3px solid rgba(0,0,0,.25); outline-offset: 2px; }
 
-      /* Modal */
+            /* Modal */
       .modalOverlay { position: fixed; inset: 0; background: rgba(0,0,0,.55); display:none; z-index: 9999; }
       .modalOverlay.isOpen { display:block; }
+
       .bundleModal { position: fixed; inset: 0; display:none; z-index: 10000; }
       .bundleModal.isOpen { display:flex; align-items:center; justify-content:center; padding: 16px; }
-      .bundleModalPanel { width: min(1100px, 100%); max-height: min(86vh, 920px); background:#fff; border-radius: 18px; overflow:hidden; box-shadow: 0 24px 80px rgba(0,0,0,.35); display:flex; flex-direction:column; }
-      @media (max-width: 900px) {
-        .bundleModal.isOpen { align-items:flex-end; padding: 0; }        .bundleModalPanel { border-radius: 18px 18px 0 0; max-height: 92vh; }
+
+      .bundleModalPanel{
+        width: min(1100px, 100%);
+        max-height: min(86vh, 920px);
+        background:#fff;
+        border-radius: 18px;
+        overflow:hidden;
+        box-shadow: 0 24px 80px rgba(0,0,0,.35);
+        display:flex;
+        flex-direction:column;
       }
+
+      /* Desktop layout */
       .modalHeader { display:flex; align-items:center; justify-content:space-between; gap: 10px; padding: 14px 16px; border-bottom: 1px solid rgba(0,0,0,.08); }
       .modalHeader h2 { margin:0; font-size: 1.05rem; }
-      .modalClose { border:0; background: rgba(0,0,0,.06); border-radius: 12px; padding: 8px 10px; cursor:pointer; }
-      .modalBody { display:grid; grid-template-columns: inherit; min-height: 0; }
+      .modalClose { border:0; background: rgba(0,0,0,.06); border-radius: 14px; padding: 10px 12px; cursor:pointer; }
+      .modalBody{ flex: 1 1 auto; min-height:0; display:grid; grid-template-columns: 380px 1fr; }
       .modalLeft, .modalRight { min-height:0; overflow:auto; }
       .modalLeft { padding: 12px 14px; border-left: 1px solid rgba(0,0,0,.08); }
-      @media (max-width: 900px) { .modalLeft { border-left:0; border-top: 1px solid rgba(0,0,0,.08); } }
       .modalRight { padding: 12px 14px; }
+
+      /* Mobile: bottom-sheet */
+      @media (max-width: 900px) {
+        .bundleModal.isOpen { align-items:flex-end; padding: 0; }
+        .bundleModalPanel{
+          width: 100%;
+          max-height: 92vh;
+          border-radius: 18px 18px 0 0;
+          padding-bottom: env(safe-area-inset-bottom);
+        }
+        .bundleModalPanel::before{
+          content:"";
+          width: 44px;
+          height: 5px;
+          border-radius: 999px;
+          background: rgba(0,0,0,.18);
+          display:block;
+          margin: 8px auto 0;
+        }
+        .modalHeader{
+          position: sticky;
+          top: 0;
+          background: #fff;
+          z-index: 5;
+          padding-top: 10px;
+        }
+        .modalBody{
+          display:flex;
+          flex-direction:column;
+        }
+        .modalRight{ order: 1; }
+        .modalLeft{
+          order: 2;
+          border-left: 0;
+          border-top: 1px solid rgba(0,0,0,.08);
+          max-height: 42vh;
+        }
+      }
 
       .bundleItems { display:flex; flex-direction:column; gap: 10px; }
       .bundleItem { display:grid; grid-template-columns: 62px 1fr; gap: 10px; padding: 10px; border-radius: 14px; background: rgba(0,0,0,.035); }
@@ -131,16 +177,17 @@
 
     </style>
 </head>
-<body class="page-products page-bundles"><div id="siteHeaderMount"></div>
+<body class="page-products page-bundles"><a class="skipLink" href="#main">דלגי לתוכן</a>
+<div id="siteHeaderMount"></div>
 <main id="main">
 <section class="hero product-hero heroSmall bundleHero">
-<img alt="תמונה" aria-hidden="true" class="decorPhoto decorCL" decoding="async" fetchpriority="high" height="740" loading="eager" sizes="(max-width: 900px) 92vw, 1200px" src="assets/img/photos/dog-field-900.jpg" srcset="assets/img/photos/dog-field-900.jpg 736w" width="736"/>
+<picture class="decorPhoto decorCL"><source srcset="assets/img/photos/hero-bundles.webp" type="image/webp"/><img alt="" aria-hidden="true" decoding="async" fetchpriority="high" height="499" loading="eager" src="assets/img/photos/hero-bundles.jpg" width="464"/></picture>
 <div class="wrap heroInner">
 <div class="heroCopy center-text">
-<h1>מארזי שי וקופסאות הפתעה</h1>
-<p>מארזים נבחרים — מתנה מושלמת או פינוק לעצמך.</p>
+<h1>באנדלים למשלוח חינם באמזון 🇺🇸</h1>
+<p>באנדלים חכמים לפי קטגוריות כדי להגיע למשלוח חינם באמזון בלי לבזבז זמן.</p>
 <div class="badgeRow center-badges">
-<div class="trust-badge"><span aria-hidden="true" class="icon">🌿</span> Vegan Only</div>
+<div class="trust-badge"><span aria-hidden="true" class="icon">🌿</span> טבעוני Only</div>
 <div class="trust-badge"><span aria-hidden="true" class="icon">🛒</span> Amazon US</div>
 <div class="trust-badge"><span aria-hidden="true" class="icon">✨</span> החלפה חכמה</div>
 </div>
@@ -158,7 +205,9 @@
 </div>
 </section>
 </main>
-<script defer="True" src="assets/js/products-json-loader.js?v=2026-01-12-v6"></script>
+<div id="siteFooterMount"></div>
+<script defer="True" src="assets/js/products-json-loader.js?v=2026-01-31-v10"></script><script data-base="./" defer="" src="assets/js/layout-inject.js?v=2026-01-31-v18"></script>
+<script defer="" src="assets/js/site.js?v=2026-01-31-v15"></script>
 <!-- Weglot helper: refresh translations after dynamic content renders -->
 <script>
 (function(){
@@ -231,6 +280,6 @@
 </div>
 </section>
 <script defer="" src="assets/js/price-tier.js?v=2026-01-14"></script>
-<script defer="" src="assets/js/bundles.js?v=2026-01-25-v26"></script>
-<div id="siteFooterMount"></div><script data-base="" defer="" src="assets/js/layout-inject.js?v=2026-01-31-v21"></script><script defer="" src="assets/js/site.js?v=2026-02-01-v23"></script></body>
+<script defer="" src="assets/js/bundles.js?v=2026-01-31-v10"></script>
+</body>
 </html>

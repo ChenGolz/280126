@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Tip: if/when you know your public domain, add a sitemap line like:
+# Sitemap: https://YOUR-DOMAIN.example/sitemap.xml

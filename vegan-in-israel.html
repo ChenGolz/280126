@@ -2,16 +2,14 @@
 
 <html dir="rtl" lang="he">
 <head>
-<meta charset="utf-8"/>
+<meta charset="utf-8"/><meta content="strict-origin-when-cross-origin" name="referrer"/><meta content="light" name="color-scheme"/><meta content="#2a5b9a" name="theme-color"/><meta content="assets/img/social-preview.jpg" name="twitter:image"/><meta content="summary_large_image" name="twitter:card"/><meta content="assets/img/social-preview.jpg" property="og:image"/><meta content="מדריך טבעוני בישראל: מסעדות, חנויות ומקומות שהם 100% טבעוניים. מתאים לטיולים ולתכנון יום בחוץ." name="twitter:description"/><meta content="מדריך טבעוני בישראל: מסעדות, חנויות ומקומות שהם 100% טבעוניים. מתאים לטיולים ולתכנון יום בחוץ." property="og:description"/><meta content="טבעוני בישראל · מסעדות וחנויות 100% טבעוני | לקנות ללא אכזריות" name="twitter:title"/><meta content="טבעוני בישראל · מסעדות וחנויות 100% טבעוני | לקנות ללא אכזריות" property="og:title"/><meta content="website" property="og:type"/><meta content="he_IL" property="og:locale"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>המדריך לטבעוני המתחיל והמתקדם | לקנות ללא אכזריות</title>
-<meta content="מסעדות, חנויות וטיפים — רק מקומות 100% טבעוניים." name="description"/>
-<meta content="מדריך ישראלי לקניות לקנות ללא אכזריות בבעלי חיים" name="description"/>
+<title>טבעוני בישראל · מסעדות וחנויות 100% טבעוני | לקנות ללא אכזריות</title>
+<meta content="מדריך טבעוני בישראל: מסעדות, חנויות ומקומות שהם 100% טבעוניים. מתאים לטיולים ולתכנון יום בחוץ." name="description"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="assets/css/styles.css?v=2026-01-31-v21" rel="stylesheet"/>
-<link href="assets/img/logo.png" rel="icon" type="image/png"/>
+<link href="assets/img/favicon.ico" rel="icon" sizes="any"/><link href="assets/img/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/><link href="assets/img/favicon-16.png" rel="icon" sizes="16x16" type="image/png"/><link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/><link href="site.webmanifest" rel="manifest"/><link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="assets/css/styles.css?v=2026-01-31-v17" rel="stylesheet"/>
 <link crossorigin="" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" rel="stylesheet"/>
 <style>
       /* Page-only styles to match your existing cards/panels */
@@ -52,19 +50,20 @@
       .kicker { font-weight: 700; letter-spacing: .02em; opacity: .85; }
     </style>
 </head>
-<body><div id="siteHeaderMount"></div>
-<main>
+<body><a class="skipLink" href="#main">דלגי לתוכן</a>
+<div id="siteHeaderMount"></div>
+<main id="main">
 <section class="hero product-hero heroSmall">
-<div class="wrap heroWrap">
-<div class="heroText">
-<p class="kicker">Vegan in Israel</p>
-<h1>המדריך לטבעוני המתחיל והמתקדם</h1>
-<p class="muted">מפה אינטראקטיבית + מסלולי טיול קצרים למטיילים שרוצים לאכול ולקנות <strong>רק 100% טבעוני</strong>.</p>
-<p class="muted" style="margin-top:.75rem;">עדכון נתונים אחרון: <span id="dataStamp">2026-01-30</span></p>
-</div>
-<div class="heroMedia">
-<div class="decorPhoto">
-<img alt="Cruelty free" decoding="async" fetchpriority="high" height="506" loading="eager" sizes="(max-width: 900px) 92vw, 1200px" src="assets/img/photos/dogs-cuddle-900.jpg" srcset="assets/img/photos/dogs-cuddle-900.jpg 900w, assets/img/photos/dogs-cuddle-1600.jpg 1600w" width="900"/>
+<picture class="decorPhoto decorCL"><source srcset="assets/img/photos/hero-israel.webp" type="image/webp"/><img alt="" aria-hidden="true" decoding="async" fetchpriority="high" height="768" loading="eager" src="assets/img/photos/hero-israel.jpg" width="1344"/></picture>
+<div class="wrap heroInner">
+<div class="heroCopy center-text">
+<h1>טבעוני בישראל</h1>
+<p>מפה אינטראקטיבית של מסעדות וחנויות טבעוניות בישראל + רעיונות למסלולים קצרים לטיול.</p>
+<p class="muted" style="margin-top:.65rem;">עדכון נתונים אחרון: <span id="dataStamp">2026-01-30</span></p>
+<div class="badgeRow center-badges">
+<div class="trust-badge"><span class="icon">📍</span> מפה</div>
+<div class="trust-badge"><span class="icon">🌿</span> 100% טבעוני</div>
+<div class="trust-badge"><span class="icon">🧭</span> מסלולים</div>
 </div>
 </div>
 </div>
@@ -96,8 +95,12 @@
 <div class="field" style="align-self:flex-end;">
 <button class="btnSmall" id="resetFilters" type="button">איפוס</button>
 </div>
+<div class="field" style="align-self:flex-end;">
+<button class="btnSmall btnGhost" id="btnLoadCoords" type="button">טעני מיקומים חסרים</button>
 </div>
-<div aria-label="Vegan map" id="veganMap"></div>
+</div>
+<div aria-label="מפה טבעונית" id="veganMap"></div>
+<p class="muted" style="margin:10px 0 0;">אם חסרים פינים — לחצי על “טעני מיקומים חסרים”. זה יכול לקחת קצת זמן כי המיקומים נטענים בהדרגה.</p>
 <p class="muted" style="margin: 10px 0 0;">טיפ: אם אתם במובייל, השתמשו בכפתור “הצג במפה” בכרטיס כדי לזום למיקום.</p>
 </div>
 </div>
@@ -141,14 +144,17 @@
 <p class="muted">שלחו לי שם + עיר + לינק (אינסטגרם/אתר) ואוסיף למפה. הכי חשוב: <strong>100% טבעוני בלבד</strong>.</p>
 <div class="placeActions">
 <a class="btnSmall" href="contact.html">צור קשר</a>
-<a class="btnSmall btnGhost" href="community-wall.html">Wall of Kindness</a>
+<a class="btnSmall btnGhost" href="wall-of-kindness.html">Wall of Kindness</a>
 </div>
 </div>
 </div>
 </section>
 </main>
+<div id="siteFooterMount"></div>
 <script crossorigin="" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="assets/js/vegan-in-israel.js?v=1"></script>
+<script data-base="./" defer="" src="assets/js/layout-inject.js?v=2026-01-31-v18"></script>
+<script src="assets/js/site.js?v=2026-01-31-v15"></script>
+<script src="assets/js/vegan-in-israel.js?v=2026-01-31-v10"></script>
 <script>
     // Weglot refresh helper (kept consistent with your other pages)
     function refreshWeglot(){ if(window.Weglot && Weglot.refresh){ Weglot.refresh(); } }
@@ -176,5 +182,5 @@
   mo.observe(document.documentElement, { childList:true, subtree:true });
 })();
 </script>
-<div id="siteFooterMount"></div><script data-base="" defer="" src="assets/js/layout-inject.js?v=2026-01-31-v21"></script><script defer="" src="assets/js/site.js?v=2026-02-01-v23"></script></body>
+</body>
 </html>
