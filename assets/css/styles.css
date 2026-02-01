@@ -2673,6 +2673,7 @@ body{ overflow-x: hidden; }
   z-index: 1 !important;
 
   flex: 0 0 auto !important;
+  display: block !important;
   width: min(420px, 36vw) !important;
   max-width: 440px !important;
   height: 240px !important;
@@ -4760,4 +4761,98 @@ picture.decorPhoto > img{
   .siteHeader .navDrop a{
     width: 100% !important;
   }
+}
+
+/* =========================================================
+   KBWG PATCH v24 – Unified page hero headers (match sample)
+   Goal: same header card size + image placement across ALL pages.
+   ========================================================= */
+
+/* Force the hero "card" to be consistent across pages */
+.hero.product-hero{
+  background: linear-gradient(135deg, var(--accent, var(--brand)), #1b3861) !important;
+  color: #fff !important;
+  border-radius: 18px !important;
+  max-width: 980px !important;
+  width: min(980px, calc(100% - 28px)) !important;
+  margin: 12px auto 14px !important;
+  padding: 12px 14px !important;
+  box-shadow: 0 14px 28px rgba(0,0,0,.10) !important;
+
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 18px !important;
+  flex-wrap: nowrap !important;
+  direction: rtl !important;
+}
+
+/* Image block: always next to the text (never behind it) */
+.hero.product-hero > .decorPhoto{
+  position: static !important;
+  inset: auto !important;
+  flex: 0 0 auto !important;
+  display: block !important;
+  width: min(320px, 30vw) !important;
+  max-width: 340px !important;
+  height: auto !important;
+  opacity: 1 !important;
+  margin: 0 !important;
+  border-radius: 18px !important;
+  box-shadow: 0 10px 22px rgba(0,0,0,.18) !important;
+  overflow: hidden !important;
+  background: rgba(255,255,255,.10) !important;
+}
+
+/* Works for both <img.decorPhoto> and <picture.decorPhoto> */
+.hero.product-hero > .decorPhoto img,
+.hero.product-hero > picture.decorPhoto img,
+.hero.product-hero > img.decorPhoto{
+  width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
+  object-fit: contain !important; /* show the FULL image, no cropping */
+  object-position: center center !important;
+  display: block !important;
+}
+
+.hero.product-hero .wrap.heroInner{
+  width: auto !important;
+  margin-inline: 0 !important;
+  flex: 1 1 560px !important;
+  max-width: 760px !important;
+}
+
+.hero.product-hero .heroCopy{ position: relative !important; z-index: 2 !important; }
+
+/* Keep the hero tight and consistent */
+.hero.product-hero.heroSmall{ padding: 12px 14px !important; }
+
+/* Mobile: same layout as the sample (side-by-side, just smaller) */
+@media (max-width: 640px){
+  .hero.product-hero{
+    gap: 6px !important;
+    padding: 10px 12px !important;
+    margin: 10px auto 12px !important;
+    border-radius: 16px !important;
+    box-shadow: 0 10px 20px rgba(0,0,0,.09) !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+  }
+  .hero.product-hero > .decorPhoto{
+    width: 110px !important;
+    max-width: 34vw !important;
+    border-radius: 14px !important;
+  }
+  .hero.product-hero .wrap.heroInner{ flex: 1 1 auto !important; max-width: none !important; }
+  .hero.product-hero .heroCopy.center-text{ text-align: right !important; }
+}
+
+
+
+/* Small tablets: some older overrides forced vertical stacking — disable that */
+@media (max-width: 768px){
+  .hero.product-hero{ flex-direction: row !important; flex-wrap: nowrap !important; }
 }
