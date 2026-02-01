@@ -6,51 +6,47 @@
     </a>
 
     <nav aria-label="ניווט ראשי" class="nav" id="primaryNav">
-      <a href="index.html">בית</a>
-
-      <a href="products.html">מוצרים</a>
-
-      <div class="navGroupX" data-navgroup>
-        <a class="navTop" href="israeli-brands.html">מותגים</a>
-        <button class="navToggle" type="button" aria-expanded="false" aria-label="פתח תפריט מותגים">▾</button>
-        <div class="navDrop" role="menu" aria-label="מותגים" hidden>
+      <a class="navLink" href="index.html">בית</a>
+      
+      <details class="navGroup" data-nav-group>
+        <summary>מאגר</summary>
+        <div class="navDrop" role="menu" aria-label="מאגר">
+          <a href="products.html" role="menuitem">מוצרים</a>
+          <a href="search.html" role="menuitem">מותגים</a>
           <a href="israeli-brands.html" role="menuitem">מותגים בישראל</a>
-          <a href="recommended-brands.html" role="menuitem">מותגים מחו״ל</a>
+          <a href="recommended-brands.html" role="menuitem">מותגים בעולם</a>
           <a href="pharmacy.html" role="menuitem">פארם</a>
         </div>
-      </div>
-
-      <a href="ingredient-detective.html">רכיבים</a>
-
-      <div class="navGroupX" data-navgroup>
-        <a class="navTop" href="todays-top-deals.html">דילים</a>
-        <button class="navToggle" type="button" aria-expanded="false" aria-label="פתח תפריט דילים">▾</button>
-        <div class="navDrop" role="menu" aria-label="דילים" hidden>
-          <a href="todays-top-deals.html" role="menuitem">דילים חמים</a>
-          <a href="shopping-calendar.html" role="menuitem">לוח מבצעים</a>
-          <a href="bundles.html" role="menuitem">מארזים</a>
-          <a href="amazon-info.html" role="menuitem">Amazon US</a>
+      </details>
+      
+      <a class="navLink" href="ingredient-detective.html">בודק רכיבים</a>
+      
+      <details class="navGroup" data-nav-group>
+        <summary>דילים</summary>
+        <div class="navDrop" role="menu" aria-label="דילים">
+          <a href="todays-top-deals.html" role="menuitem">דילים היום</a>
+          <a href="shopping-calendar.html" role="menuitem">יומן מבצעים</a>
         </div>
-      </div>
-
-      <div class="navGroupX" data-navgroup>
-        <a class="navTop" href="learn.html">מדריכים</a>
-        <button class="navToggle" type="button" aria-expanded="false" aria-label="פתח תפריט מדריכים">▾</button>
-        <div class="navDrop" role="menu" aria-label="מדריכים" hidden>
+      </details>
+      
+      <details class="navGroup" data-nav-group>
+        <summary>מדריכים</summary>
+        <div class="navDrop" role="menu" aria-label="מדריכים">
           <a href="learn.html" role="menuitem">מרכז מידע</a>
-          <a href="methodology.html" role="menuitem">איך אנחנו בודקים</a>
-          <a href="vegan-in-israel.html" role="menuitem">טבעוני בישראל</a>
+          <a href="vegan-in-israel.html" role="menuitem">טבעונות בישראל</a>
           <a href="hidden-gems-map.html" role="menuitem">פנינים נסתרות</a>
+          <a href="methodology.html" role="menuitem">איך אנחנו בודקים</a>
         </div>
-      </div>
-
-      <a href="wall-of-kindness.html">קהילה</a>
-      <a href="about.html">אודות</a>
-      <a href="contact.html">צור קשר</a>
+      </details>
+      
+      <details class="navGroup" data-nav-group>
+        <summary>קהילה</summary>
+        <div class="navDrop" role="menu" aria-label="קהילה">
+          <a href="wall-of-kindness.html" role="menuitem">קיר הטוב</a>
+          <a href="about.html" role="menuitem">מי אנחנו</a>
+          <a href="contact.html" role="menuitem">צור קשר</a>
+        </div>
+      </details>
     </nav>
-
-    <div class="headerActions">
-      <a class="btn small ghost" href="contact.html">כתבו לנו</a>
-    </div>
   </div>
 </header>
