@@ -4734,3 +4734,27 @@ picture.decorPhoto > img{
   object-fit: contain !important;
 }
 
+
+
+/* =========================================================
+   KBWG v24 — Header hero images: stretch to fill frame
+   Goal: fill the hero image slot WITHOUT cropping ("not zoomed in"),
+         so we use object-fit: fill (may distort aspect ratio).
+   ========================================================= */
+.heroMedia img,
+.heroMedia picture > img,
+.hero.heroCompact .heroMedia img,
+.pageHero .heroMedia img{
+  width: 100% !important;
+  height: 100% !important;
+  max-height: none !important;
+  object-fit: fill !important;
+  transform: none !important;
+}
+
+/* If a page uses an <img class="heroMedia"> (rare), cover it too */
+img.heroMedia{
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: fill !important;
+}
