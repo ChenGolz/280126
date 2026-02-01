@@ -446,7 +446,7 @@
     reader.readAsDataURL(file);
   }
 
-  function postToשרת (API)(p) {
+  function postToServerApi(p) {
     if (!SUBMISSION_ENDPOINT) return;
     try {
       if (typeof fetch !== 'function') return;

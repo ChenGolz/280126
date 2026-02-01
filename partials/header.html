@@ -1,69 +1,76 @@
 <header class="siteHeader" id="siteHeader">
   <div class="wrap headerRow">
-    <a aria-label="בית" class="logo" href="index.html">
+    <a aria-label="דף הבית" class="logo" href="index.html">
       <img alt="לקנות ללא אכזריות" class="logoImg" height="40" src="assets/img/logo.png" width="40"/>
       <span class="logoText">לקנות ללא אכזריות</span>
     </a>
 
     <nav aria-label="ניווט ראשי" class="nav">
-      <a class="" href="index.html">בית</a>
+      <a href="index.html">דף הבית</a>
 
       <details class="navGroup">
-        <summary>מאגר</summary>
-        <div class="navDrop" role="menu" aria-label="מאגר">
-          <a class="" href="products.html" role="menuitem">מוצרים</a>
-          <a class="" href="israeli-brands.html" role="menuitem">מותגים בישראל</a>
-          <a class="" href="recommended-brands.html" role="menuitem">מותגים מחו״ל</a>
-          <a class="" href="pharmacy.html" role="menuitem">פארם</a>
+        <summary>מוצרים מומלצים</summary>
+        <div class="navDrop" role="menu" aria-label="מוצרים מומלצים">
+          <a href="bundles.html" role="menuitem">מארזים משתלמים (Bundles)</a>
+          <a href="products.html" role="menuitem">מאגר מוצרים עם חיפוש</a>
         </div>
       </details>
 
       <details class="navGroup">
-        <summary>כלים</summary>
-        <div class="navDrop" role="menu" aria-label="כלים">
-          <a class="" href="ingredient-detective.html" role="menuitem">בודק רכיבים</a>
-          <a class="" href="shopping-calendar.html" role="menuitem">לוח מבצעים</a>
+        <summary>מותגים מומלצים</summary>
+        <div class="navDrop" role="menu" aria-label="מותגים מומלצים">
+          <a href="recommended-brands.html" role="menuitem">מותגים מומלצים מחו״ל</a>
+          <a href="israeli-brands.html" role="menuitem">מותגים מומלצים בישראל</a>
         </div>
       </details>
 
       <details class="navGroup">
-        <summary>מדריכים</summary>
-        <div class="navDrop" role="menu" aria-label="מדריכים">
-          <a class="" href="vegan-in-israel.html" role="menuitem">טבעוני בישראל</a>
-          <a class="" href="hidden-gems-map.html" role="menuitem">Hidden Gems</a>
-          <a class="" href="learn.html" role="menuitem">מידע</a>
+        <summary>דילים ומבצעים</summary>
+        <div class="navDrop" role="menu" aria-label="דילים ומבצעים">
+          <a href="todays-top-deals.html" role="menuitem">דילים חמים היום</a>
+          <a href="shopping-calendar.html" role="menuitem">לוח מבצעים וסיילים</a>
         </div>
       </details>
 
       <details class="navGroup">
-        <summary>דילים</summary>
-        <div class="navDrop" role="menu" aria-label="דילים">
-          <a class="" href="todays-top-deals.html" role="menuitem">דילים חמים</a>
-          <a class="" href="bundles.html" role="menuitem">מארזים</a>
+        <summary>כלים לקנייה חכמה</summary>
+        <div class="navDrop" role="menu" aria-label="כלים לקנייה חכמה">
+          <a href="ingredient-detective.html" role="menuitem">בודק רכיבים ומה מתאים לך</a>
+          <a href="pharmacy.html" role="menuitem">מוצרים טבעוניים בפארם</a>
+          <a href="amazon-info.html" role="menuitem">איך קונים מחו״ל (אמזון)</a>
         </div>
       </details>
 
       <details class="navGroup">
-        <summary>קהילה</summary>
-        <div class="navDrop" role="menu" aria-label="קהילה">
-          <a class="" href="wall-of-kindness.html" role="menuitem">קיר טוב</a>
+        <summary>מדריכים ומפות</summary>
+        <div class="navDrop" role="menu" aria-label="מדריכים ומפות">
+          <a href="vegan-in-israel.html" role="menuitem">מדריך טבעוני בישראל</a>
+          <a href="hidden-gems-map.html" role="menuitem">מפת Hidden Gems</a>
+          <a href="learn.html" role="menuitem">מידע ושאלות נפוצות</a>
         </div>
       </details>
 
       <details class="navGroup">
-        <summary>אודות</summary>
-        <div class="navDrop" role="menu" aria-label="אודות">
-          <a class="" href="methodology.html" role="menuitem">שיטה</a>
-          <a class="" href="about.html" role="menuitem">אודות</a>
-          <a class="" href="contact.html" role="menuitem">צור קשר</a>
-          <a class="" href="terms.html" role="menuitem">תקנון</a>
+        <summary>קהילה ועשייה טובה</summary>
+        <div class="navDrop" role="menu" aria-label="קהילה ועשייה טובה">
+          <a href="wall-of-kindness.html" role="menuitem">קיר הטוב (Wall of Kindness)</a>
+        </div>
+      </details>
+
+      <details class="navGroup">
+        <summary>אודות ועזרה</summary>
+        <div class="navDrop" role="menu" aria-label="אודות ועזרה">
+          <a href="methodology.html" role="menuitem">איך אנחנו בודקים (שיטה)</a>
+          <a href="about.html" role="menuitem">על האתר והחזון</a>
+          <a href="contact.html" role="menuitem">צור קשר ותיקונים</a>
+          <a href="terms.html" role="menuitem">תקנון ותנאי שימוש</a>
         </div>
       </details>
     </nav>
   </div>
 
   <style>
-    /* Grouped nav (v16) — single-level dropdown, fast & mobile-friendly */
+    /* Grouped nav — single-level dropdown, fast & mobile-friendly */
     #siteHeader .nav{ overflow: visible; }
     #siteHeader .navGroup{ position: relative; }
     #siteHeader .navGroup > summary{
@@ -88,7 +95,7 @@
       position: absolute;
       top: calc(100% + 8px);
       right: 0;
-      min-width: 210px;
+      min-width: 250px;
       padding: 8px;
       border-radius: 16px;
       border: 1px solid rgba(31,41,55,.12);
@@ -106,9 +113,7 @@
       font-weight: 900;
       color: var(--ink);
     }
-    #siteHeader .navDrop a:hover{
-      background: rgba(157,195,230,.18);
-    }
+    #siteHeader .navDrop a:hover{ background: rgba(157,195,230,.18); }
 
     /* Mobile: keep dropdowns inside flow so they won't get clipped */
     @media (max-width: 820px){
@@ -119,13 +124,8 @@
         box-shadow: none;
         background: rgba(255,255,255,.86);
       }
-      #siteHeader .navGroup{
-        width: 100%;
-      }
-      #siteHeader .navGroup > summary{
-        width: 100%;
-        justify-content: space-between;
-      }
+      #siteHeader .navGroup{ width: 100%; }
+      #siteHeader .navGroup > summary{ width: 100%; justify-content: space-between; }
     }
   </style>
 </header>

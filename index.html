@@ -15,7 +15,7 @@
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="/assets/img/favicon.ico" rel="icon" sizes="any"/><link href="/assets/img/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/><link href="/assets/img/favicon-16.png" rel="icon" sizes="16x16" type="image/png"/><link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/><link href="/site.webmanifest" rel="manifest"/><link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="assets/css/styles.css?v=2026-01-31-v17" rel="stylesheet"/><link href="assets/css/home.css?v=2026-01-31-v14" rel="stylesheet"/>
+<link href="assets/css/styles.css?v=2026-02-01-v19" rel="stylesheet"/><link href="assets/css/home.css?v=2026-01-31-v14" rel="stylesheet"/>
 <style>
 /* בית-only notice banner */
   .siteNotice{ background: rgba(16,185,129,.10); border-bottom:1px solid rgba(16,185,129,.22); }
@@ -29,6 +29,7 @@
   .sectionTitle{ margin: 0 0 10px; }
   .sectionLead{ margin: 0 0 12px; }
   .splitGrid{ display:grid; gap:14px; grid-template-columns: 1.2fr .8fr; align-items:stretch; }
+  #home5050{ grid-template-columns: repeat(3, minmax(0,1fr)); }
   @media (max-width: 980px){ .splitGrid{ grid-template-columns:1fr; } }
   .faqItem h3{ margin:0 0 6px; font-size: 1.02rem; }
   .faqItem p{ margin:0; }
@@ -56,19 +57,19 @@
 <div class="trust-badge"><span class="icon">🌿</span> טבעוני</div>
 <div class="trust-badge"><span class="icon">🐇</span> Leaping Bunny</div>
 </div>
-<div class="actions heroActions"><a class="btn ghost" href="todays-top-deals.html">דילים חמים</a><a class="btn primary" href="products.html">מאגר מוצרים</a></div><form autocomplete="off" class="search-wrapper" id="homeSearchForm"><input aria-label="חיפוש מוצר" id="homeSearchInput" placeholder="חפשי מוצר… (לדוגמה: קרם פנים, שמפו, מסקרה)" type="search"/><button aria-label="חיפוש" class="search-btn" type="submit">🔎</button></form></div>
+<div class="actions heroActions"><a class="btn primary" href="bundles.html">מארזים משתלמים</a><a class="btn ghost" href="products.html">מאגר מוצרים</a><a class="btn ghost" href="todays-top-deals.html">דילים חמים</a></div><form autocomplete="off" class="search-wrapper" id="homeSearchForm"><input aria-label="חיפוש מוצר" id="homeSearchInput" placeholder="חפשי מוצר… (לדוגמה: קרם פנים, שמפו, מסקרה)" type="search"/><button aria-label="חיפוש" class="search-btn" type="submit">🔎</button></form></div>
 </div>
 </section>
 <section class="panel filter-panel">
 <div class="wrap">
 <div class="toolbar-container contentCard">
 <h2 class="sectionTitle">מה בא לך לקנות היום?</h2>
-<p class="muted sectionLead">בחרי דילים חמים או חיפוש מוצרים — ואז תמשיכי לכלים הנוספים.</p><div class="splitGrid" id="home5050" style="margin-top:12px;"><div class="contentCard"><h2>🔥 דילים חמים</h2><p class="muted">דילים שנבחרו מתוך מוצרים טבעוניים בלבד — כדי לחסוך בלי להתפשר על ערכים.</p><div class="actions"><a class="btn primary" href="todays-top-deals.html">צפייה בדילים</a><a class="btn ghost" href="shopping-calendar.html">מתי יש סיילים</a></div></div><div class="contentCard"><h2>🛍️ מוצרים</h2><p class="muted">מאגר מוצרים עם חיפוש וסינון. אפשר להתחיל בחיפוש מהיר מהכותרת למעלה.</p><div class="actions"><a class="btn primary" href="products.html">חיפוש מוצרים</a><a class="btn ghost" href="ingredient-detective.html">בודק רכיבים</a></div></div></div><div class="splitGrid homeTeasers" id="homeTeasers" style="margin-top:12px;"><div class="contentCard"><div class="sectionHead"><h2 class="sectionTitle">דילים חמים היום</h2><p class="muted sectionLead">הצצה קטנה ומעודכנת — בלי לחץ, רק השראה לקנייה חכמה.</p></div><div class="homeTeaserLoading" id="homeDealsLoading">טוענים דילים…</div><div class="homeCardsGrid homeCardsGrid--deals" id="homeDealsGrid"></div><div class="homeTeaserEmpty muted" id="homeDealsEmpty"></div><div class="actions" style="justify-content:center; margin-top:10px;"><a class="btn ghost" href="todays-top-deals.html">לכל הדילים</a></div></div><div class="contentCard"><div class="sectionHead"><h2 class="sectionTitle">מוצרים פופולריים</h2><p class="muted sectionLead">מבחר קטן שיעזור להתחיל — ומשם אפשר לסנן ולחפש בקלות.</p></div><div class="homeTeaserLoading" id="homeProductsLoading">טוענים מוצרים…</div><div class="homeCardsGrid homeCardsGrid--products" id="homeProductsGrid"></div><div class="homeTeaserEmpty muted" id="homeProductsEmpty"></div><div class="actions" style="justify-content:center; margin-top:10px;"><a class="btn ghost" href="products.html">לכל המוצרים</a></div></div></div>
+<p class="muted sectionLead">מומלץ להתחיל ממארזים משתלמים, דילים חמים או חיפוש מוצרים — ואז להמשיך לכלים הנוספים.</p><div class="splitGrid" id="home5050" style="margin-top:12px;"><div class="contentCard"><h2>📦 מארזים משתלמים</h2><p class="muted">מארזים שבחרנו בקפידה — פתרון מהיר כשבא לך "הכל ביחד" במחיר טוב.</p><div class="actions"><a class="btn primary" href="bundles.html">למארזים</a><a class="btn ghost" href="products.html">להמשיך למוצרים</a></div></div><div class="contentCard"><h2>🔥 דילים חמים</h2><p class="muted">דילים שנבחרו מתוך מוצרים טבעוניים בלבד — כדי לחסוך בלי להתפשר על ערכים.</p><div class="actions"><a class="btn primary" href="todays-top-deals.html">צפייה בדילים</a><a class="btn ghost" href="shopping-calendar.html">מתי יש סיילים</a></div></div><div class="contentCard"><h2>🛍️ מוצרים</h2><p class="muted">מאגר מוצרים עם חיפוש וסינון. אפשר להתחיל בחיפוש מהיר מהכותרת למעלה.</p><div class="actions"><a class="btn primary" href="products.html">חיפוש מוצרים</a><a class="btn ghost" href="ingredient-detective.html">בודק רכיבים</a></div></div></div><div class="splitGrid homeTeasers" id="homeTeasers" style="margin-top:12px;"><div class="contentCard"><div class="sectionHead"><h2 class="sectionTitle">דילים חמים היום</h2><p class="muted sectionLead">הצצה קטנה ומעודכנת — בלי לחץ, רק השראה לקנייה חכמה.</p></div><div class="homeTeaserLoading" id="homeDealsLoading">טוענים דילים…</div><div class="homeCardsGrid homeCardsGrid--deals" id="homeDealsGrid"></div><div class="homeTeaserEmpty muted" id="homeDealsEmpty"></div><div class="actions" style="justify-content:center; margin-top:10px;"><a class="btn ghost" href="todays-top-deals.html">לכל הדילים</a></div></div><div class="contentCard"><div class="sectionHead"><h2 class="sectionTitle">מוצרים פופולריים</h2><p class="muted sectionLead">מבחר קטן שיעזור להתחיל — ומשם אפשר לסנן ולחפש בקלות.</p></div><div class="homeTeaserLoading" id="homeProductsLoading">טוענים מוצרים…</div><div class="homeCardsGrid homeCardsGrid--products" id="homeProductsGrid"></div><div class="homeTeaserEmpty muted" id="homeProductsEmpty"></div><div class="actions" style="justify-content:center; margin-top:10px;"><a class="btn ghost" href="products.html">לכל המוצרים</a></div></div></div>
 <div aria-label="קיצורי דרך" class="cardsGrid homeGrid"><a class="miniCard" href="todays-top-deals.html">
 <div class="miniCardIcon">🔥</div>
 <div class="miniCardTitle">דילים</div>
 <div class="miniCardText">חם היום</div>
-</a><a class="miniCard isPrimary" href="products.html">
+</a><a class="miniCard" href="bundles.html"><div class="miniCardIcon">📦</div><div class="miniCardTitle">מארזים</div><div class="miniCardText">משתלם</div></a><a class="miniCard isPrimary" href="products.html">
 <div class="miniCardIcon">🛍️</div>
 <div class="miniCardTitle">מוצרים</div>
 <div class="miniCardText">חיפוש וסינון</div>
@@ -153,7 +154,7 @@
 </section>
 </main>
 <div id="siteFooterMount"></div>
-<script data-base="./" defer="" src="assets/js/layout-inject.js?v=2026-01-31-v18"></script>
+<script data-base="./" defer="" src="assets/js/layout-inject.js?v=2026-02-01-v19"></script>
 <script defer="" src="assets/js/site.js?v=2026-01-31-v15"></script><script defer="True" src="assets/js/home.js?v=2026-01-31-v14"></script>
 <!-- Weglot helper: refresh translations after dynamic content renders -->
 <script>

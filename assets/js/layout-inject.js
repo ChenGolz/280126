@@ -1,9 +1,9 @@
-// Build: 2026-01-31-v18
+// Build: 2026-02-01-v19
 // Shared layout injector (header + footer) for KBWG static pages
 // Loads partials/header.html into #siteHeaderMount and partials/footer.html into #siteFooterMount
 (function () {
 
-const KBWG_LAYOUT_BUILD = '2026-01-31-v18';
+const KBWG_LAYOUT_BUILD = '2026-02-01-v19';
 const KBWG_HEADER_KEY = 'kbwg_header_' + KBWG_LAYOUT_BUILD;
 const KBWG_FOOTER_KEY = 'kbwg_footer_' + KBWG_LAYOUT_BUILD;
 
@@ -15,8 +15,8 @@ try {
 
   const scriptEl = document.currentScript;
   const base = (scriptEl && scriptEl.dataset && scriptEl.dataset.base) ? scriptEl.dataset.base : '';
-  const HEADER_URL = base + 'partials/header.html';
-  const FOOTER_URL = base + 'partials/footer.html';
+  const HEADER_URL = base + 'partials/header.html?v=' + KBWG_LAYOUT_BUILD;
+  const FOOTER_URL = base + 'partials/footer.html?v=' + KBWG_LAYOUT_BUILD;
 
   function cacheKey(url){ return 'kbwg:partial:' + url; }
 

@@ -161,8 +161,6 @@
   // Initial
   clearUI();
   renderHint('הזינו שתי אותיות לפחות להתחיל');
-})();
-
 
   // Paste list helper (v13)
   const togglePaste = document.getElementById('togglePaste');
