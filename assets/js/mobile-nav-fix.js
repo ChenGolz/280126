@@ -3,7 +3,6 @@
    - Moves drawer + overlay to <body> on mobile to avoid stacking-context issues
    - Uses display:none !important when closed (prevents "ghost overlay")
 */
-
 (() => {
   const MOBILE_MAX = 920;
 
@@ -26,13 +25,11 @@
     btn.setAttribute("aria-expanded", "false");
     btn.setAttribute("aria-label", "פתח תפריט");
 
-    // simple icon
     btn.innerHTML = `
       <span class="navToggleIcon" aria-hidden="true"></span>
       <span class="srOnly">תפריט</span>
     `;
 
-    // try to append near the right side of header; fallback append end
     const actions = qs(".headerActions", header) || qs(".headerRight", header) || header;
     actions.appendChild(btn);
     return btn;
@@ -50,7 +47,6 @@
   }
 
   function findNav() {
-    // try common ids/classes
     return (
       qs("#siteNav") ||
       qs("#kbwgSiteNav") ||
@@ -61,7 +57,6 @@
   }
 
   function styleHamburger(btn) {
-    // basic inline styles so it works even if CSS is cached/broken
     setImp(btn, "display", "inline-flex");
     setImp(btn, "alignItems", "center");
     setImp(btn, "justifyContent", "center");
@@ -95,8 +90,7 @@
     setImp(overlay, "opacity", open ? "1" : "0");
     setImp(overlay, "transition", "opacity 180ms ease");
     setImp(overlay, "pointerEvents", open ? "auto" : "none");
-    // the KEY: remove from hit-area when closed
-    setImp(overlay, "display", open ? "block" : "none");
+    setImp(overlay, "display", open ? "block" : "none"); // KEY: remove hit area
 
     // Drawer
     setImp(nav, "position", "fixed");
@@ -117,7 +111,6 @@
   }
 
   function closeAllGroups(nav) {
-    // closes stacked dropdown groups if your markup uses a "open" class or aria-expanded buttons
     qsa("[aria-expanded='true']", nav).forEach(btn => btn.setAttribute("aria-expanded", "false"));
     qsa(".open", nav).forEach(el => el.classList.remove("open"));
   }
@@ -134,7 +127,6 @@
 
     styleHamburger(btn);
 
-    // store original mount so we can restore on desktop
     if (!nav.__kbwgOriginalParent) {
       nav.__kbwgOriginalParent = nav.parentElement;
       nav.__kbwgOriginalNext = nav.nextElementSibling;
@@ -145,20 +137,16 @@
     let isOpen = false;
 
     function attachForMobile() {
-      // move overlay+nav to body so they can't be behind the page/header stacking context
       if (overlay.parentElement !== document.body) document.body.appendChild(overlay);
       if (nav.parentElement !== document.body) document.body.appendChild(nav);
 
-      // on mobile show button
       setImp(btn, "display", "inline-flex");
-      // kill header blur stacking weirdness when open/closed
       setImp(header, "backdropFilter", "none");
       setImp(header, "-webkit-backdrop-filter", "none");
       setImp(header, "zIndex", "1000002");
     }
 
     function restoreForDesktop() {
-      // restore nav back into header/layout if needed
       try {
         if (nav.__kbwgOriginalParent && nav.parentElement === document.body) {
           if (nav.__kbwgOriginalNext) nav.__kbwgOriginalParent.insertBefore(nav, nav.__kbwgOriginalNext);
@@ -166,11 +154,8 @@
         }
       } catch (_) {}
 
-      // on desktop hide overlay and reset
       applyDrawerStyles(nav, overlay, false);
       isOpen = false;
-
-      // button can be hidden by your desktop CSS; we won't force it
       btn.setAttribute("aria-expanded", "false");
     }
 
@@ -193,21 +178,17 @@
       document.body.classList.remove("menuOpen");
     }
 
-    // Toggle
     btn.addEventListener("click", (e) => {
       e.preventDefault();
       (isOpen ? close : open)();
     });
 
-    // Overlay click closes
     overlay.addEventListener("click", close);
 
-    // Esc closes
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape") close();
     });
 
-    // Only one dropdown group open at once (best-effort)
     nav.addEventListener("click", (e) => {
       const t = e.target;
       if (!(t instanceof Element)) return;
@@ -215,19 +196,16 @@
       if (!btnLike) return;
       const expanded = btnLike.getAttribute("aria-expanded");
       if (expanded === "true") {
-        // close others
         qsa("[aria-expanded='true']", nav).forEach(b => {
           if (b !== btnLike) b.setAttribute("aria-expanded", "false");
         });
       }
     });
 
-    // Handle breakpoint switching
     function onMq() {
       if (mq.matches) {
         attachForMobile();
-        // always start closed to avoid BFCache "gray layer"
-        close();
+        close(); // always start closed on mobile
       } else {
         restoreForDesktop();
       }
@@ -235,7 +213,6 @@
     mq.addEventListener?.("change", onMq);
     onMq();
 
-    // pageshow helps iOS back/forward cache
     window.addEventListener("pageshow", () => {
       if (mq.matches) close();
     });
@@ -244,7 +221,6 @@
     return true;
   }
 
-  // init with retries in case header is injected async
   function boot() {
     let tries = 0;
     const t = setInterval(() => {
