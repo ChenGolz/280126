@@ -2,7 +2,7 @@
 
 (function () {
   // Build marker: use this to verify you loaded the latest JS
-  window.KBWG_BUILD = '2026-01-31-v15';
+  window.KBWG_BUILD = '2026-02-01-v16';
   try { console.info('[KBWG] build', window.KBWG_BUILD); } catch(e) {}
     
 function kbwgInjectFaqSchema(){
@@ -112,170 +112,214 @@ function kbwgSetActiveNav() {
     });
   }
 
-    function kbwgInitMobileNav() {
-    // Mobile nav (drawer) + overlay — hardened against "ghost overlay" and z-index issues.
-    const header = document.getElementById('siteHeader');
-    if (!header) return;
+    function kbwgInitNavAccordion(navRoot){
+      try{
+        if (!navRoot || navRoot.dataset.kbwgAccordionInit) return;
+        navRoot.dataset.kbwgAccordionInit = '1';
 
-    const btn = header.querySelector('.navToggle');
-    const nav = header.querySelector('.nav');
-    if (!btn || !nav) return;
+        const groups = Array.from(navRoot.querySelectorAll('details.navGroup'));
+        if (!groups.length) return;
 
-    // Ensure we only init once
-    if (header.dataset.kbwgMobileNavInit === '1') return;
-    header.dataset.kbwgMobileNavInit = '1';
+        const closeAllExcept = (keep) => {
+          groups.forEach(d => {
+            if (d !== keep) d.open = false;
+          });
+        };
 
-    // Overlay (single shared instance)
-    let overlay = document.querySelector('.navOverlay');
-    if (!overlay) {
-      overlay = document.createElement('div');
-      overlay.className = 'navOverlay';
-      document.body.appendChild(overlay);
-    }
-
-    // Close other <details> groups when one opens (header nav)
-    function closeAllNavGroups(except) {
-      nav.querySelectorAll('details.navGroup[open]').forEach((d) => {
-        if (except && d === except) return;
-        d.removeAttribute('open');
-      });
-    }
-    nav.querySelectorAll('details.navGroup').forEach((d) => {
-      d.addEventListener('toggle', () => {
-        if (d.open) closeAllNavGroups(d);
-      });
-    });
-
-    const mq = window.matchMedia('(max-width: 900px)');
-
-    let isOpen = false;
-    let hideTimer = null;
-
-    const applyDrawerState = (open) => {
-      isOpen = !!open;
-      if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
-
-      if (!mq.matches) {
-        // Desktop: leave nav as-is
-        overlay.style.setProperty('display', 'none', 'important');
-        overlay.style.setProperty('pointer-events', 'none', 'important');
-        document.body.classList.remove('menuOpen', 'menuopen');
-        header.classList.remove('navOpen', 'navopen');
-        btn.setAttribute('aria-expanded', 'false');
-
-        // clean inline drawer styles we might have set
-        ['display','transform','pointer-events','visibility','position','top','right','bottom','left','height','width','z-index','background','box-shadow','border-left','padding','overflow-y','flex-direction'].forEach((p)=>{
-          nav.style.removeProperty(p);
+        // Ensure only one group is open at a time (desktop + mobile)
+        groups.forEach(d => {
+          d.addEventListener('toggle', () => {
+            if (d.open) closeAllExcept(d);
+          });
         });
-        return;
+      }catch(_){ }
+    }
+
+    function kbwgCloseAllNavGroups(navRoot){
+      try{
+        if (!navRoot) return;
+        navRoot.querySelectorAll('details.navGroup[open]').forEach(d => { d.open = false; });
+      }catch(_){ }
+    }
+
+    function kbwgInitMobileNav() {
+      // Mobile nav (drawer): inject a hamburger button and wire up open/close.
+      // This function is idempotent and safe to call multiple times.
+
+      const header = document.getElementById('siteHeader');
+      const headerRow = header ? header.querySelector('.headerRow') : null;
+      const nav = header ? header.querySelector('.nav') : null;
+
+      if (!header || !headerRow || !nav) return false;
+
+      // Nav groups (details/summary): make it behave like an accordion
+      kbwgInitNavAccordion(nav);
+
+      // Ensure nav has an id for aria-controls
+      if (!nav.id) nav.id = 'primaryNav';
+
+      // Backdrop overlay for mobile drawer (created once)
+      let overlay = document.querySelector('.navOverlay');
+      if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.className = 'navOverlay';
+        document.body.appendChild(overlay);
       }
 
-      // Always enforce very high z-index on mobile, independent of CSS
-      overlay.style.setProperty('z-index', '2147483640', 'important');
-      nav.style.setProperty('z-index', '2147483646', 'important');
-
-      // Drawer base geometry (fixed panel from the right)
-      nav.style.setProperty('position', 'fixed', 'important');
-      nav.style.setProperty('top', '0', 'important');
-      nav.style.setProperty('right', '0', 'important');
-      nav.style.setProperty('bottom', '0', 'important');
-      nav.style.setProperty('left', 'auto', 'important');
-      nav.style.setProperty('height', '100dvh', 'important');
-      nav.style.setProperty('width', 'min(86vw, 360px)', 'important');
-      nav.style.setProperty('flex-direction', 'column', 'important');
-      nav.style.setProperty('background', '#fff', 'important');
-      nav.style.setProperty('overflow-y', 'auto', 'important');
-      nav.style.setProperty('box-shadow', '-18px 0 40px rgba(0,0,0,.15)', 'important');
-      nav.style.setProperty('border-left', '1px solid rgba(15,23,42,.08)', 'important');
-      nav.style.setProperty('padding', '10px 12px', 'important');
-
-      if (open) {
-        header.classList.add('navOpen', 'navopen');
-        document.body.classList.add('menuOpen', 'menuopen');
-        btn.setAttribute('aria-expanded', 'true');
-
-        // Make sure overlay exists and is actually gone/visible (avoid Safari ghost blur)
-        overlay.style.setProperty('display', 'block', 'important');
-        overlay.style.setProperty('position', 'fixed', 'important');
-        overlay.style.setProperty('inset', '0', 'important');
-        overlay.style.setProperty('background', 'rgba(2,6,23,.35)', 'important');
-        overlay.style.setProperty('backdrop-filter', 'blur(2px)', 'important');
-        overlay.style.setProperty('-webkit-backdrop-filter', 'blur(2px)', 'important');
-        overlay.style.setProperty('pointer-events', 'auto', 'important');
-        overlay.style.setProperty('opacity', '1', 'important');
-
-        nav.style.setProperty('display', 'flex', 'important');
-        nav.style.setProperty('visibility', 'visible', 'important');
-        nav.style.setProperty('pointer-events', 'auto', 'important');
-        nav.style.setProperty('transform', 'translateX(0)', 'important');
-      } else {
-        header.classList.remove('navOpen', 'navopen');
-        document.body.classList.remove('menuOpen', 'menuopen');
+      // Ensure toggle button exists
+      let btn = header.querySelector('.navToggle');
+      if (!btn) {
+        btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'navToggle';
+        btn.setAttribute('aria-label', 'פתיחת תפריט');
+        btn.setAttribute('aria-controls', nav.id);
         btn.setAttribute('aria-expanded', 'false');
-        closeAllNavGroups();
-
-        overlay.style.setProperty('display', 'none', 'important');
-        overlay.style.setProperty('pointer-events', 'none', 'important');
-        overlay.style.setProperty('opacity', '0', 'important');
-        overlay.style.setProperty('backdrop-filter', 'none', 'important');
-        overlay.style.setProperty('-webkit-backdrop-filter', 'none', 'important');
-
-        nav.style.setProperty('transform', 'translateX(105%)', 'important');
-        nav.style.setProperty('pointer-events', 'none', 'important');
-
-        // Kill hit-area completely after transition
-        hideTimer = setTimeout(() => {
-          if (!isOpen) nav.style.setProperty('display', 'none', 'important');
-        }, 260);
+        btn.innerHTML = '<span class="navToggleIcon" aria-hidden="true">☰</span><span class="navToggleText">תפריט</span>';
+        // Place next to logo (before nav)
+        headerRow.insertBefore(btn, nav);
       }
-    };
 
-    const open = () => applyDrawerState(true);
-    const close = () => applyDrawerState(false);
-    const toggle = () => (isOpen ? close() : open());
+      const isMobileDrawer = () => (window.matchMedia ? window.matchMedia('(max-width: 920px)').matches : false);
 
-    // Click handlers
-    btn.addEventListener('click', (e) => {
-      if (!mq.matches) return;
-      e.preventDefault();
-      toggle();
-    });
+      // Inline fallback styles (helps if CSS is cached/broken on mobile)
+      const applyDrawerState = (isOpen) => {
+        if (!isMobileDrawer()) return;
 
-    overlay.addEventListener('click', () => close());
+        // Overlay
+        overlay.style.position = 'fixed';
+        overlay.style.inset = '0';
+        overlay.style.background = 'rgba(2,6,23,.35)';
+        overlay.style.backdropFilter = 'blur(2px)';
+        overlay.style.transition = 'opacity .2s ease';
+        overlay.style.zIndex = '99998';
 
-    // Close on ESC
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && isOpen) close();
-    });
+        // Drawer
+        nav.style.position = 'fixed';
+        nav.style.top = '0';
+        nav.style.bottom = '0';
+        nav.style.right = '0';
+        nav.style.width = 'min(88vw, 340px)';
+        nav.style.maxWidth = '340px';
+        nav.style.background = '#fff';
+        nav.style.boxShadow = '0 16px 40px rgba(2,6,23,.22)';
+        nav.style.transition = 'transform .22s ease';
+        nav.style.zIndex = '99999';
 
-    // Close when clicking a link inside the drawer (mobile only)
-    nav.addEventListener('click', (e) => {
-      if (!mq.matches) return;
-      const a = e.target && e.target.closest ? e.target.closest('a') : null;
-      if (a && a.getAttribute('href')) close();
-    });
+        // Toggle button above overlay
+        btn.style.position = 'relative';
+        btn.style.zIndex = '100000';
 
-    // Keep state in sync on breakpoint changes
-    const onMq = () => {
-      if (!mq.matches) {
+        if (isOpen) {
+          overlay.style.opacity = '1';
+          overlay.style.pointerEvents = 'auto';
+          nav.style.transform = 'translateX(0)';
+          nav.style.pointerEvents = 'auto';
+          nav.style.visibility = 'visible';
+        } else {
+          overlay.style.opacity = '0';
+          overlay.style.pointerEvents = 'none';
+          nav.style.transform = 'translateX(105%)';
+          nav.style.pointerEvents = 'none';
+          nav.style.visibility = 'hidden';
+        }
+      };
+
+      const close = () => {
+        header.classList.remove('navOpen'); header.classList.remove('navopen');
+        document.body.classList.remove('menuOpen'); document.body.classList.remove('menuopen');
+        btn.setAttribute('aria-expanded', 'false');
+        kbwgCloseAllNavGroups(nav);
         applyDrawerState(false);
-      } else {
-        // Start closed in mobile unless aria says otherwise
-        const expanded = btn.getAttribute('aria-expanded') === 'true';
-        applyDrawerState(expanded);
+      };
+      const open = () => {
+        header.classList.add('navOpen'); header.classList.add('navopen');
+        document.body.classList.add('menuOpen'); document.body.classList.add('menuopen');
+        btn.setAttribute('aria-expanded', 'true');
+        applyDrawerState(true);
+      };
+
+      // Insert a branded header inside the drawer (mobile only)
+      if (!nav.querySelector('.navDrawerHeader')) {
+        const drawerHeader = document.createElement('div');
+        drawerHeader.className = 'navDrawerHeader';
+        drawerHeader.innerHTML = `
+          <a class="navDrawerLogo" href="index.html" aria-label="דף הבית">
+            <img class="navDrawerLogoImg" src="assets/img/logo.png" alt="ללא ניסויים" width="34" height="34" />
+            <span class="navDrawerLogoText">ללא ניסויים</span>
+          </a>
+          <button type="button" class="navDrawerClose" aria-label="סגירה">×</button>
+        `;
+        nav.insertBefore(drawerHeader, nav.firstChild);
+
+        const closeBtn = drawerHeader.querySelector('.navDrawerClose');
+        const homeLogo = drawerHeader.querySelector('.navDrawerLogo');
+        if (closeBtn) closeBtn.addEventListener('click', close);
+        if (homeLogo) homeLogo.addEventListener('click', close);
       }
-    };
 
-    if (mq.addEventListener) mq.addEventListener('change', onMq);
-    else mq.addListener(onMq);
+      // Bind events once
+      if (!btn.dataset.kbwgBound) {
+        btn.dataset.kbwgBound = '1';
 
-    // Initial
-    onMq();
-  }
+        btn.addEventListener('click', () => {
+          const isOpen = header.classList.contains('navOpen');
+          isOpen ? close() : open();
+        });
 
-  // Run now + after dynamic header injection
-  kbwgInitMobileNav();
-  window.addEventListener('kbwg:layout-ready', kbwgInitMobileNav);
+        overlay.addEventListener('click', close);
+
+        // Close when a link is clicked
+        nav.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+
+        // Close on Escape
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') close();
+        });
+
+        // Close when switching to desktop width (keep in sync with CSS breakpoint)
+        const mq = window.matchMedia('(min-width: 921px)');
+        const onMq = () => { if (mq.matches) close(); };
+        mq.addEventListener ? mq.addEventListener('change', onMq) : mq.addListener(onMq);
+        onMq();
+      }
+
+      // Ensure a clean initial state (prevents a stuck gray overlay on some mobile browsers)
+      close();
+
+      return true;
+    }
+
+    function kbwgEnsureMobileNavInit() {
+      // Some pages inject the header asynchronously; also, caching can make layout-ready fire early.
+      // Retry a few times + watch the header mount so the mobile menu always wires up.
+      let attempts = 0;
+      const maxAttempts = 30; // ~6s total
+
+      const tick = () => {
+        attempts++;
+        const ok = kbwgInitMobileNav();
+        if (ok || attempts >= maxAttempts) return;
+        setTimeout(tick, 200);
+      };
+
+      tick();
+
+      const mount = document.getElementById('siteHeaderMount');
+      if (mount && !mount.dataset.kbwgObs) {
+        mount.dataset.kbwgObs = '1';
+        const obs = new MutationObserver(() => {
+          if (kbwgInitMobileNav()) {
+            try { obs.disconnect(); } catch (_) {}
+          }
+        });
+        obs.observe(mount, { childList: true, subtree: true });
+      }
+    }
+
+    // Run now + after dynamic header injection
+    kbwgEnsureMobileNavInit();
+    document.addEventListener('kbwg:layout-ready', kbwgEnsureMobileNavInit);
 
 // מוצרים page: collapsible Amazon US/UK info box
     // Makes the heading "איך זה עובד עם אמזון ארה"ב ואנגליה?" clickable and toggles the extra details.
