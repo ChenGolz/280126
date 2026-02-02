@@ -240,21 +240,7 @@ function __kbwgResolveFromSiteBase(relPath, scriptName) {
     return b.amazonUk || b.amazonUs || null;
   }
 
-  
-  function formatLastUpdated(d){
-    if(!d) return '';
-    try{
-      var dt = (d instanceof Date) ? d : new Date(String(d));
-      if(!isFinite(dt.getTime())) return '';
-      // he-IL date
-      return dt.toLocaleDateString('he-IL', { year:'numeric', month:'2-digit', day:'2-digit' });
-    }catch(e){ return ''; }
-  }
-  function pickLastUpdated(brand){
-    return brand.lastUpdated || brand.last_updated || brand.updatedAt || brand.updated_at || brand.modifiedAt || brand.modified_at || '';
-  }
-
-function stopLinkPropagation(el) {
+  function stopLinkPropagation(el) {
     el.addEventListener('click', function (e) {
       e.stopPropagation();
     });
@@ -874,8 +860,6 @@ function stopLinkPropagation(el) {
       addBadge(progLabel, 'brandBadge--approved');
     }
     if (vegan) addBadge('טבעוני', 'brandBadge--vegan');
-    var lu = formatLastUpdated(pickLastUpdated(brand));
-    if (lu) addBadge('עודכן: ' + lu, 'brandBadge--muted');
 
     // Links row
     var links = document.createElement('div');
@@ -932,72 +916,6 @@ function stopLinkPropagation(el) {
 
     buildPriceSelect(priceSelect);
 
-    // Pagination (v10)
-    var page = 1;
-    var per = 0;
-    var pagerEl = null;
-
-  function kbPerPage(kind){
-    var w = window.innerWidth || 1024;
-    if(kind === 'posts'){ return w <= 640 ? 6 : (w <= 1024 ? 9 : 12); }
-    if(kind === 'bundles'){ return w <= 640 ? 4 : (w <= 1024 ? 6 : 8); }
-    if(kind === 'picker'){ return w <= 640 ? 10 : (w <= 1024 ? 14 : 18); }
-    if(kind === 'places'){ return w <= 640 ? 10 : (w <= 1024 ? 14 : 16); }
-    if(kind === 'deals'){ return w <= 640 ? 12 : (w <= 1024 ? 18 : 24); }
-    if(kind === 'brands'){ return w <= 640 ? 12 : (w <= 1024 ? 18 : 24); }
-    if(kind === 'hg'){ return w <= 640 ? 3 : (w <= 1024 ? 5 : 8); } // groups per page
-    // default grid
-    return w <= 640 ? 12 : (w <= 1024 ? 18 : 24);
-  }
-
-  function kbEnsurePager(afterEl, id){
-    if(!afterEl) return null;
-    var ex = document.getElementById(id);
-    if(ex) return ex;
-    var wrap = document.createElement('div');
-    wrap.className = 'kbPager';
-    wrap.id = id;
-    afterEl.insertAdjacentElement('afterend', wrap);
-    return wrap;
-  }
-
-  function kbRenderPager(pagerEl, page, totalItems, perPage, onPage){
-    if(!pagerEl) return;
-    var totalPages = Math.max(1, Math.ceil(totalItems / perPage));
-    // show pager only when it actually saves work (2+ pages)
-    if(totalPages <= 1){
-      pagerEl.innerHTML = '';
-      pagerEl.style.display = 'none';
-      return;
-    }
-    pagerEl.style.display = 'flex';
-
-    // clamp
-    if(page < 1) page = 1;
-    if(page > totalPages) page = totalPages;
-
-    var prevDisabled = page <= 1;
-    var nextDisabled = page >= totalPages;
-
-    pagerEl.innerHTML = ''
-      + '<button class="btnSmall btnGhost" type="button" ' + (prevDisabled ? 'disabled aria-disabled="true"' : '') + ' data-kbprev>הקודם</button>'
-      + '<span class="kbPagerInfo">עמוד ' + page + ' מתוך ' + totalPages + '</span>'
-      + '<button class="btnSmall btnGhost" type="button" ' + (nextDisabled ? 'disabled aria-disabled="true"' : '') + ' data-kbnext>הבא</button>';
-
-    var prevBtn = pagerEl.querySelector('[data-kbprev]');
-    var nextBtn = pagerEl.querySelector('[data-kbnext]');
-    if(prevBtn) prevBtn.onclick = function(){ if(page>1) onPage(page-1); };
-    if(nextBtn) nextBtn.onclick = function(){ if(page<totalPages) onPage(page+1); };
-  }
-
-  function kbRangeText(page, totalItems, perPage){
-    if(!totalItems) return 'אין תוצאות';
-    var start = (page-1)*perPage + 1;
-    var end = Math.min(totalItems, page*perPage);
-    return 'מציגים ' + start + '–' + end + ' מתוך ' + totalItems;
-  }
-
-
     function setCount(n, total) {
       if (!countEl) return;
       if (typeof total === 'number') {
@@ -1007,127 +925,77 @@ function stopLinkPropagation(el) {
       }
     }
 
-    
+    function applyFilters(state) {
+      var shown = 0;
+      state.items.forEach(function (it) {
+        var ok = true;
+
+        if (state.q) {
+          var hay = norm(it.el.getAttribute('data-search'));
+          if (hay.indexOf(state.q) === -1) ok = false;
+        }
+
+        // Brands page category filter: TOP LEVEL only.
+        if (ok && state.cat) {
+          var tops = String(it.el.getAttribute('data-topcats') || '');
+          if (!tops) {
+            ok = false;
+          } else {
+            var arr2 = tops.split('|');
+            var hit2 = false;
+            for (var j = 0; j < arr2.length; j++) {
+              if (String(arr2[j] || '').trim() === state.cat) { hit2 = true; break; }
+            }
+            if (!hit2) ok = false;
+          }
+        }
+
+        if (ok && state.priceTier) {
+          var t = Number(it.el.getAttribute('data-price-tier')) || 3;
+          // show up to the selected tier (cheap -> expensive)
+          if (t > state.priceTier) ok = false;
+        }
+
+
+        it.el.toggleAttribute('hidden', !ok);
+        it.el.setAttribute('aria-hidden', ok ? 'false' : 'true');
+        if (ok) shown++;
+      });
+
+      setCount(shown, state.items.length);
+    }
+
     function readState(state) {
       state.q = searchInput ? norm(searchInput.value) : '';
       state.cat = categorySelect ? String(categorySelect.value || '').trim() : '';
       state.priceTier = priceSelect ? Number(priceSelect.value || '') : 0;
-      // Vegan-only filter removed (all brands on the site are 100% vegan + no animal testing)
-    }
-
-    function filterBrands(state) {
-      var out = [];
-      for (var i = 0; i < state.brands.length; i++) {
-        var b = state.brands[i];
-        if (!b) continue;
-
-        // search
-        if (state.q) {
-          var hay = b.__searchN || norm(b.__searchRaw || b.name || '');
-          if (hay.indexOf(state.q) === -1) continue;
-        }
-
-        // top-level category filter (Hebrew)
-        if (state.cat) {
-          var tops = Array.isArray(b.__topCats) ? b.__topCats : [];
-          var hit = false;
-          for (var j = 0; j < tops.length; j++) {
-            if (String(tops[j] || '').trim() === state.cat) { hit = true; break; }
-          }
-          if (!hit) continue;
-        }
-
-        // price tier: show up to selected tier (cheap -> expensive)
-        if (state.priceTier) {
-          var t = Number(b.__tier) || 3;
-          if (t > state.priceTier) continue;
-        }
-
-        out.push(b);
-      }
-      return out;
-    }
-
-    function setCountText(shownStart, shownEnd, total) {
-      if (!countEl) return;
-      if (!total) { countEl.textContent = 'אין תוצאות'; return; }
-      if (shownStart === 1 && shownEnd === total) {
-        countEl.textContent = 'מציג ' + total;
-      } else {
-        countEl.textContent = 'מציג ' + shownStart + '–' + shownEnd + ' מתוך ' + total;
-      }
-    }
-
-    function renderPaged(state) {
-      if (!grid) return;
-
-      var filtered = filterBrands(state);
-      per = kbPerPage('brands');
-      if (!pagerEl) pagerEl = kbEnsurePager(grid, 'brandsPager');
-
-      // clamp current page
-      var total = filtered.length;
-      var totalPages = Math.max(1, Math.ceil(total / per));
-      if (page > totalPages) page = totalPages;
-      if (page < 1) page = 1;
-
-      kbRenderPager(pagerEl, page, total, per, function(n){ page = n; renderPaged(state); });
-
-      if (!total) {
-        grid.innerHTML = '<div class="infoCard" style="grid-column:1/-1;">לא מצאנו מותגים לפי הסינון. נסי לשנות חיפוש/קטגוריה.</div>';
-        setCountText(0, 0, 0);
-        return;
-      }
-
-      var start = (page - 1) * per;
-      var end = Math.min(total, start + per);
-      var slice = filtered.slice(start, end);
-
-      // render only the slice (much faster on mobile)
-      grid.innerHTML = '';
-      var frag = document.createDocumentFragment();
-      for (var i = 0; i < slice.length; i++) {
-        var card = createBrandCard(slice[i], state.pageKind, state.brandTypeKeysMap);
-        frag.appendChild(card.el);
-      }
-      grid.appendChild(frag);
-
-      setCountText(start + 1, end, total);
+      // Vegan-only filter removed (all brands on the site are Vegan + Cruelty‑Free)
     }
 
     function bind(state) {
       var handler = function () {
         readState(state);
-        page = 1;
-        renderPaged(state);
+        applyFilters(state);
       };
 
       if (searchInput) searchInput.addEventListener('input', handler);
       if (categorySelect) categorySelect.addEventListener('change', handler);
       if (priceSelect) priceSelect.addEventListener('change', handler);
 
-      // resize: adjust per-page and keep page clamped
-      var lastW = window.innerWidth || 0;
-      window.addEventListener('resize', function () {
-        var w = window.innerWidth || 0;
-        if (Math.abs(w - lastW) < 40) return;
-        lastW = w;
-        renderPaged(state);
-      });
-
       // initial
       handler();
     }
+
     // Load brand JSON and products.json (for shared category/type dropdown + brand->types index)
     var productsPath = 'data/products.json';
     var productsUrl = __kbwgResolveFromSiteBase(productsPath, 'brands-json.js');
 
     Promise.all([
-      fetch(jsonUrl, { cache: 'force-cache' }).then(function (r) {
+      fetch(jsonUrl, { cache: 'no-store' }).then(function (r) {
         if (!r.ok) throw new Error('Failed to load ' + jsonUrl + ' (from ' + jsonPath + ')');
         return r.json();
       }),
-      fetch(productsUrl, { cache: 'force-cache' }).then(function (r) {
+      fetch(productsUrl, { cache: 'no-store' }).then(function (r) {
         if (!r.ok) throw new Error('Failed to load ' + productsUrl + ' (from ' + productsPath + ')');
         return r.json();
       })
@@ -1187,38 +1055,16 @@ function stopLinkPropagation(el) {
         });
         buildTypeSelect(categorySelect, Array.from(presentTopCatsSet));
 
-        // Render (paged)
+        // Render
         grid.innerHTML = '';
-
-        // Precompute searchable fields (faster filtering)
+        var items = [];
         brands.forEach(function (b) {
-          try {
-            var rawCats = [];
-            if (Array.isArray(b.categories)) rawCats = rawCats.concat(b.categories);
-            if (b.category != null) rawCats.push(b.category);
-            if (b.cat != null) rawCats.push(b.cat);
-            var cats = normalizeCats(pageKind, rawCats);
-            b.__cats = cats;
-
-            var tier = Number(b.priceTier);
-            if (!(tier >= 1 && tier <= 5)) {
-              tier = pageKind === 'intl' ? inferTierFromCategories(cats) : inferTierIsrael(cats);
-            }
-            b.__tier = tier;
-
-            // Search haystack
-            var catText = (cats || []).join(' ');
-            var badges = Array.isArray(b.badges) ? b.badges.slice() : [];
-            badges = badges.filter(function (x) { return String(x).indexOf('מאומת') === -1; });
-            var hay = [b.name, catText].concat(badges).join(' ');
-            b.__searchRaw = hay;
-            b.__searchN = norm(hay);
-
-            // Top-cats already computed above
-          } catch (e) {}
+          var res = createBrandCard(b, pageKind, idx.brandTypeKeys);
+          items.push(res);
+          grid.appendChild(res.el);
         });
 
-        var state = { brands: brands, q: '', cat: '', priceTier: 0, pageKind: pageKind, brandTypeKeysMap: idx.brandTypeKeys };
+        var state = { items: items, q: '', cat: '', priceTier: 0 };
         bind(state);
 
         // Let Weglot (and other listeners) know dynamic content is ready.

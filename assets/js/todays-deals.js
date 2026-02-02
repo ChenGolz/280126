@@ -9,73 +9,6 @@
   var AMAZON_TAG = 'nocrueltyil-20'; // used only if a link is missing a tag=
   var MAX_DEALS = 60;
 
-  // Pagination (v10)
-  var KB_PAGE = 1;
-  var KB_PER = 0;
-  var KB_DEALS = [];
-  var KB_PAGER = null;
-
-  function kbPerPage(kind){
-    var w = window.innerWidth || 1024;
-    if(kind === 'posts'){ return w <= 640 ? 6 : (w <= 1024 ? 9 : 12); }
-    if(kind === 'bundles'){ return w <= 640 ? 4 : (w <= 1024 ? 6 : 8); }
-    if(kind === 'picker'){ return w <= 640 ? 10 : (w <= 1024 ? 14 : 18); }
-    if(kind === 'places'){ return w <= 640 ? 10 : (w <= 1024 ? 14 : 16); }
-    if(kind === 'deals'){ return w <= 640 ? 12 : (w <= 1024 ? 18 : 24); }
-    if(kind === 'brands'){ return w <= 640 ? 12 : (w <= 1024 ? 18 : 24); }
-    if(kind === 'hg'){ return w <= 640 ? 3 : (w <= 1024 ? 5 : 8); } // groups per page
-    // default grid
-    return w <= 640 ? 12 : (w <= 1024 ? 18 : 24);
-  }
-
-  function kbEnsurePager(afterEl, id){
-    if(!afterEl) return null;
-    var ex = document.getElementById(id);
-    if(ex) return ex;
-    var wrap = document.createElement('div');
-    wrap.className = 'kbPager';
-    wrap.id = id;
-    afterEl.insertAdjacentElement('afterend', wrap);
-    return wrap;
-  }
-
-  function kbRenderPager(pagerEl, page, totalItems, perPage, onPage){
-    if(!pagerEl) return;
-    var totalPages = Math.max(1, Math.ceil(totalItems / perPage));
-    // show pager only when it actually saves work (2+ pages)
-    if(totalPages <= 1){
-      pagerEl.innerHTML = '';
-      pagerEl.style.display = 'none';
-      return;
-    }
-    pagerEl.style.display = 'flex';
-
-    // clamp
-    if(page < 1) page = 1;
-    if(page > totalPages) page = totalPages;
-
-    var prevDisabled = page <= 1;
-    var nextDisabled = page >= totalPages;
-
-    pagerEl.innerHTML = ''
-      + '<button class="btnSmall btnGhost" type="button" ' + (prevDisabled ? 'disabled aria-disabled="true"' : '') + ' data-kbprev>הקודם</button>'
-      + '<span class="kbPagerInfo">עמוד ' + page + ' מתוך ' + totalPages + '</span>'
-      + '<button class="btnSmall btnGhost" type="button" ' + (nextDisabled ? 'disabled aria-disabled="true"' : '') + ' data-kbnext>הבא</button>';
-
-    var prevBtn = pagerEl.querySelector('[data-kbprev]');
-    var nextBtn = pagerEl.querySelector('[data-kbnext]');
-    if(prevBtn) prevBtn.onclick = function(){ if(page>1) onPage(page-1); };
-    if(nextBtn) nextBtn.onclick = function(){ if(page<totalPages) onPage(page+1); };
-  }
-
-  function kbRangeText(page, totalItems, perPage){
-    if(!totalItems) return 'אין תוצאות';
-    var start = (page-1)*perPage + 1;
-    var end = Math.min(totalItems, page*perPage);
-    return 'מציגים ' + start + '–' + end + ' מתוך ' + totalItems;
-  }
-
-
   // Ensure the image area renders nicely even if your global CSS doesn't style it yet.
   (function injectDealMediaStyles() {
     var STYLE_ID = 'todaysDealsMediaStyles';
@@ -508,15 +441,15 @@
     setLoading(true);
     showEmpty(false);
 
-    var productsPath = resolveFromBase('data/products.json?v=2026-01-30-v5');
-    var brandsPath = resolveFromBase('data/intl-brands.json?v=2026-01-30-v5');
+    var productsPath = resolveFromBase('data/products.json');
+    var brandsPath = resolveFromBase('data/intl-brands.json');
 
-    var productsReq = fetch(productsPath, { cache: 'force-cache' }).then(function (r) {
+    var productsReq = fetch(productsPath, { cache: 'no-store' }).then(function (r) {
       if (!r.ok) throw new Error('HTTP ' + r.status);
       return r.json();
     });
 
-    var brandsReq = fetch(brandsPath, { cache: 'force-cache' }).then(function (r) {
+    var brandsReq = fetch(brandsPath, { cache: 'no-store' }).then(function (r) {
       if (!r.ok) throw new Error('HTTP ' + r.status);
       return r.json();
     }).catch(function () {
@@ -542,31 +475,6 @@
         // Keep the list stable (in JSON order), but cap size.
         deals = deals.slice(0, MAX_DEALS);
 
-        KB_DEALS = deals;
-        KB_PAGE = 1;
-
-        function renderDealsPage() {
-          KB_PER = kbPerPage('deals');
-          if (!KB_PAGER) KB_PAGER = kbEnsurePager(grid, 'dealsPager');
-          kbRenderPager(KB_PAGER, KB_PAGE, KB_DEALS.length, KB_PER, function (n) { KB_PAGE = n; renderDealsPage(); });
-
-          var start = (KB_PAGE - 1) * KB_PER;
-          var end = start + KB_PER;
-          var pageItems = (KB_DEALS.length > KB_PER) ? KB_DEALS.slice(start, end) : KB_DEALS;
-
-          var htmlOut = '';
-          for (var jj = 0; jj < pageItems.length; jj++) {
-            var pp = pageItems[jj];
-            var bb = brandsByKey[brandKey(pp.brand)] || null;
-            htmlOut += dealCardHTML(pp, bb);
-          }
-
-          grid.innerHTML = htmlOut;
-          setLoading(false);
-          showEmpty(false);
-          try { window.dispatchEvent(new Event('kbwg:content-rendered')); } catch (e) {}
-        }
-
         if (!deals.length) {
           grid.innerHTML = '';
           setLoading(false);
@@ -589,8 +497,20 @@
           return;
         }
 
-        renderDealsPage();
-})
+        var htmlOut = '';
+        for (var j = 0; j < deals.length; j++) {
+          var p = deals[j];
+          var b = brandsByKey[brandKey(p.brand)] || null;
+          htmlOut += dealCardHTML(p, b);
+        }
+
+        grid.innerHTML = htmlOut;
+        setLoading(false);
+        showEmpty(false);
+
+        // Let Weglot refresh (optional)
+        try { window.dispatchEvent(new Event('kbwg:content-rendered')); } catch (e) {}
+      })
       .catch(function (err) {
         console.warn('[todays-deals] Could not render deals', err);
         setLoading(false);

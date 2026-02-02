@@ -2,89 +2,7 @@
 (function () {
   const qs = (s) => document.querySelector(s);
 
-  // Pagination helpers (v12) — keeps pages fast on mobile/iPad
-  function kbPerPage(kind){
-    var w = window.innerWidth || 1024;
-    // products are heavier; keep conservative
-    if (w <= 520) return 12;
-    if (w <= 900) return 16;
-    return 24;
-  }
-  function kbEnsurePager(afterEl, id){
-    var existing = document.getElementById(id);
-    if (existing) return existing;
-    var wrap = document.createElement('div');
-    wrap.id = id;
-    wrap.className = 'pager';
-    wrap.setAttribute('role','navigation');
-    wrap.setAttribute('aria-label','דפדוף');
-    // insert after the grid element
-    afterEl.parentNode.insertBefore(wrap, afterEl.nextSibling);
-    return wrap;
-  }
-  function kbRangeText(page, total, per){
-    if (!total) return '';
-    var start = (page-1)*per + 1;
-    var end = Math.min(total, page*per);
-    return start + '–' + end + ' מתוך ' + total;
-  }
-  function kbRenderPager(el, page, total, per, onGo){
-    if(!el) return;
-    var pages = Math.max(1, Math.ceil(total / per));
-    if (pages <= 1){
-      el.innerHTML = '';
-      el.style.display = 'none';
-      return;
-    }
-    el.style.display = '';
-    // clamp
-    page = Math.max(1, Math.min(page, pages));
-    var prevDisabled = page <= 1;
-    var nextDisabled = page >= pages;
-
-    var buttons = [];
-    // show window of pages around current
-    var win = 2;
-    var start = Math.max(1, page - win);
-    var end = Math.min(pages, page + win);
-    if (start > 1) { buttons.push({t:'1', p:1}); if (start > 2) buttons.push({t:'…', p:null}); }
-    for (var i=start;i<=end;i++) buttons.push({t:String(i), p:i, active:(i===page)});
-    if (end < pages) { if (end < pages-1) buttons.push({t:'…', p:null}); buttons.push({t:String(pages), p:pages}); }
-
-    var html = '<div class="pagerRow">' +
-      '<button class="pagerBtn" data-go="prev" ' + (prevDisabled?'disabled':'') + '>הקודם</button>' +
-      '<div class="pagerNums">';
-    for (var j=0;j<buttons.length;j++){
-      var b = buttons[j];
-      if (!b.p) html += '<span class="pagerEllipsis">…</span>';
-      else html += '<button class="pagerNum ' + (b.active?'is-active':'') + '" data-page="' + b.p + '">' + b.t + '</button>';
-    }
-    html += '</div>' +
-      '<button class="pagerBtn" data-go="next" ' + (nextDisabled?'disabled':'') + '>הבא</button>' +
-      '</div>';
-    el.innerHTML = html;
-
-    // bind
-    el.onclick = function(e){
-      var btn = e.target.closest('button');
-      if (!btn) return;
-      if (btn.dataset.go === 'prev' && !prevDisabled) return onGo(page-1);
-      if (btn.dataset.go === 'next' && !nextDisabled) return onGo(page+1);
-      var pg = parseInt(btn.dataset.page||'0',10);
-      if (pg) return onGo(pg);
-    };
-  }
-
   const q = qs("#q");
-
-  // Deep-link search: products.html?q=...
-  (function syncQueryToSearchBox(){
-    try{
-      var params = new URLSearchParams(location.search || '');
-      var qq = (params.get('q') || '').trim();
-      if (qq && q) q.value = qq;
-    }catch(e){}
-  })();
   const grid = qs("#grid");
   const liveCount = qs("#liveCount");
 
@@ -1311,12 +1229,7 @@ function normalizeProduct(p) {
   }
 
   let renderRaf = 0;
-  let page = 1;
-  let perPage = kbPerPage('products');
-  let pagerEl = null;
   function scheduleRender() {
-    // user changed filters → go back to first page
-    page = 1;
     cancelAnimationFrame(renderRaf);
     renderRaf = requestAnimationFrame(render);
   }
@@ -1327,21 +1240,9 @@ function normalizeProduct(p) {
     const list = data.filter(matches);
     sortList(list);
 
-    
+    const frag = document.createDocumentFragment();
 
-    // Pagination slice
-    perPage = kbPerPage('products');
-    if (!pagerEl) pagerEl = kbEnsurePager(grid, 'productsPager');
-    var total = list.length;
-    var pages = Math.max(1, Math.ceil(total / perPage));
-    if (page > pages) page = pages;
-    kbRenderPager(pagerEl, page, total, perPage, function(n){ page = n; render(); });
-    var start = (page-1)*perPage;
-    var end = Math.min(total, start + perPage);
-    var pageItems = list.slice(start, end);
-const frag = document.createDocumentFragment();
-
-    pageItems.forEach((p) => {
+    list.forEach((p) => {
       const card = document.createElement("article");
       card.className = "productCard";
 
@@ -1355,11 +1256,6 @@ const frag = document.createDocumentFragment();
         img.decoding = "async";
         img.width = 640;
         img.height = 640;
-        // Avoid broken cards / console noise when an image is missing.
-        img.onerror = function(){
-          try{ this.onerror = null; }catch(e){}
-          this.src = 'assets/img/products/placeholder.jpg';
-        };
         media.appendChild(img);
       } else {
         const ph = document.createElement("div");
@@ -1494,10 +1390,7 @@ const frag = document.createDocumentFragment();
       window.Weglot.refresh();
     }
 
-    if (liveCount)     if (liveCount) {
-      var rangeTxt = kbRangeText(page, total, perPage);
-      liveCount.textContent = rangeTxt ? (rangeTxt) : String(total);
-    }
+    if (liveCount) liveCount.textContent = `${list.length} מוצרים`;
 
     const empty = qs("#emptyState");
     if (empty) empty.hidden = list.length !== 0;

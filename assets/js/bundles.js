@@ -14,7 +14,7 @@
 (function(){
   'use strict';
 
-  try { window.KBWG_BUNDLES_BUILD = '2026-02-01-v22-fixes'; console.info('[KBWG] Bundles build', window.KBWG_BUNDLES_BUILD); } catch(e) {}
+  try { window.KBWG_BUNDLES_BUILD = '2026-01-25-v21-all-campaign'; console.info('[KBWG] Bundles build', window.KBWG_BUNDLES_BUILD); } catch(e) {}
 
   var PRODUCTS_PATH = 'data/products.json';
   var FREE_SHIP_OVER_USD = 49;
@@ -40,68 +40,6 @@
   function $all(s,r){ return Array.prototype.slice.call((r||document).querySelectorAll(s)); }
   function isNum(x){ return typeof x === 'number' && isFinite(x); }
 
-
-  function kbPerPage(kind){
-    var w = window.innerWidth || 1024;
-    if(kind === 'posts'){ return w <= 640 ? 6 : (w <= 1024 ? 9 : 12); }
-    if(kind === 'bundles'){ return w <= 640 ? 4 : (w <= 1024 ? 6 : 8); }
-    if(kind === 'picker'){ return w <= 640 ? 10 : (w <= 1024 ? 14 : 18); }
-    if(kind === 'places'){ return w <= 640 ? 10 : (w <= 1024 ? 14 : 16); }
-    if(kind === 'deals'){ return w <= 640 ? 12 : (w <= 1024 ? 18 : 24); }
-    if(kind === 'brands'){ return w <= 640 ? 12 : (w <= 1024 ? 18 : 24); }
-    if(kind === 'hg'){ return w <= 640 ? 3 : (w <= 1024 ? 5 : 8); } // groups per page
-    // default grid
-    return w <= 640 ? 12 : (w <= 1024 ? 18 : 24);
-  }
-
-  function kbEnsurePager(afterEl, id){
-    if(!afterEl) return null;
-    var ex = document.getElementById(id);
-    if(ex) return ex;
-    var wrap = document.createElement('div');
-    wrap.className = 'kbPager';
-    wrap.id = id;
-    afterEl.insertAdjacentElement('afterend', wrap);
-    return wrap;
-  }
-
-  function kbRenderPager(pagerEl, page, totalItems, perPage, onPage){
-    if(!pagerEl) return;
-    var totalPages = Math.max(1, Math.ceil(totalItems / perPage));
-    // show pager only when it actually saves work (2+ pages)
-    if(totalPages <= 1){
-      pagerEl.innerHTML = '';
-      pagerEl.style.display = 'none';
-      return;
-    }
-    pagerEl.style.display = 'flex';
-
-    // clamp
-    if(page < 1) page = 1;
-    if(page > totalPages) page = totalPages;
-
-    var prevDisabled = page <= 1;
-    var nextDisabled = page >= totalPages;
-
-    pagerEl.innerHTML = ''
-      + '<button class="btnSmall btnGhost" type="button" ' + (prevDisabled ? 'disabled aria-disabled="true"' : '') + ' data-kbprev>הקודם</button>'
-      + '<span class="kbPagerInfo">עמוד ' + page + ' מתוך ' + totalPages + '</span>'
-      + '<button class="btnSmall btnGhost" type="button" ' + (nextDisabled ? 'disabled aria-disabled="true"' : '') + ' data-kbnext>הבא</button>';
-
-    var prevBtn = pagerEl.querySelector('[data-kbprev]');
-    var nextBtn = pagerEl.querySelector('[data-kbnext]');
-    if(prevBtn) prevBtn.onclick = function(){ if(page>1) onPage(page-1); };
-    if(nextBtn) nextBtn.onclick = function(){ if(page<totalPages) onPage(page+1); };
-  }
-
-  function kbRangeText(page, totalItems, perPage){
-    if(!totalItems) return 'אין תוצאות';
-    var start = (page-1)*perPage + 1;
-    var end = Math.min(totalItems, page*perPage);
-    return 'מציגים ' + start + '–' + end + ' מתוך ' + totalItems;
-  }
-
-
   function fmtUSD(n){
     var x = Number(n);
     if(!isFinite(x)) return '$—';
@@ -126,85 +64,6 @@
   }
 
   function normalizeText(s){ return String(s||'').toLowerCase(); }
-
-
-  function kbPerPage(kind){
-    var w = window.innerWidth || 1024;
-    if(kind === 'posts'){ return w <= 640 ? 6 : (w <= 1024 ? 9 : 12); }
-    if(kind === 'bundles'){ return w <= 640 ? 4 : (w <= 1024 ? 6 : 8); }
-    if(kind === 'picker'){ return w <= 640 ? 10 : (w <= 1024 ? 14 : 18); }
-    if(kind === 'places'){ return w <= 640 ? 10 : (w <= 1024 ? 14 : 16); }
-    if(kind === 'deals'){ return w <= 640 ? 12 : (w <= 1024 ? 18 : 24); }
-    if(kind === 'brands'){ return w <= 640 ? 12 : (w <= 1024 ? 18 : 24); }
-    if(kind === 'hg'){ return w <= 640 ? 3 : (w <= 1024 ? 5 : 8); } // groups per page
-    // default grid
-    return w <= 640 ? 12 : (w <= 1024 ? 18 : 24);
-  }
-
-  function kbEnsurePager(afterEl, id){
-    if(!afterEl) return null;
-    var ex = document.getElementById(id);
-    if(ex) return ex;
-    var wrap = document.createElement('div');
-    wrap.className = 'kbPager';
-    wrap.id = id;
-    afterEl.insertAdjacentElement('afterend', wrap);
-    return wrap;
-  }
-
-  function kbRenderPager(pagerEl, page, totalItems, perPage, onPage){
-    if(!pagerEl) return;
-    var totalPages = Math.max(1, Math.ceil(totalItems / perPage));
-    // show pager only when it actually saves work (2+ pages)
-    if(totalPages <= 1){
-      pagerEl.innerHTML = '';
-      pagerEl.style.display = 'none';
-      return;
-    }
-    pagerEl.style.display = 'flex';
-
-    // clamp
-    if(page < 1) page = 1;
-    if(page > totalPages) page = totalPages;
-
-    var prevDisabled = page <= 1;
-    var nextDisabled = page >= totalPages;
-
-    pagerEl.innerHTML = ''
-      + '<button class="btnSmall btnGhost" type="button" ' + (prevDisabled ? 'disabled aria-disabled="true"' : '') + ' data-kbprev>הקודם</button>'
-      + '<span class="kbPagerInfo">עמוד ' + page + ' מתוך ' + totalPages + '</span>'
-      + '<button class="btnSmall btnGhost" type="button" ' + (nextDisabled ? 'disabled aria-disabled="true"' : '') + ' data-kbnext>הבא</button>';
-
-    var prevBtn = pagerEl.querySelector('[data-kbprev]');
-    var nextBtn = pagerEl.querySelector('[data-kbnext]');
-    if(prevBtn) prevBtn.onclick = function(){ if(page>1) onPage(page-1); };
-    if(nextBtn) nextBtn.onclick = function(){ if(page<totalPages) onPage(page+1); };
-  }
-
-  function kbRangeText(page, totalItems, perPage){
-    if(!totalItems) return 'אין תוצאות';
-    var start = (page-1)*perPage + 1;
-    var end = Math.min(totalItems, page*perPage);
-    return 'מציגים ' + start + '–' + end + ' מתוך ' + totalItems;
-  }
-
-  function kbEnsureLoadMore(afterEl, id, btnText){
-    if(!afterEl) return null;
-    var ex = document.getElementById(id);
-    if(ex) return ex;
-    var wrap = document.createElement('div');
-    wrap.className = 'kbLoadMoreWrap';
-    wrap.id = id;
-    wrap.innerHTML = '<button class="btn primary" type="button" data-kbmore>' + (btnText || 'טעני עוד') + '</button>';
-    afterEl.insertAdjacentElement('afterend', wrap);
-    return wrap;
-  }
-  function kbSetLoadMoreVisible(wrap, visible){
-    if(!wrap) return;
-    wrap.style.display = visible ? 'flex' : 'none';
-  }
-
-
 
   function isCampaignUrl(u){ return normalizeText(u).indexOf('campaign') !== -1; }
 
@@ -816,19 +675,6 @@
 
   // ===== App state =====
   var STATE = {
-    // Load-more pagination (v10)
-    bundlesPage: 1,
-    bundlesPer: 0,
-    bundlesWrap: null,
-    pickerPage: 1,
-    pickerPer: 0,
-    pickerWrap: null,
-
-    viewLimit: 0,
-    pickerShown: 0,
-    pickerLimit: 0,
-    _pickerSig: '',
-
     all: [],             // all eligible products (normalized)
     bundles: [],         // bundle objects (includes custom builder)
     pool: [],            // unused products (eligible and not in any bundle)
@@ -988,8 +834,7 @@
         // נעדכן סיכום + רשימת מוצרים, בלי לבנות מחדש את ה־UI
         var b = activeBundle();
         if(b) updateModalSummary(b);
-        STATE.pickerPage = 1;
-    renderPicker();
+        renderPicker();
       }
 
       if(minInput) minInput.addEventListener('input', applyRangeFromInputs);
@@ -1188,31 +1033,11 @@
       return;
     }
 
-    // Load-more for speed (v10): render only a slice
-    STATE.bundlesPer = kbPerPage('bundles');
-    var total = STATE.bundles.length;
-    var shown = Math.min(total, STATE.bundlesPer * STATE.bundlesPage);
-    if(shown < 1) shown = Math.min(total, STATE.bundlesPer);
-
     var frag = document.createDocumentFragment();
-    for(var i=0;i<shown;i++){
+    for(var i=0;i<STATE.bundles.length;i++){
       frag.appendChild(renderBundleCard(STATE.bundles[i]));
     }
     grid.appendChild(frag);
-
-    // Load more button (only if needed)
-    if(!STATE.bundlesWrap) STATE.bundlesWrap = kbEnsureLoadMore(grid, 'bundlesLoadMore', 'טעני עוד באנדלים');
-    kbSetLoadMoreVisible(STATE.bundlesWrap, shown < total);
-    if(STATE.bundlesWrap){
-      var btn = STATE.bundlesWrap.querySelector('[data-kbmore]');
-      if(btn && !btn.__kbBound){
-        btn.__kbBound = true;
-        btn.addEventListener('click', function(){
-          STATE.bundlesPage += 1;
-          render();
-        });
-      }
-    }
 
     try{ window.dispatchEvent(new Event('kbwg:content-rendered')); }catch(e){}
   }
@@ -1429,7 +1254,6 @@
     img.loading = 'lazy';
     img.alt = (p._brand ? (p._brand + ' ') : '') + (p._name || '');
     if(p._image) img.src = p._image;
-    img.onerror = function(){ this.onerror = null; this.src = 'assets/img/products/placeholder.jpg'; };
 
     var body = document.createElement('div');
 
@@ -1738,7 +1562,6 @@
     img.loading = 'lazy';
     img.alt = (p._brand ? (p._brand + ' ') : '') + (p._name || '');
     if(p._image) img.src = p._image;
-    img.onerror = function(){ this.onerror = null; this.src = 'assets/img/products/placeholder.jpg'; };
 
     var body = document.createElement('div');
 
@@ -2095,41 +1918,7 @@ function ensureMobileBundleStyles(){
   }
 
   // ===== Picker rendering =====
-  
-  function ensurePickerLoadMore(pickerEl, shown, total, onMore){
-    if(!pickerEl) return;
-    var wrap = document.getElementById('pickerLoadMoreWrap');
-    if(!wrap){
-      wrap = document.createElement('div');
-      wrap.id = 'pickerLoadMoreWrap';
-      wrap.className = 'kbLoadMoreWrap';
-      pickerEl.insertAdjacentElement('afterend', wrap);
-    }else{
-      if (wrap.previousElementSibling !== pickerEl) {
-        try { pickerEl.insertAdjacentElement('afterend', wrap); } catch(e) {}
-      }
-    }
-
-    if(total > shown){
-      wrap.style.display = 'flex';
-      wrap.innerHTML = '';
-      var btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'btn';
-      btn.textContent = 'טעני עוד';
-      btn.onclick = function(){ try{ onMore && onMore(); }catch(e){} };
-      var info = document.createElement('span');
-      info.className = 'kbPagerInfo';
-      info.textContent = 'מוצגים ' + shown + ' מתוך ' + total;
-      wrap.appendChild(btn);
-      wrap.appendChild(info);
-    }else{
-      wrap.style.display = 'none';
-      wrap.innerHTML = '';
-    }
-  }
-
-function renderPicker(){
+  function renderPicker(){
     var pickerEl = $('#pickerGrid');
     if(!pickerEl) return;
 
@@ -2204,23 +1993,10 @@ function renderPicker(){
         return;
       }
 
-      // Load more in picker (swap mode)
-      var sig = 'swap|' + (q||'') + '|' + (minP||'') + '|' + (maxP||'') + '|' + (cat||'') + '|' + (STATE.chips.us?1:0) + (STATE.chips.peta?1:0) + (STATE.chips.lb?1:0);
-      var perPick = kbPerPage('picker');
-      STATE.pickerLimit = perPick;
-      if (STATE._pickerSig !== sig) { STATE._pickerSig = sig; STATE.pickerShown = perPick; }
-      var showN = Math.min(candidates.length, STATE.pickerShown || perPick);
-      var slice = candidates.slice(0, showN);
-
       var frag = document.createDocumentFragment();
-      slice.forEach(function(p){ frag.appendChild(renderPickCard(p)); });
+      candidates.forEach(function(p){ frag.appendChild(renderPickCard(p)); });
       pickerEl.innerHTML = '';
       pickerEl.appendChild(frag);
-
-      ensurePickerLoadMore(pickerEl, showN, candidates.length, function(){
-        STATE.pickerShown = (STATE.pickerShown || perPick) + perPick;
-        renderPicker();
-      });
       return;
     }
 
@@ -2260,16 +2036,8 @@ function renderPicker(){
       STATE.builderNoCandidatesMessage = '';
     }
 
-// Load more in picker (builder mode)
-    var sig2 = 'builder|' + (q||'') + '|' + (minP||'') + '|' + (maxP||'') + '|' + (cat||'') + '|' + (STATE.chips.us?1:0) + (STATE.chips.peta?1:0) + (STATE.chips.lb?1:0) + '|' + (STATE.pickerSeeAll?1:0);
-    var perPick2 = kbPerPage('picker');
-    STATE.pickerLimit = perPick2;
-    if (STATE._pickerSig !== sig2) { STATE._pickerSig = sig2; STATE.pickerShown = perPick2; }
-    var showN2 = Math.min(candidates.length, STATE.pickerShown || perPick2);
-    var slice2 = candidates.slice(0, showN2);
-
 var frag2 = document.createDocumentFragment();
-    slice2.forEach(function(p){ frag2.appendChild(renderPickCard(p)); });
+    candidates.forEach(function(p){ frag2.appendChild(renderPickCard(p)); });
     pickerEl.innerHTML = '';
     if(STATE.modalMode === 'builder'){
       // הודעת עזרה – תמיד מעל הרשימה ובמלוא רוחב הגריד
@@ -2296,14 +2064,9 @@ var frag2 = document.createDocumentFragment();
       pickerEl.appendChild(help);
     }
     pickerEl.appendChild(frag2);
-    // builder mode: keep the load-more counter consistent with the slice we rendered
-    ensurePickerLoadMore(pickerEl, showN2, candidates.length, function(){
-      // increment shown by one page
-      STATE.pickerShown = (STATE.pickerShown || perPick2) + perPick2;
-      renderPicker();
-    });
   }
 
+  
   // האם אפשר להוסיף מוצר לחבילה המותאמת (מבלי לחרוג מהמקסימום ומבלי לשבור באנגלית אחרים)
   function builderCanAddInfo(p){
     var custom = STATE.custom;
@@ -2366,7 +2129,6 @@ var img = document.createElement('img');
     img.loading = 'lazy';
     img.alt = (p._brand ? (p._brand + ' ') : '') + (p._name || '');
     if(p._image) img.src = p._image;
-    img.onerror = function(){ this.onerror = null; this.src = 'assets/img/products/placeholder.jpg'; };
 
     var body = document.createElement('div');
 
@@ -3021,8 +2783,7 @@ card.addEventListener('click', choose);
 
     // Put custom builder first
     STATE.custom.items = STATE.custom.items || [];
-    STATE.bundles = [STATE.custom].concat((built.bundles || []).slice(0, 4));
-    STATE.viewLimit = kbPerPage('bundles');
+    STATE.bundles = [STATE.custom].concat(built.bundles);
     STATE.pool = built.unused;
 
     render();

@@ -2,82 +2,33 @@
 
 (function () {
   // Build marker: use this to verify you loaded the latest JS
-  window.KBWG_BUILD = '2026-02-01-v16';
+  window.KBWG_BUILD = '2026-01-12-v6';
   try { console.info('[KBWG] build', window.KBWG_BUILD); } catch(e) {}
-    
-function kbwgInjectFaqSchema(){
-  try{
-    if (window.__KBWG_FAQ_SCHEMA_DONE) return;
-    window.__KBWG_FAQ_SCHEMA_DONE = true;
+  // Auto-highlight active nav (fallback if aria-current isn't set)
+  const pathname = window.location.pathname || '';
+  document.querySelectorAll('.nav a').forEach(a => {
+    const href = a.getAttribute('href');
+    if (!href) return;
 
-    let faqs = null;
-    const el = document.getElementById('kbwgFaqData');
-    if (el && el.textContent && el.textContent.trim()){
-      try{
-        const parsed = JSON.parse(el.textContent.trim());
-        if (Array.isArray(parsed) && parsed.length){
-          faqs = parsed.filter(x => x && x.q && x.a).slice(0, 12);
-        }
-      }catch(_){}
+    const isHomeLink = (href === 'index.html' || href.endsWith('/index.html'));
+    const onHome = (
+      pathname === '/' ||
+      pathname === '' ||
+      /\/index\.html?$/.test(pathname) ||
+      /\/$/.test(pathname)
+    );
+
+    if (
+      (isHomeLink && onHome) ||
+      pathname.endsWith('/' + href) ||
+      pathname.endsWith(href)
+    ) {
+      a.classList.add('active');
+      a.setAttribute('aria-current', 'page');
     }
+  });
 
-    if (!faqs){
-      faqs = [
-        { q: 'מה זה “100% טבעוני”?', a: 'מוצר ללא רכיבים מן החי — כולל נגזרות כמו דבש, לנולין, קרמין וכדומה.' },
-        { q: 'מה זה “לא נוסה על בעלי חיים”?', a: 'אנחנו מציגים רק מותגים ומוצרים שמוצהרים/מאומתים כלא מבצעים ניסויים בבעלי חיים.' },
-        { q: 'איך אתם בודקים מותגים?', a: 'משלבים הצהרה רשמית של מותג + הצלבה עם מקורות מוכרים ובדיקה תקופתית. פירוט בעמוד “שיטה”.' },
-        { q: 'מה לעשות אם מצאתי מידע שגוי?', a: 'שלחי לנו דרך “צור קשר” — זה עוזר לשמור את המאגר חינמי ומדויק.' }
-      ];
-    }
-
-    const schema = {
-      "@context":"https://schema.org",
-      "@type":"FAQPage",
-      "mainEntity": faqs.map(f => ({
-        "@type":"Question",
-        "name": String(f.q),
-        "acceptedAnswer": { "@type":"Answer", "text": String(f.a) }
-      }))
-    };
-
-    const s = document.createElement('script');
-    s.type = 'application/ld+json';
-    s.textContent = JSON.stringify(schema);
-    document.head.appendChild(s);
-  }catch(_){}
-}
-
-function kbwgSetActiveNav() {
-    // Auto-highlight active nav (fallback if aria-current isn't set)
-      const pathname = window.location.pathname || '';
-      document.querySelectorAll('.nav a').forEach(a => {
-        const href = a.getAttribute('href');
-        if (!href) return;
-    
-        const isHomeLink = (href === 'index.html' || href.endsWith('/index.html'));
-        const onHome = (
-          pathname === '/' ||
-          pathname === '' ||
-          /\/index\.html?$/.test(pathname) ||
-          /\/$/.test(pathname)
-        );
-    
-        if (
-          (isHomeLink && onHome) ||
-          pathname.endsWith('/' + href) ||
-          pathname.endsWith(href)
-        ) {
-          a.classList.add('active');
-          a.setAttribute('aria-current', 'page');
-        }
-      });
-  }
-
-  // Run now + after dynamic header injection
-  kbwgSetActiveNav();
-  window.addEventListener('kbwg:layout-ready', kbwgSetActiveNav);
-
-// Hero quote rotator (rotates through the 5 quotes)
+  // Hero quote rotator (rotates through the 5 quotes)
   const QUOTES = [
     "היו טובים לכל היצורים.",
     "חמלה היא האופנה הכי יפה.",
@@ -112,53 +63,29 @@ function kbwgSetActiveNav() {
     });
   }
 
-    function kbwgInitNavAccordion(navRoot){
-      try{
-        if (!navRoot || navRoot.dataset.kbwgAccordionInit) return;
-        navRoot.dataset.kbwgAccordionInit = '1';
+  // Mobile nav: inject a hamburger button and collapse nav on small screens
+  const header = document.getElementById('siteHeader');
+  const headerRow = header ? header.querySelector('.headerRow') : null;
+  const nav = header ? header.querySelector('.nav') : null;
 
-        const groups = Array.from(navRoot.querySelectorAll('details.navGroup'));
-        if (!groups.length) return;
+  if (header && headerRow && nav) {
+    // Ensure nav has an id for aria-controls
+    if (!nav.id) nav.id = 'primaryNav';
 
-        const closeAllExcept = (keep) => {
-          groups.forEach(d => {
-            if (d !== keep) d.open = false;
-          });
-        };
+    // Inject only once
+    if (!header.querySelector('.navToggle')) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'navToggle';
+      btn.setAttribute('aria-label', 'פתיחת תפריט');
+      btn.setAttribute('aria-controls', nav.id);
+      btn.setAttribute('aria-expanded', 'false');
+      btn.innerHTML = '<span class="navToggleIcon" aria-hidden="true">☰</span><span class="navToggleText">תפריט</span>';
 
-        // Ensure only one group is open at a time (desktop + mobile)
-        groups.forEach(d => {
-          d.addEventListener('toggle', () => {
-            if (d.open) closeAllExcept(d);
-          });
-        });
-      }catch(_){ }
-    }
+      // Place next to logo (before nav)
+      headerRow.insertBefore(btn, nav);
 
-    function kbwgCloseAllNavGroups(navRoot){
-      try{
-        if (!navRoot) return;
-        navRoot.querySelectorAll('details.navGroup[open]').forEach(d => { d.open = false; });
-      }catch(_){ }
-    }
-
-    function kbwgInitMobileNav() {
-      // Mobile nav (drawer): inject a hamburger button and wire up open/close.
-      // This function is idempotent and safe to call multiple times.
-
-      const header = document.getElementById('siteHeader');
-      const headerRow = header ? header.querySelector('.headerRow') : null;
-      const nav = header ? header.querySelector('.nav') : null;
-
-      if (!header || !headerRow || !nav) return false;
-
-      // Nav groups (details/summary): make it behave like an accordion
-      kbwgInitNavAccordion(nav);
-
-      // Ensure nav has an id for aria-controls
-      if (!nav.id) nav.id = 'primaryNav';
-
-      // Backdrop overlay for mobile drawer (created once)
+      // Backdrop overlay for mobile drawer
       let overlay = document.querySelector('.navOverlay');
       if (!overlay) {
         overlay = document.createElement('div');
@@ -166,78 +93,18 @@ function kbwgSetActiveNav() {
         document.body.appendChild(overlay);
       }
 
-      // Ensure toggle button exists
-      let btn = header.querySelector('.navToggle');
-      if (!btn) {
-        btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'navToggle';
-        btn.setAttribute('aria-label', 'פתיחת תפריט');
-        btn.setAttribute('aria-controls', nav.id);
-        btn.setAttribute('aria-expanded', 'false');
-        btn.innerHTML = '<span class="navToggleIcon" aria-hidden="true">☰</span><span class="navToggleText">תפריט</span>';
-        // Place next to logo (before nav)
-        headerRow.insertBefore(btn, nav);
-      }
-
-      const isMobileDrawer = () => (window.matchMedia ? window.matchMedia('(max-width: 920px)').matches : false);
-
-      // Inline fallback styles (helps if CSS is cached/broken on mobile)
-      const applyDrawerState = (isOpen) => {
-        if (!isMobileDrawer()) return;
-
-        // Overlay
-        overlay.style.position = 'fixed';
-        overlay.style.inset = '0';
-        overlay.style.background = 'rgba(2,6,23,.35)';
-        overlay.style.backdropFilter = 'blur(2px)';
-        overlay.style.transition = 'opacity .2s ease';
-        overlay.style.zIndex = '99998';
-
-        // Drawer
-        nav.style.position = 'fixed';
-        nav.style.top = '0';
-        nav.style.bottom = '0';
-        nav.style.right = '0';
-        nav.style.width = 'min(88vw, 340px)';
-        nav.style.maxWidth = '340px';
-        nav.style.background = '#fff';
-        nav.style.boxShadow = '0 16px 40px rgba(2,6,23,.22)';
-        nav.style.transition = 'transform .22s ease';
-        nav.style.zIndex = '99999';
-
-        // Toggle button above overlay
-        btn.style.position = 'relative';
-        btn.style.zIndex = '100000';
-
-        if (isOpen) {
-          overlay.style.opacity = '1';
-          overlay.style.pointerEvents = 'auto';
-          nav.style.transform = 'translateX(0)';
-          nav.style.pointerEvents = 'auto';
-          nav.style.visibility = 'visible';
-        } else {
-          overlay.style.opacity = '0';
-          overlay.style.pointerEvents = 'none';
-          nav.style.transform = 'translateX(105%)';
-          nav.style.pointerEvents = 'none';
-          nav.style.visibility = 'hidden';
-        }
-      };
 
       const close = () => {
         header.classList.remove('navOpen'); header.classList.remove('navopen');
         document.body.classList.remove('menuOpen'); document.body.classList.remove('menuopen');
         btn.setAttribute('aria-expanded', 'false');
-        kbwgCloseAllNavGroups(nav);
-        applyDrawerState(false);
       };
       const open = () => {
         header.classList.add('navOpen'); header.classList.add('navopen');
         document.body.classList.add('menuOpen'); document.body.classList.add('menuopen');
         btn.setAttribute('aria-expanded', 'true');
-        applyDrawerState(true);
       };
+
 
       // Insert a branded header inside the drawer (mobile only)
       if (!nav.querySelector('.navDrawerHeader')) {
@@ -258,70 +125,31 @@ function kbwgSetActiveNav() {
         if (homeLogo) homeLogo.addEventListener('click', close);
       }
 
-      // Bind events once
-      if (!btn.dataset.kbwgBound) {
-        btn.dataset.kbwgBound = '1';
 
-        btn.addEventListener('click', () => {
-          const isOpen = header.classList.contains('navOpen');
-          isOpen ? close() : open();
-        });
+      btn.addEventListener('click', () => {
+        const isOpen = header.classList.contains('navOpen');
+        isOpen ? close() : open();
+      });
+      overlay.addEventListener('click', close);
 
-        overlay.addEventListener('click', close);
 
-        // Close when a link is clicked
-        nav.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+      // Close when a link is clicked
+      nav.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
 
-        // Close on Escape
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape') close();
-        });
+      // Close on Escape
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') close();
+      });
 
-        // Close when switching to desktop width (keep in sync with CSS breakpoint)
-        const mq = window.matchMedia('(min-width: 921px)');
-        const onMq = () => { if (mq.matches) close(); };
-        mq.addEventListener ? mq.addEventListener('change', onMq) : mq.addListener(onMq);
-        onMq();
-      }
-
-      // Ensure a clean initial state (prevents a stuck gray overlay on some mobile browsers)
-      close();
-
-      return true;
+      // Close when switching to desktop width
+      const mq = window.matchMedia('(min-width: 901px)');
+      const onMq = () => { if (mq.matches) close(); };
+      mq.addEventListener ? mq.addEventListener('change', onMq) : mq.addListener(onMq);
+      onMq();
     }
+  }
 
-    function kbwgEnsureMobileNavInit() {
-      // Some pages inject the header asynchronously; also, caching can make layout-ready fire early.
-      // Retry a few times + watch the header mount so the mobile menu always wires up.
-      let attempts = 0;
-      const maxAttempts = 30; // ~6s total
-
-      const tick = () => {
-        attempts++;
-        const ok = kbwgInitMobileNav();
-        if (ok || attempts >= maxAttempts) return;
-        setTimeout(tick, 200);
-      };
-
-      tick();
-
-      const mount = document.getElementById('siteHeaderMount');
-      if (mount && !mount.dataset.kbwgObs) {
-        mount.dataset.kbwgObs = '1';
-        const obs = new MutationObserver(() => {
-          if (kbwgInitMobileNav()) {
-            try { obs.disconnect(); } catch (_) {}
-          }
-        });
-        obs.observe(mount, { childList: true, subtree: true });
-      }
-    }
-
-    // Run now + after dynamic header injection
-    kbwgEnsureMobileNavInit();
-    document.addEventListener('kbwg:layout-ready', kbwgEnsureMobileNavInit);
-
-// מוצרים page: collapsible Amazon US/UK info box
+    // מוצרים page: collapsible Amazon US/UK info box
     // Makes the heading "איך זה עובד עם אמזון ארה"ב ואנגליה?" clickable and toggles the extra details.
     document.addEventListener('DOMContentLoaded', function () {
       var btn = document.querySelector('.amazon-toggle');
@@ -738,7 +566,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if (hero && !hero.querySelector('.heroVeganLine')) {
       const p = document.createElement('p');
       p.className = 'heroVeganLine';
-      p.innerHTML = 'כל המותגים והמוצרים באתר הם <b>100% טבעוניים</b> ו<b>שלא נוסו על בעלי חיים</b> .';
+      p.innerHTML = 'כל המותגים והמוצרים באתר הם <b>100% טבעוניים</b> ו<b>ללא ניסויים בבעלי חיים</b> (Cruelty‑Free).';
 
       // Insert near the top of the hero copy, after the main description if present.
       const firstP = hero.querySelector('p');
@@ -755,8 +583,8 @@ window.addEventListener('DOMContentLoaded', () => {
     const heroP = document.querySelector('.page-home .hero .heroCopy p');
     if (heroP) {
       const t = (heroP.textContent || '').trim();
-      if (t === 'הבית שלך לקניות אשר לא נוסו על בעלי חיים — חיפוש מוצרים, בודק רכיבים ולוח מבצעים') {
-        heroP.textContent = 'המדריך לקניות 100% טבעוניות ושלא נוסו על בעלי חיים — מוצרים, מותגים, בודק רכיבים ולוח מבצעים.';
+      if (t === 'הבית שלך לקניות לקנות ללא אכזריות בבעלי חיים — חיפוש מוצרים, בודק רכיבים ולוח מבצעים') {
+        heroP.textContent = 'המדריך לקניות 100% טבעוניות וללא ניסויים בבעלי חיים — מוצרים, מותגים, בודק רכיבים ולוח מבצעים.';
       }
     }
   } catch(e) {}

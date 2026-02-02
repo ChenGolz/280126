@@ -1,27 +1,45 @@
 <!DOCTYPE html>
 
-<html dir="rtl" lang="he">
+<html lang="he" dir="rtl">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>בודק רכיבים טבעוני · קוסמטיקה ללא ניסויים | לקנות ללא אכזריות</title>
-<meta content="בודק רכיבים מהיר כדי לזהות רכיבים מן החי. כולל אפשרות להדביק רשימת INCI — מתאים במיוחד למובייל." name="description"/>
+<title>בודק רכיבים | לקנות ללא אכזריות</title>
+<meta content="זיהוי רכיבים ותעודות לקנות ללא אכזריות בבעלי חיים" name="description"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="assets/css/styles.css?v=2026-01-31-v17" rel="stylesheet"/>
+<link href="assets/css/styles.css?v=2026-01-14-v12" rel="stylesheet"/>
 <link href="assets/img/logo.png" rel="icon" type="image/png"/>
 </head>
 <body>
-<div id="siteHeaderMount"></div>
+<header class="siteHeader" id="siteHeader">
+<div class="wrap headerRow">
+<a aria-label="בית" class="logo" href="index.html">
+<img alt="לקנות ללא אכזריות" class="logoImg" height="40" src="assets/img/logo.png" width="40"/>
+<span class="logoText">לקנות ללא אכזריות</span>
+</a>
+<nav aria-label="ניווט ראשי" class="nav">
+<a class="" href="./todays-top-deals.html">מומלצי היום</a>
+<a class="" href="./products.html">מוצרים</a>
+<a class="" href="./bundles.html">באנדלים</a>
+<a class="" href="./shopping-calendar.html">סיילים</a>
+<a class="" href="./israeli-brands.html">תוצרת הארץ</a>
+<a class="" href="./recommended-brands.html">בינלאומי</a>
+<a class="" href="./ingredient-detective.html">רכיבים</a>
+<a class="" href="./learn.html">מידע</a>
+<a class="" href="./about.html">אודות</a>
+<a class="" href="./contact.html">צור קשר</a>
+</nav>
+</div>
+</header>
 <main id="main">
 <section class="hero product-hero heroSmall">
-<img alt="" aria-hidden="true" class="decorPhoto decorCL" decoding="async" loading="eager" src="assets/img/photos/karmaithcrown.jpg"/>
+<img alt="" aria-hidden="true" class="decorPhoto decorCL" src="assets/img/photos/3onsofa.jpg"/>
 <div class="wrap heroInner">
 <div class="heroCopy center-text">
 <h1>בודק רכיבים</h1>
-          <div class="muted" style="margin-top:6px;font-weight:900;">עודכן לאחרונה: 31.01.2026</div>
-<p>בודק רכיבים מהיר: כתבי שם רכיב וקבלי תשובה קצרה וברורה לפני קנייה.</p>
+<p>לבדוק לפני שקונים — בקלות</p>
 </div>
 </div>
 </section>
@@ -34,16 +52,23 @@
 <input autocomplete="off" id="qIng" placeholder="לדוגמה: lanolin / לנולין" type="search"/>
 <div class="hintText" id="hint">הזינו שתי אותיות לפחות להתחיל</div>
 <div aria-label="הצעות רכיבים" class="suggestions" id="sugs" role="listbox"></div>
-<button class="btn ghost" id="togglePaste" style="margin-top:10px; width:100%; justify-content:center;" type="button">הדביקי רשימת רכיבים (אופציונלי)</button><div class="pasteBlock" id="pasteBlock" style="display:none; margin-top:10px;"><label class="fieldLabel" for="pasteIng">הדבקה</label><textarea id="pasteIng" placeholder="הדביקי כאן רשימת רכיבים (INCI) — מופרד בפסיקים/שורות" rows="5"></textarea><button class="btn primary" id="runPaste" style="margin-top:10px; width:100%; justify-content:center;" type="button">בדיקה מהירה</button></div></div>
+</div>
 <div aria-live="polite" class="resultGrid" id="out"></div>
 </div>
 </div>
 </section>
 </main>
-<div id="siteFooterMount"></div>
-<script defer="" src="assets/js/ingredient-detective.js?v=2026-02-01-v19"></script>
-<script data-base="./" defer="" src="assets/js/layout-inject.js?v=2026-01-31-v18"></script>
-<script defer="" src="assets/js/site.js?v=2026-01-31-v15"></script>
+<footer class="siteFooter">
+<div class="wrap">
+<div aria-label="ציטוטים" class="footerQuotes">
+<span class="quotePill">חמלה היא דרך חיים</span><span class="quotePill">חיה ותן לחיות</span><span class="quotePill">חמלה היא האופנה הכי יפה</span><span class="quotePill">היו טובים לכל היצורים</span>
+</div>
+<p class="muted">גילוי נאות והגבלת אחריות: באתר מופיעים קישורי שותפים, המאפשרים לקיום האתר, וברכישה דרך קישור כזה ייתכן שנקבל עמלה ללא עלות נוספת עבורך. התוכן מסופק “כמות שהוא” לצורכי מידע בלבד, וייתכנו טעויות/חוסרים/עיכובים בעדכון סטטוסים או אישורים של מותגים. איננו נושאים באחריות לכל נזק, הפסד או הוצאה (ישירים או עקיפים) הנובעים מהשימוש באתר או מהסתמכות על המידע. אם ידוע לך על שינוי/טעות — נשמח לקבל עדכון.</p>
+</div>
+</footer>
+<script defer="" src="assets/js/ingredient-detective.js?v=2026-01-12-v6"></script>
+<script defer="" src="assets/js/site.js?v=2026-01-14-v12"></script>
+
 <!-- Weglot helper: refresh translations after dynamic content renders -->
 <script>
 (function(){
@@ -67,5 +92,6 @@
   mo.observe(document.documentElement, { childList:true, subtree:true });
 })();
 </script>
+
 </body>
 </html>

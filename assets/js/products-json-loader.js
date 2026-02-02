@@ -1,5 +1,5 @@
-// Build: 2026-02-01-v13
-try { window.KBWG_PRODUCTS_BUILD = '2026-02-01-v2'; console.info('[KBWG] KBWG_PRODUCTS_BUILD ' + window.KBWG_PRODUCTS_BUILD); } catch(e) {}
+// Build: 2026-01-28-v1
+try { window.KBWG_PRODUCTS_BUILD = '2026-01-28-v1'; console.info('[KBWG] KBWG_PRODUCTS_BUILD ' + window.KBWG_PRODUCTS_BUILD); } catch(e) {}
 
 /*
   Loads products from data/products.json (+ loads intl brands from data/intl-brands.json),
@@ -65,9 +65,8 @@ try { window.KBWG_PRODUCTS_BUILD = '2026-02-01-v2'; console.info('[KBWG] KBWG_PR
     } catch (e) { return rel; }
   }
 
-  // Cache-bust the JSON so image/offer fixes propagate immediately after upload.
-  var productsPath = resolveFromBase('data/products.json?v=2026-02-01-v6');
-  var intlBrandsPath = resolveFromBase('data/intl-brands.json?v=2026-02-01-v6');
+  var productsPath = resolveFromBase('data/products.json');
+  var intlBrandsPath = resolveFromBase('data/intl-brands.json');
 
   function isFileProtocol() {
     try { return location && location.protocol === 'file:'; } catch (e) { return false; }
@@ -90,7 +89,7 @@ try { window.KBWG_PRODUCTS_BUILD = '2026-02-01-v2'; console.info('[KBWG] KBWG_PR
   }
 
   function fetchJson(path) {
-    return fetch(path, { cache: 'force-cache' }).then(function (res) {
+    return fetch(path, { cache: 'no-store' }).then(function (res) {
       if (!res.ok) throw new Error('HTTP ' + res.status);
       return res.json();
     });
@@ -136,7 +135,7 @@ try { window.KBWG_PRODUCTS_BUILD = '2026-02-01-v2'; console.info('[KBWG] KBWG_PR
     })
     .finally(function () {
       // The main page logic expects window.PRODUCTS to exist.
-      loadScript(resolveFromBase('assets/js/products.js?v=2026-02-01-v13')).catch(function (e) {
+      loadScript(resolveFromBase('assets/js/products.js')).catch(function (e) {
         console.error('[products-json-loader] Could not start products.js', e);
       });
     });

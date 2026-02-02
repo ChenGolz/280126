@@ -1668,7 +1668,7 @@ window.PRODUCTS = [
     storeRegion: "il",
     isIsrael: true,
     size: "30 מ״ל",
-    image: "assets/img/photos/care-products.jpg",
+    image: "assets/img/photos/care-products.png",
     priceMin: 120,
     priceMax: 150,
     updated: "2025-12-31",
