@@ -2867,24 +2867,24 @@ body{ overflow-x: hidden; }
 
 /* === v38: Recommended Brands hero - make mobile header compact so content is visible === */
 @media (max-width: 640px){
-  .hero.product-hero.heroSmall{
+  .page-recommended-brands .hero.product-hero.heroSmall{
     padding: 8px 10px !important;
     margin: 8px auto 10px !important;
     gap: 8px !important;
     min-height: auto !important;
   }
-  .hero.product-hero.heroSmall > .decorPhoto{
+  .page-recommended-brands .hero.product-hero.heroSmall > .decorPhoto{
     width: 72px !important;
     max-width: 30vw !important;
     max-height: 56px !important;
     border-radius: 12px !important;
   }
-  .hero.product-hero.heroSmall .center-text h1{
+  .page-recommended-brands .hero.product-hero.heroSmall .center-text h1{
     font-size: 1.05rem !important;
     line-height: 1.05 !important;
     margin: 0 0 2px !important;
   }
-  .hero.product-hero.heroSmall .center-text p{
+  .page-recommended-brands .hero.product-hero.heroSmall .center-text p{
     font-size: 0.86rem !important;
     line-height: 1.15 !important;
     margin: 0 !important;
@@ -2897,14 +2897,14 @@ body{ overflow-x: hidden; }
 }
 
 @media (max-width: 420px){
-  .hero.product-hero.heroSmall > .decorPhoto{
+  .page-recommended-brands .hero.product-hero.heroSmall > .decorPhoto{
     width: 64px !important;
     max-height: 50px !important;
   }
-  .hero.product-hero.heroSmall .center-text h1{
+  .page-recommended-brands .hero.product-hero.heroSmall .center-text h1{
     font-size: 1rem !important;
   }
-  .hero.product-hero.heroSmall .center-text p{
+  .page-recommended-brands .hero.product-hero.heroSmall .center-text p{
     font-size: 0.82rem !important;
     -webkit-line-clamp: 1 !important;
   }
@@ -4555,3 +4555,24 @@ input,button,select,textarea{ font-family: inherit; }
 .pill--muted{ background: rgba(148,163,184,.14); border-color: rgba(148,163,184,.20); color: rgba(30,41,59,.86); }
 .phActions{ margin-top: 12px; display:flex; gap:10px; flex-wrap:wrap; }
 @media (max-width: 520px){ .phActions .btn{ width:100%; justify-content:center; } }
+/* KBWG MOBILE MENU HOTFIX v29
+   Fix: on mobile, the drawer was ending up BEHIND the overlay/content due to stacking contexts.
+   This forces the overlay to be truly removed when closed, and ensures the header/nav sit above it when open. */
+@media (max-width: 920px){
+  /* overlay must not block clicks when closed */
+  .navOverlay{ display:none !important; }
+  body.menuOpen .navOverlay,
+  body.menuopen .navOverlay{ display:block !important; }
+
+  /* when the menu is open, lift header/nav above the overlay */
+  body.menuOpen .siteHeader,
+  body.menuopen .siteHeader{ z-index: 2147483000 !important; }
+
+  /* overlay stays above the page but below the header/nav */
+  body.menuOpen .navOverlay,
+  body.menuopen .navOverlay{ z-index: 2147482990 !important; }
+
+  /* extra safety: nav always on top inside the header stacking context */
+  body.menuOpen .siteHeader .nav,
+  body.menuopen .siteHeader .nav{ z-index: 2147483010 !important; }
+}

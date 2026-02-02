@@ -2,7 +2,7 @@
 
 (function () {
   // Build marker: use this to verify you loaded the latest JS
-  window.KBWG_BUILD = '2026-02-02-v28';
+  window.KBWG_BUILD = '2026-01-31-v15';
   try { console.info('[KBWG] build', window.KBWG_BUILD); } catch(e) {}
     
 function kbwgInjectFaqSchema(){
@@ -142,86 +142,39 @@ function kbwgSetActiveNav() {
             overlay.className = 'navOverlay';
             document.body.appendChild(overlay);
           }
-const setImp = (el, prop, value) => {
-  try { el.style.setProperty(prop, value, 'important'); }
-  catch (e) { try { el.style[prop] = value; } catch (_) {} }
-};
-
-const isDesktop = () => window.matchMedia('(min-width: 921px)').matches;
-
-const closeAllGroups = () => {
-  try { nav.querySelectorAll('details[open]').forEach(d => { d.open = false; }); } catch (e) {}
-};
-
-const applyDrawerState = (isOpen) => {
-  // IMPORTANT: remove the overlay/nav from the hit-area when closed (prevents the "ghost" gray layer).
-  if (!overlay || !nav) return;
-
-  if (isDesktop()) {
-    // Desktop: never block clicks; let CSS control layout.
-    setImp(overlay, 'display', 'none');
-    overlay.style.opacity = '0';
-    overlay.style.pointerEvents = 'none';
-
-    nav.style.removeProperty('display');
-    nav.style.removeProperty('transform');
-    nav.style.removeProperty('pointer-events');
-    nav.style.removeProperty('visibility');
-    nav.style.removeProperty('opacity');
-    return;
-  }
-
-  if (isOpen) {
-    setImp(overlay, 'display', 'block');
-    overlay.style.opacity = '1';
-    overlay.style.pointerEvents = 'auto';
-
-    setImp(nav, 'display', 'flex');
-    nav.style.visibility = 'visible';
-    nav.style.opacity = '1';
-    nav.style.pointerEvents = 'auto';
-    nav.style.transform = 'translateX(0)';
-  } else {
-    setImp(overlay, 'display', 'none');
-    overlay.style.opacity = '0';
-    overlay.style.pointerEvents = 'none';
-
-    setImp(nav, 'display', 'none');
-    nav.style.visibility = 'hidden';
-    nav.style.opacity = '1';
-    nav.style.pointerEvents = 'none';
-    nav.style.transform = 'translateX(105%)';
-  }
-};
-
-const close = () => {
-  header.classList.remove('navOpen'); header.classList.remove('navopen');
-  document.body.classList.remove('menuOpen'); document.body.classList.remove('menuopen');
-  btn.setAttribute('aria-expanded', 'false');
-  closeAllGroups();
-  applyDrawerState(false);
-};
-
-const open = () => {
-  header.classList.add('navOpen'); header.classList.add('navopen');
-  document.body.classList.add('menuOpen'); document.body.classList.add('menuopen');
-  btn.setAttribute('aria-expanded', 'true');
-  applyDrawerState(true);
-};
-
-// Only one dropdown group open at a time (prevents stacked menus)
-nav.addEventListener('toggle', (ev) => {
-  const t = ev.target;
-  if (!t || t.tagName !== 'DETAILS') return;
-  if (t.open) {
-    nav.querySelectorAll('details').forEach(d => { if (d !== t) d.open = false; });
-  }
-}, true);
-
-// Ensure we start with no invisible barrier
-applyDrawerState(false);
-
-// Insert a branded header inside the drawer (mobile only)
+    
+    
+          const close = () => {
+    header.classList.remove('navOpen');
+    header.classList.remove('navopen');
+    document.body.classList.remove('menuOpen');
+    document.body.classList.remove('menuopen');
+    btn.setAttribute('aria-expanded', 'false');
+    // Hard-hide overlay to avoid "ghost" click blockers / blur on mobile browsers
+    if (overlay) {
+      overlay.style.display = 'none';
+      overlay.style.visibility = 'hidden';
+      overlay.style.pointerEvents = 'none';
+    }
+    applyDrawerState(false);
+  };
+          const open = () => {
+    // Ensure overlay exists visually before we animate the drawer
+    if (overlay) {
+      overlay.style.display = 'block';
+      overlay.style.visibility = 'visible';
+      overlay.style.pointerEvents = 'auto';
+    }
+    header.classList.add('navOpen');
+    header.classList.add('navopen');
+    document.body.classList.add('menuOpen');
+    document.body.classList.add('menuopen');
+    btn.setAttribute('aria-expanded', 'true');
+    applyDrawerState(true);
+  };
+    
+    
+          // Insert a branded header inside the drawer (mobile only)
           if (!nav.querySelector('.navDrawerHeader')) {
             const drawerHeader = document.createElement('div');
             drawerHeader.className = 'navDrawerHeader';
@@ -257,12 +210,10 @@ applyDrawerState(false);
           });
     
           // Close when switching to desktop width
-          const mq = window.matchMedia('(min-width: 921px)');
+          const mq = window.matchMedia('(min-width: 901px)');
           const onMq = () => { if (mq.matches) close(); };
           mq.addEventListener ? mq.addEventListener('change', onMq) : mq.addListener(onMq);
           onMq();
-          // Start closed (important for mobile refresh / bfcache)
-          close();
         }
       }
   }
