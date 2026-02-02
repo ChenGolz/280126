@@ -2,7 +2,7 @@
 
 (function () {
   // Build marker: use this to verify you loaded the latest JS
-  window.KBWG_BUILD = '2026-02-02-v23';
+  window.KBWG_BUILD = '2026-02-02-v28';
   try { console.info('[KBWG] build', window.KBWG_BUILD); } catch(e) {}
     
 function kbwgInjectFaqSchema(){
@@ -113,149 +113,159 @@ function kbwgSetActiveNav() {
   }
 
     function kbwgInitMobileNav() {
-      // Mobile nav drawer (robust): prevent "ghost" overlay/nav from blocking taps on mobile.
-      const MOBILE_BP = 920;
-
+    // Mobile nav: inject a hamburger button and collapse nav on small screens
       const header = document.getElementById('siteHeader');
       const headerRow = header ? header.querySelector('.headerRow') : null;
       const nav = header ? header.querySelector('.nav') : null;
-      if (!header || !headerRow || !nav) return;
+    
+      if (header && headerRow && nav) {
+        // Ensure nav has an id for aria-controls
+        if (!nav.id) nav.id = 'primaryNav';
+    
+        // Inject only once
+        if (!header.querySelector('.navToggle')) {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'navToggle';
+          btn.setAttribute('aria-label', 'פתיחת תפריט');
+          btn.setAttribute('aria-controls', nav.id);
+          btn.setAttribute('aria-expanded', 'false');
+          btn.innerHTML = '<span class="navToggleIcon" aria-hidden="true">☰</span><span class="navToggleText">תפריט</span>';
+    
+          // Place next to logo (before nav)
+          headerRow.insertBefore(btn, nav);
+    
+          // Backdrop overlay for mobile drawer
+          let overlay = document.querySelector('.navOverlay');
+          if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.className = 'navOverlay';
+            document.body.appendChild(overlay);
+          }
+const setImp = (el, prop, value) => {
+  try { el.style.setProperty(prop, value, 'important'); }
+  catch (e) { try { el.style[prop] = value; } catch (_) {} }
+};
 
-      const mqMobile = window.matchMedia(`(max-width: ${MOBILE_BP}px)`);
-      const mqDesktop = window.matchMedia(`(min-width: ${MOBILE_BP + 1}px)`);
-      const isMobile = () => mqMobile.matches;
+const isDesktop = () => window.matchMedia('(min-width: 921px)').matches;
 
-      // Ensure nav has an id for aria-controls
-      if (!nav.id) nav.id = 'primaryNav';
+const closeAllGroups = () => {
+  try { nav.querySelectorAll('details[open]').forEach(d => { d.open = false; }); } catch (e) {}
+};
 
-      // Inject only once
-      if (header.querySelector('.navToggle')) return;
+const applyDrawerState = (isOpen) => {
+  // IMPORTANT: remove the overlay/nav from the hit-area when closed (prevents the "ghost" gray layer).
+  if (!overlay || !nav) return;
 
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'navToggle';
-      btn.setAttribute('aria-label', 'פתיחת תפריט');
-      btn.setAttribute('aria-controls', nav.id);
-      btn.setAttribute('aria-expanded', 'false');
-      btn.innerHTML = '<span class="navToggleIcon" aria-hidden="true">☰</span><span class="navToggleText">תפריט</span>';
-      headerRow.insertBefore(btn, nav);
+  if (isDesktop()) {
+    // Desktop: never block clicks; let CSS control layout.
+    setImp(overlay, 'display', 'none');
+    overlay.style.opacity = '0';
+    overlay.style.pointerEvents = 'none';
 
-      // Backdrop overlay for mobile drawer
-      let overlay = document.querySelector('.navOverlay');
-      if (!overlay) {
-        overlay = document.createElement('div');
-        overlay.className = 'navOverlay';
-        document.body.appendChild(overlay);
-      }
+    nav.style.removeProperty('display');
+    nav.style.removeProperty('transform');
+    nav.style.removeProperty('pointer-events');
+    nav.style.removeProperty('visibility');
+    nav.style.removeProperty('opacity');
+    return;
+  }
 
-      // Ensure overlay never blocks clicks when closed (Safari/iOS can keep blur active)
-      overlay.style.setProperty('display', 'none', 'important');
-      overlay.style.setProperty('pointer-events', 'none', 'important');
+  if (isOpen) {
+    setImp(overlay, 'display', 'block');
+    overlay.style.opacity = '1';
+    overlay.style.pointerEvents = 'auto';
 
-      const collapseAllGroups = () => {
-        nav.querySelectorAll('details.navGroup[open]').forEach(d => d.removeAttribute('open'));
-      };
+    setImp(nav, 'display', 'flex');
+    nav.style.visibility = 'visible';
+    nav.style.opacity = '1';
+    nav.style.pointerEvents = 'auto';
+    nav.style.transform = 'translateX(0)';
+  } else {
+    setImp(overlay, 'display', 'none');
+    overlay.style.opacity = '0';
+    overlay.style.pointerEvents = 'none';
 
-      // Make only one dropdown open at a time (desktop + mobile)
-      const groups = Array.from(nav.querySelectorAll('details.navGroup'));
-      groups.forEach(g => {
-        g.addEventListener('toggle', () => {
-          if (!g.open) return;
-          groups.forEach(other => { if (other !== g) other.removeAttribute('open'); });
-        });
-      });
+    setImp(nav, 'display', 'none');
+    nav.style.visibility = 'hidden';
+    nav.style.opacity = '1';
+    nav.style.pointerEvents = 'none';
+    nav.style.transform = 'translateX(105%)';
+  }
+};
 
-      const applyClosed = () => {
-        header.classList.remove('navOpen'); header.classList.remove('navopen');
-        document.body.classList.remove('menuOpen'); document.body.classList.remove('menuopen');
-        btn.setAttribute('aria-expanded', 'false');
-        collapseAllGroups();
+const close = () => {
+  header.classList.remove('navOpen'); header.classList.remove('navopen');
+  document.body.classList.remove('menuOpen'); document.body.classList.remove('menuopen');
+  btn.setAttribute('aria-expanded', 'false');
+  closeAllGroups();
+  applyDrawerState(false);
+};
 
-        if (isMobile()) {
-          // Remove from hit-area entirely (must override drawer CSS that uses !important)
-          overlay.style.setProperty('display', 'none', 'important');
-          overlay.style.setProperty('pointer-events', 'none', 'important');
-          nav.style.setProperty('display', 'none', 'important');
-        } else {
-          // Desktop: restore natural layout
-          overlay.style.setProperty('display', 'none', 'important');
-          overlay.style.setProperty('pointer-events', 'none', 'important');
-          nav.style.removeProperty('display');
+const open = () => {
+  header.classList.add('navOpen'); header.classList.add('navopen');
+  document.body.classList.add('menuOpen'); document.body.classList.add('menuopen');
+  btn.setAttribute('aria-expanded', 'true');
+  applyDrawerState(true);
+};
+
+// Only one dropdown group open at a time (prevents stacked menus)
+nav.addEventListener('toggle', (ev) => {
+  const t = ev.target;
+  if (!t || t.tagName !== 'DETAILS') return;
+  if (t.open) {
+    nav.querySelectorAll('details').forEach(d => { if (d !== t) d.open = false; });
+  }
+}, true);
+
+// Ensure we start with no invisible barrier
+applyDrawerState(false);
+
+// Insert a branded header inside the drawer (mobile only)
+          if (!nav.querySelector('.navDrawerHeader')) {
+            const drawerHeader = document.createElement('div');
+            drawerHeader.className = 'navDrawerHeader';
+            drawerHeader.innerHTML = `
+              <a class="navDrawerLogo" href="index.html" aria-label="דף הבית">
+                <img class="navDrawerLogoImg" src="assets/img/logo.png" alt="ללא ניסויים" width="34" height="34" />
+                <span class="navDrawerLogoText">ללא ניסויים</span>
+              </a>
+              <button type="button" class="navDrawerClose" aria-label="סגירה">×</button>
+            `;
+            nav.insertBefore(drawerHeader, nav.firstChild);
+    
+            const closeBtn = drawerHeader.querySelector('.navDrawerClose');
+            const homeLogo = drawerHeader.querySelector('.navDrawerLogo');
+            if (closeBtn) closeBtn.addEventListener('click', close);
+            if (homeLogo) homeLogo.addEventListener('click', close);
+          }
+    
+    
+          btn.addEventListener('click', () => {
+            const isOpen = header.classList.contains('navOpen');
+            isOpen ? close() : open();
+          });
+          overlay.addEventListener('click', close);
+    
+    
+          // Close when a link is clicked
+          nav.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+    
+          // Close on Escape
+          document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') close();
+          });
+    
+          // Close when switching to desktop width
+          const mq = window.matchMedia('(min-width: 921px)');
+          const onMq = () => { if (mq.matches) close(); };
+          mq.addEventListener ? mq.addEventListener('change', onMq) : mq.addListener(onMq);
+          onMq();
+          // Start closed (important for mobile refresh / bfcache)
+          close();
         }
-      };
-
-      const applyOpen = () => {
-        if (!isMobile()) return; // only a drawer on mobile
-
-        // Bring elements back before enabling classes (so CSS transitions work)
-        nav.style.setProperty('display', 'flex', 'important');
-        overlay.style.setProperty('display', 'block', 'important');
-        overlay.style.setProperty('pointer-events', 'auto', 'important');
-
-        // Force initial closed transform state to be applied, then open next frame
-        void nav.offsetHeight;
-        header.classList.add('navOpen'); header.classList.add('navopen');
-        document.body.classList.add('menuOpen'); document.body.classList.add('menuopen');
-        btn.setAttribute('aria-expanded', 'true');
-      };
-
-      const close = () => applyClosed();
-      const open = () => applyOpen();
-
-      // Insert a branded header inside the drawer (mobile only)
-      if (!nav.querySelector('.navDrawerHeader')) {
-        const drawerHeader = document.createElement('div');
-        drawerHeader.className = 'navDrawerHeader';
-        drawerHeader.innerHTML = `
-          <a class="navDrawerLogo" href="index.html" aria-label="דף הבית">
-            <img class="navDrawerLogoImg" src="assets/img/logo.png" alt="ללא ניסויים" width="34" height="34" />
-            <span class="navDrawerLogoText">ללא ניסויים</span>
-          </a>
-          <button type="button" class="navDrawerClose" aria-label="סגירה">×</button>
-        `;
-        nav.insertBefore(drawerHeader, nav.firstChild);
-
-        const closeBtn = drawerHeader.querySelector('.navDrawerClose');
-        const homeLogo = drawerHeader.querySelector('.navDrawerLogo');
-        if (closeBtn) closeBtn.addEventListener('click', close);
-        if (homeLogo) homeLogo.addEventListener('click', close);
       }
-
-      btn.addEventListener('click', () => {
-        const isOpenNow = header.classList.contains('navOpen') || header.classList.contains('navopen');
-        isOpenNow ? close() : open();
-      });
-
-      overlay.addEventListener('click', close);
-
-      // Close when a link is clicked (mobile only)
-      nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-        if (isMobile()) close();
-      }));
-
-      // Close on Escape
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') close();
-      });
-
-      // When switching to desktop width: close + restore inline styles
-      const onMq = () => {
-        if (mqDesktop.matches) {
-          // Ensure we don't accidentally keep the nav hidden on desktop
-          applyClosed();
-          nav.style.removeProperty('display');
-          overlay.style.setProperty('display', 'none', 'important');
-        } else {
-          // Mobile initial state should be closed + removed from hit area
-          applyClosed();
-        }
-      };
-      (mqDesktop.addEventListener ? mqDesktop.addEventListener('change', onMq) : mqDesktop.addListener(onMq));
-      (mqMobile.addEventListener ? mqMobile.addEventListener('change', onMq) : mqMobile.addListener(onMq));
-
-      // Initial state
-      onMq();
-    }
+  }
 
   // Run now + after dynamic header injection
   kbwgInitMobileNav();
