@@ -146,7 +146,7 @@ function kbwgSetActiveNav() {
       });
     });
 
-    const mq = window.matchMedia('(max-width: 920px)');
+    const mq = window.matchMedia('(max-width: 900px)');
 
     let isOpen = false;
     let hideTimer = null;
