@@ -1,359 +1,263 @@
-/* KBWG Ingredient Detective — JSON-backed DB (v19)
-   - Loads: assets/data/ingredient-db.json
-   - Supports: quick search + paste list analysis
+/* KBWG Ingredient Detective — JSON-backed (v30)
+   Loads ingredients from assets/data/ingredient-db.json and matches by keys.
 */
-
-(() => {
+(function () {
   'use strict';
 
-  const BUILD = '2026-02-01-v19';
-  console.log('[KBWG] Ingredient Detective', BUILD);
-
-  const $ = (sel, root = document) => root.querySelector(sel);
-
-  const qIng = $('#qIng');
-  const hint = $('#hint');
-  const sugs = $('#sugs');
-  const out = $('#out');
-
-  const togglePaste = $('#togglePaste');
-  const pasteBlock = $('#pasteBlock');
-  const pasteIng = $('#pasteIng');
-  const runPaste = $('#runPaste');
-
-  if (!qIng || !sugs || !out) {
-    console.warn('[KBWG] Ingredient Detective: missing expected DOM nodes');
-    return;
-  }
+  const BUILD = '2026-02-02-v30';
+  console.log('[KBWG] Ingredient Detective build', BUILD);
 
   const DB_URL = `assets/data/ingredient-db.json?v=${encodeURIComponent(BUILD)}`;
 
-  // --- Helpers ---
-  const normalize = (input) => {
-    return (input ?? '')
+  // ----- utils
+  const uniq = (arr) => Array.from(new Set((arr || []).filter(Boolean)));
+
+  function normalize(s) {
+    return (s || '')
       .toString()
       .toLowerCase()
       .normalize('NFKD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .replace(/[()\[\]{}<>"'`’]/g, ' ')
-      .replace(/[^\p{L}\p{N}\s\-+.]/gu, ' ')
-      .replace(/[\s\-+.]+/g, ' ')
+      .replace(/[\u0300-\u036f]/g, '')     // diacritics
+      .replace(/[’'"`]/g, '')             // quotes
+      .replace(/\u200f/g, ' ')            // RTL marks
+      .replace(/\s+/g, ' ')
       .trim();
-  };
+  }
 
-  const escapeHtml = (s) => (s ?? '').toString()
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
+  function splitIngredients(raw) {
+    if (!raw) return [];
+    return uniq(
+      raw
+        .replace(/[\(\)\[\]\{\}]/g, ' ')
+        .split(/[,;\n\r\/\|]+/g)
+        .map((x) => x.trim())
+        .filter(Boolean)
+    );
+  }
 
-  const statusLabel = (status) => {
-    if (status === 'רכיב מן החי') return 'רכיב מן החי';
-    if (status === 'תלוי מקור') return 'תלוי מקור';
-    if (status === 'טבעוני') return 'טבעוני';
-    return status || '';
-  };
+  function escapeHtml(s) {
+    return (s || '').replace(/[&<>"']/g, (c) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+  }
 
-  const statusClass = (status) => {
-    if (status === 'רכיב מן החי') return 'bad';
-    if (status === 'תלוי מקור') return 'warn';
-    if (status === 'טבעוני') return 'ok';
-    return '';
-  };
+  // ----- db
+  let DB = [];
+  let DB_READY = false;
 
-  // --- DB loading / indexing ---
-  let INDEX = []; // { item, keyNorms:Set<string>, nameNorm, heNorm }
-
-  const buildIndex = (items) => {
-    return items.map((item) => {
-      const rawKeys = []
-        .concat(item?.keys || [])
-        .concat(item?.name ? [item.name] : [])
-        .concat(item?.he ? [item.he] : []);
-
-      const keyNorms = new Set(
-        rawKeys
-          .filter(Boolean)
-          .map((k) => normalize(k))
-          .filter(Boolean)
-      );
-
-      return {
-        item,
-        keyNorms,
-        nameNorm: normalize(item?.name || ''),
-        heNorm: normalize(item?.he || ''),
-      };
+  function indexDb(list) {
+    const out = [];
+    (list || []).forEach((e) => {
+      if (!e || !e.name || !Array.isArray(e.keys) || !e.status) return;
+      const keysNorm = uniq(e.keys.map(normalize)).filter(Boolean);
+      out.push({
+        name: e.name,
+        he: e.he || '',
+        keys: e.keys,
+        status: e.status,
+        why: e.why || '',
+        _name: normalize(e.name),
+        _he: normalize(e.he || ''),
+        _keys: keysNorm
+      });
     });
-  };
+    return out;
+  }
 
-  const loadDb = async () => {
+  async function loadDb() {
     try {
       const res = await fetch(DB_URL, { cache: 'no-store' });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      const items = Array.isArray(data) ? data : (Array.isArray(data?.items) ? data.items : []);
-
-      if (!items.length) throw new Error('Empty DB');
-
-      // Minimal validation / cleanup
-      return items
-        .filter((x) => x && typeof x === 'object' && (x.name || x.he || (x.keys && x.keys.length)))
-        .map((x) => ({
-          name: (x.name || '').toString().trim(),
-          he: (x.he || '').toString().trim(),
-          keys: Array.isArray(x.keys) ? x.keys.map((k) => (k ?? '').toString().trim()).filter(Boolean) : [],
-          status: (x.status || '').toString().trim(),
-          why: (x.why || '').toString().trim(),
-        }));
-    } catch (err) {
-      console.warn('[KBWG] Ingredient DB load failed', err);
-      if (hint) {
-        hint.textContent = 'לא הצלחתי לטעון את מאגר הרכיבים (קובץ JSON). ודאו שקיים: assets/data/ingredient-db.json';
-      }
-      return [];
+      const json = await res.json();
+      const list = Array.isArray(json) ? json : (json.ingredients || []);
+      DB = indexDb(list);
+      DB_READY = true;
+      console.log('[KBWG] ingredient DB loaded:', DB.length);
+    } catch (e) {
+      DB = [];
+      DB_READY = false;
+      console.warn('[KBWG] ingredient DB load failed:', e);
     }
-  };
+  }
 
-  // --- Matching ---
-  const scoreItem = (rec, q) => {
-    if (!q) return 0;
-    if (rec.nameNorm === q || rec.heNorm === q) return 100;
-    if (rec.nameNorm.includes(q) || rec.heNorm.includes(q)) return 70;
-
-    // key matches
-    let best = 0;
-    for (const k of rec.keyNorms) {
-      if (k === q) return 90;
-      if (k.includes(q)) best = Math.max(best, 50);
-      if (q.length >= 4 && q.includes(k)) best = Math.max(best, 45);
-    }
-    return best;
-  };
-
-  const findMatches = (query, limit = 8) => {
-    const q = normalize(query);
-    if (!q) return [];
-
-    const scored = [];
-    for (const rec of INDEX) {
-      const score = scoreItem(rec, q);
-      if (score > 0) scored.push({ score, item: rec.item });
-    }
-
-    scored.sort((a, b) => (b.score - a.score) || a.item.name.localeCompare(b.item.name));
-
-    const uniq = new Map();
-    for (const r of scored) {
-      if (!uniq.has(r.item.name)) uniq.set(r.item.name, r.item);
-      if (uniq.size >= limit) break;
-    }
-    return Array.from(uniq.values());
-  };
-
-  const matchToken = (token) => {
+  // ----- matching
+  function matchOne(token) {
     const t = normalize(token);
-    if (!t) return null;
+    if (!t || !DB_READY) return null;
 
     let best = null;
     let bestScore = 0;
 
-    for (const rec of INDEX) {
-      const score = scoreItem(rec, t);
-      if (score > bestScore) {
-        bestScore = score;
-        best = rec.item;
-      }
-      if (bestScore >= 90) break;
-    }
+    for (const entry of DB) {
+      for (const k of entry._keys) {
+        if (!k) continue;
 
-    return bestScore >= 45 ? best : null;
-  };
+        let ok = false;
+        // very short keys must match exactly (avoid accidental matches like "mel", "cera")
+        if (k.length < 5) ok = (t === k);
+        else ok = t.includes(k) || k.includes(t);
 
-  // --- Rendering ---
-  const renderCards = (items, title = '') => {
-    const grid = document.createElement('div');
-    grid.className = 'resultGrid';
+        if (!ok) continue;
 
-    if (title) {
-      const h = document.createElement('h3');
-      h.textContent = title;
-      grid.appendChild(h);
-    }
-
-    if (!items.length) {
-      const p = document.createElement('p');
-      p.className = 'muted';
-      p.textContent = 'לא נמצאו התאמות.';
-      grid.appendChild(p);
-      return grid;
-    }
-
-    for (const it of items) {
-      const card = document.createElement('div');
-      card.className = 'resultCard';
-
-      const name = escapeHtml(it.name || '');
-      const he = escapeHtml(it.he || '');
-      const why = escapeHtml(it.why || '');
-      const st = escapeHtml(statusLabel(it.status));
-
-      const cls = statusClass(it.status);
-      const badge = st ? `<span class="badge ${cls}">${st}</span>` : '';
-
-      card.innerHTML = `
-        <h3>${name}</h3>
-        ${he ? `<div class="small"><strong>${he}</strong></div>` : ''}
-        ${badge ? `<div class="small" style="margin-top:6px">${badge}</div>` : ''}
-        ${why ? `<p style="margin-top:10px">${why}</p>` : ''}
-      `;
-
-      grid.appendChild(card);
-    }
-
-    return grid;
-  };
-
-  const renderSuggestions = (items) => {
-    sugs.innerHTML = '';
-
-    if (!items.length) {
-      sugs.style.display = 'none';
-      return;
-    }
-
-    sugs.style.display = '';
-
-    for (const it of items) {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'sugBtn';
-      btn.textContent = it.he ? `${it.name} · ${it.he}` : it.name;
-      btn.addEventListener('click', () => {
-        out.innerHTML = '';
-        out.appendChild(renderCards([it]));
-        sugs.style.display = 'none';
-      });
-      sugs.appendChild(btn);
-    }
-  };
-
-  // --- UI wiring ---
-  let dbReady = false;
-
-  const ensureReady = async () => {
-    if (dbReady) return true;
-
-    if (hint) hint.textContent = 'טוען מאגר רכיבים…';
-    const items = await loadDb();
-    INDEX = buildIndex(items);
-    dbReady = INDEX.length > 0;
-
-    if (hint) {
-      hint.textContent = dbReady
-        ? 'אפשר לחפש רכיב או להדביק רשימת INCI מלאה.'
-        : 'מאגר הרכיבים לא נטען. עדיין אפשר לנסות שוב לאחר רענון.';
-    }
-
-    return dbReady;
-  };
-
-  const onQuery = async () => {
-    await ensureReady();
-    const q = qIng.value.trim();
-
-    if (q.length < 2) {
-      renderSuggestions([]);
-      out.innerHTML = '';
-      return;
-    }
-
-    const matches = findMatches(q, 8);
-    renderSuggestions(matches);
-  };
-
-  qIng.addEventListener('input', onQuery);
-  qIng.addEventListener('keydown', async (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      await ensureReady();
-      const matches = findMatches(qIng.value, 1);
-      out.innerHTML = '';
-      out.appendChild(renderCards(matches));
-      renderSuggestions([]);
-    }
-  });
-
-  // Paste analyzer
-  if (togglePaste && pasteBlock && pasteIng && runPaste) {
-    togglePaste.addEventListener('click', async () => {
-      const isHidden = pasteBlock.style.display === 'none' || !pasteBlock.style.display;
-      pasteBlock.style.display = isHidden ? 'block' : 'none';
-      togglePaste.textContent = isHidden ? 'הסתרת תיבה' : 'הצגת תיבת הדבקה';
-      if (isHidden) {
-        pasteIng.focus();
-        await ensureReady();
-      }
-    });
-
-    const splitTokens = (text) => {
-      return (text || '')
-        .split(/[\n\r,;•·|]+/g)
-        .map((t) => t.trim())
-        .filter(Boolean);
-    };
-
-    runPaste.addEventListener('click', async () => {
-      await ensureReady();
-      const raw = pasteIng.value;
-      const tokens = splitTokens(raw);
-
-      const matched = new Map();
-      const unknown = [];
-
-      for (const tok of tokens) {
-        const hit = matchToken(tok);
-        if (hit) {
-          matched.set(hit.name, hit);
-        } else {
-          unknown.push(tok);
+        const score = Math.min(k.length, t.length);
+        if (score > bestScore) {
+          bestScore = score;
+          best = entry;
         }
       }
-
-      out.innerHTML = '';
-
-      // Summary card
-      const summary = document.createElement('div');
-      summary.className = 'resultCard';
-      summary.innerHTML = `
-        <h3>סיכום</h3>
-        <p>סה"כ רכיבים שזוהו ברשימה: <strong>${tokens.length}</strong><br>
-        התאמות במאגר: <strong>${matched.size}</strong><br>
-        לא זוהו: <strong>${unknown.length}</strong></p>
-      `;
-      out.appendChild(summary);
-
-      if (matched.size) {
-        out.appendChild(renderCards(Array.from(matched.values()), 'נמצאו במאגר'));
-      }
-
-      if (unknown.length) {
-        const u = document.createElement('div');
-        u.className = 'resultCard';
-        u.innerHTML = `
-          <h3>לא זוהו במאגר</h3>
-          <p class="muted">הדבר יכול לקרות אם הרכיב לא נמצא עדיין במאגר או אם מדובר בשגיאת כתיב. אם תרצו, שלחו לי את הרשימה הזו ואוסיף.</p>
-          <div class="small" style="white-space:pre-wrap;line-height:1.5">${escapeHtml(unknown.join('\n'))}</div>
-        `;
-        out.appendChild(u);
-      }
-
-      // Scroll into view
-      out.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
+    }
+    return best;
   }
 
-  // Initial load
-  ensureReady();
+  function searchDb(query) {
+    const q = normalize(query);
+    if (!q || !DB_READY) return [];
+    const results = [];
+    for (const entry of DB) {
+      if (entry._name.includes(q) || entry._he.includes(q) || entry._keys.some((k) => k.includes(q))) {
+        results.push(entry);
+      }
+    }
+    return results.slice(0, 12);
+  }
+
+  function statusChip(status) {
+    // Keep the UI simple — status is already Hebrew
+    return `<span class="small" style="font-weight:800;opacity:.85">${escapeHtml(status)}</span>`;
+  }
+
+  function cardHTML(entry) {
+    return `
+      <div class="resultCard">
+        <h3 style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin:0 0 6px">
+          <span>${escapeHtml(entry.name)}</span>
+          ${entry.he ? `<span class="small" style="opacity:.85">${escapeHtml(entry.he)}</span>` : ''}
+        </h3>
+        <div class="small" style="margin:0 0 6px">${statusChip(entry.status)}</div>
+        ${entry.why ? `<p style="margin:0;color:#334155">${escapeHtml(entry.why)}</p>` : ''}
+      </div>
+    `;
+  }
+
+  function noteBoxHTML(html) {
+    return `<div class="noteBox">${html}</div>`;
+  }
+
+  // ----- UI
+  function initUI() {
+    const qInput = document.getElementById('qIng');
+    const sugs = document.getElementById('sugs');
+    const out = document.getElementById('out');
+    const hint = document.getElementById('hint');
+
+    const togglePaste = document.getElementById('togglePaste');
+    const pasteBlock = document.getElementById('pasteBlock');
+    const pasteIng = document.getElementById('pasteIng');
+    const runPaste = document.getElementById('runPaste');
+
+    if (!qInput || !sugs || !out) return;
+
+    const clearSugs = () => { sugs.innerHTML = ''; };
+
+    const showSugs = (items) => {
+      if (!items.length) { clearSugs(); return; }
+      sugs.innerHTML = items.map((e, i) => `
+        <button type="button" class="sugBtn" data-i="${i}" title="${escapeHtml(e.name)}">
+          ${escapeHtml(e.name)} ${e.he ? `· ${escapeHtml(e.he)}` : ''}
+        </button>
+      `).join('');
+
+      sugs.querySelectorAll('button.sugBtn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const idx = Number(btn.getAttribute('data-i'));
+          const entry = items[idx];
+          if (!entry) return;
+          qInput.value = entry.name;
+          clearSugs();
+          if (hint) hint.textContent = '';
+          out.innerHTML = cardHTML(entry);
+        });
+      });
+    };
+
+    qInput.addEventListener('input', () => {
+      const q = (qInput.value || '').trim();
+      if (!DB_READY) {
+        out.innerHTML = noteBoxHTML('המאגר עדיין נטען… נסי שוב עוד רגע.');
+        clearSugs();
+        return;
+      }
+      if (q.length < 2) {
+        clearSugs();
+        if (hint) hint.textContent = '';
+        return;
+      }
+      const items = searchDb(q);
+      showSugs(items);
+      if (hint) hint.textContent = items.length ? `נמצאו ${items.length} הצעות` : 'לא נמצאו הצעות';
+    });
+
+    document.addEventListener('click', (e) => {
+      if (e.target !== qInput && !sugs.contains(e.target)) clearSugs();
+    });
+
+    // Paste mode
+    if (togglePaste && pasteBlock) {
+      pasteBlock.style.display = 'none';
+      togglePaste.addEventListener('click', () => {
+        const isHidden = pasteBlock.style.display === 'none';
+        pasteBlock.style.display = isHidden ? '' : 'none';
+        togglePaste.textContent = isHidden ? 'הסתר' : 'הדבק רשימת רכיבים (INCI)';
+      });
+    }
+
+    if (runPaste && pasteIng) {
+      runPaste.addEventListener('click', () => {
+        if (!DB_READY) {
+          out.innerHTML = noteBoxHTML('המאגר עדיין נטען… נסי שוב עוד רגע.');
+          return;
+        }
+
+        const tokens = splitIngredients(pasteIng.value);
+        if (!tokens.length) {
+          out.innerHTML = noteBoxHTML('לא זוהו רכיבים בטקסט שהדבקת.');
+          return;
+        }
+
+        const found = [];
+        const unknown = [];
+        const seen = new Set();
+
+        tokens.forEach((t) => {
+          const m = matchOne(t);
+          if (m) {
+            if (!seen.has(m.name)) {
+              found.push(m);
+              seen.add(m.name);
+            }
+          } else {
+            unknown.push(t);
+          }
+        });
+
+        const order = { 'רכיב מן החי': 0, 'תלוי מקור': 1, 'טבעוני': 2 };
+        found.sort((a, b) => (order[a.status] ?? 99) - (order[b.status] ?? 99) || a.name.localeCompare(b.name));
+
+        const cards = found.length
+          ? `<div class="resultGrid">${found.map(cardHTML).join('')}</div>`
+          : noteBoxHTML('לא נמצאו התאמות במאגר.');
+
+        const unknownBox = unknown.length
+          ? noteBoxHTML(`<details><summary>לא נמצאו במאגר (${unknown.length})</summary><div class="small" style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px">${unknown.map((x)=>`<span style="background:rgba(15,23,42,.06);border-radius:999px;padding:6px 10px">${escapeHtml(x)}</span>`).join('')}</div></details>`)
+          : '';
+
+        out.innerHTML = cards + unknownBox;
+      });
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    await loadDb();
+    initUI();
+  });
 })();
